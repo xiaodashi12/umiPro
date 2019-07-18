@@ -161,11 +161,12 @@ export default {
                 type: 'warning'
              }).then(() => {
                 let params = {
-                    url: api['openChannel'].url,
+                    url: api['cancleSign'].url,
                     method: 'post',
                     data: {
                         token: getToken(),
-                        id: row.id
+                        licenseColor: row.licenseColor,
+                        licensePlate: row.licensePlate,
                     }
                 }
                 fetch(params).then(res => {

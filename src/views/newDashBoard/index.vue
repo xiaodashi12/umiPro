@@ -18,7 +18,6 @@
                         <span>用户中心</span>
                     </template>
                     <el-menu-item-group>
-                        <template slot="title">分组一</template>
                         <el-menu-item index="/userList"  @click='gotoRoute("user")'>员工列表</el-menu-item>
                         <el-menu-item index="/hisList"  @click='gotoRoute("his")'>签约列表</el-menu-item>
                         <el-menu-item index="/channelList"  @click='gotoRoute("channel")'>渠道列表</el-menu-item>

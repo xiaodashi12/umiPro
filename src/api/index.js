@@ -15,6 +15,10 @@ const config = {
         url: '/electronicAccountHis/findHisList',
         method: ''
     },
+    'cancleSign':{
+        url: '/electronicAccountHis/cancleSign',
+        method: ''
+    },
     'allChannel':{
         url: '/findAllChannel',
         method: ''
