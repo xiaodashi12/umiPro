@@ -759,6 +759,15 @@ const plateColorToColorMap = new Map([
 	['7', "临时牌照"],
 	['8', "未确定"],
 ])
+const plateMenuToListMap = new Map([
+	['index', "首页"],
+	['userlist', "用户列表"],
+	['hislist', "签约列表"],
+	['channellist', "渠道列表"],
+	['findCustomer', "查找用户车"],
+	['findRedis', "获取Redis值"],
+])
 export {
-    plateColorToColorMap
+    plateColorToColorMap,
+    plateMenuToListMap
 }

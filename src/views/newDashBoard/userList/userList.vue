@@ -47,7 +47,7 @@
         </div>
         <div style="margin-top:60px;">
             <div>
-                <el-table :data="tableData"  border style="width: 100%" :height="screenHeight">
+                <el-table :data="tableData" stripe border style="width: 100%" :height="screenHeight">
                     <el-table-column fixed prop="opId" label="员工编号" width="200" sortable>
                     </el-table-column>
                     <el-table-column prop="opName" label="员工名称" width="200">

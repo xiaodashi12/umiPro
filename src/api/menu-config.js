@@ -1,12 +1,21 @@
 module.exports = [{
-  name: '基础',
-  id: 'basic',
+  name: '用户中心',
+  id: 'userCenter',
   sub: [{
-    name: 'BasicLayout',
-    componentName: 'BasicLayout'
+    name: '员工列表',
+    componentName: 'userlist'
   }, {
-    name: 'BasicContainer',
-    componentName: 'BasicContainer'
+    name: '签约列表',
+    componentName: 'hislist'
+  }, {
+    name: '渠道列表',
+    componentName: 'channellist'
+  }, {
+    name: '查找用户车',
+    componentName: 'findCustomer'
+  }, {
+    name: '获取redis值',
+    componentName: 'findRedis'
   }]
 }, {
   name: 'Form',

@@ -9,7 +9,7 @@ import wsConsts from '@/utils/wsConsts'
 
 // 创建axios实例
 const service = axios.create({
-    baseURL: "http://192.168.10.246:10021/manager", // api的base_url
+    baseURL: "http://10.26.3.213:10021/manager", // api的base_url
     dataType:"json",
     headers:{
         'Content-Type':'application/json'

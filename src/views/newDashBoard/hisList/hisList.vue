@@ -57,7 +57,7 @@
         </div>
         <div style="margin-top:60px;">
             <div>
-                <el-table :data="tableData"  border style="width: 83%" :height="screenHeight">
+                <el-table :data="tableData" stripe border style="width: 83%" :height="screenHeight">
                     <el-table-column prop="status" label="签约状态" width="100">
                         <template slot-scope="scope">
                              {{scope.row.status==0 ? "失效" : "正常"}}

@@ -4,46 +4,64 @@
         <el-row class="tac">
         <el-col :span="4" style="height:100%;">
             <el-menu
-            default-active="/userList"
-            router
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
-            background-color="#545c64"
-            text-color="#fff"
-            active-text-color="#ffd04b">
-                <el-submenu index="usercenter">
-                    <template slot="title">
-                        <i class="el-icon-location"></i>
-                        <span>用户中心</span>
-                    </template>
-                    <el-menu-item-group>
-                        <el-menu-item index="/userList"  @click='gotoRoute("user")'>员工列表</el-menu-item>
-                        <el-menu-item index="/hisList"  @click='gotoRoute("his")'>签约列表</el-menu-item>
-                        <el-menu-item index="/channelList"  @click='gotoRoute("channel")'>渠道列表</el-menu-item>
-                        <el-menu-item index="/findCustomer"  @click='gotoRoute("findCustomer")'>查找用户车</el-menu-item>
-                        <el-menu-item index="/findRedis"  @click='gotoRoute("findRedis")'>获取redis值</el-menu-item>
+                default-active=""
+                class="el-menu-vertical-demo"
+                background-color="#545c64"
+                text-color="#fff"
+                unique-opened
+                router
+                active-text-color="#fff"
+                >
+                <el-menu-item index="index" @click="clickMenu('index')">
+                <i class="el-icon-star-on"></i>
+                <span slot="title">首页</span>
+                </el-menu-item>
+                <el-submenu
+                v-for="item of menu"
+                :index="item.id"
+                :key="item.id"
+                >
+                <template slot="title">
+                    <i class="el-icon-location"></i>
+                    <span>{{item.name}}</span>
+                </template>
+                <el-menu-item-group class="over-hide">
+                    <el-menu-item
+                        v-for="sub of item.sub"
+                        :index="sub.componentName"
+                        :key="sub.componentName"
+                        @click="clickMenu(sub.componentName)"
+                        >
+                        {{sub.name}}
+                        </el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
-                <el-menu-item index="design">
-                    <i class="el-icon-menu"></i>
-                    <span slot="title">设置</span>
-                </el-menu-item>
             </el-menu>
         </el-col>
         <el-col :span="20">
-            <router-view />
+            <navMain></navMain>
+            <keep-alive>
+                <router-view/>
+            </keep-alive>
         </el-col>
     </el-row>
     </div>
     
 </template>
 <script>
+import navMain from '@/views/newDashBoard/navMain/navMain'
+import menu from '@/api/menu-config.js'
 import EtcHdBar from '@/components/HdBar';
   export default {
-    components:{EtcHdBar},
+    components:{EtcHdBar,navMain},
+    data () {
+        return {
+            menu: menu,
+            openedTab: []
+        }
+    },
     mounted(){
-        this.$router.push('/userList');
+        // this.$router.push('/userList');
     },
     methods: {
       handleOpen(key, keyPath) {
@@ -65,7 +83,22 @@ import EtcHdBar from '@/components/HdBar';
                 break;
                 
           }
-         
+      },
+      clickMenu (componentName) {
+            this.openedTab = this.$store.state.openedTab
+            // tabNum 为当前点击的列表项在openedTab中的index，若不存在则为-1
+            let tabNum = this.openedTab.indexOf(componentName)
+            console.log(tabNum)
+            console.log(this.openedTab)
+            console.log(this.$store.state.openedTab)
+            if (tabNum === -1) {
+                // 该标签当前没有打开
+                // 将componentName加入到已打开标签页state.openedTab数组中
+                this.$store.commit('addTab', componentName)
+            } else {
+                // 该标签是已经打开过的，需要激活此标签页
+                this.$store.commit('changeTab', componentName)
+            }
       }
     }
   }

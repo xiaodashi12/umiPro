@@ -27,11 +27,47 @@ export default new Router({
       menuShow: true,
       iconCls: 'iconfont icon-users',
       children: [
-        {path: '/userlist',component: () => import('./views/newDashBoard/userList/userList'),name: '用户列表',menuShow: true, meta:{requireAuth: true }},
-        {path: '/hislist',component: () => import('./views/newDashBoard/hisList/hisList'),name: '签约列表',menuShow: true, meta:{requireAuth: true }},
-        {path: '/channellist',component: () => import('./views/newDashBoard/channelList/channelList'),name: '签约渠道',menuShow: true, meta:{requireAuth: true }},
-        {path: '/findCustomer',component: () => import('./views/newDashBoard/findCustomer/findCustomer'),name: '查找用户车',menuShow: true, meta:{requireAuth: true }},
-        {path: '/findRedis',component: () => import('./views/newDashBoard/findRedis/findRedis'),name: '获取redis值',menuShow: true, meta:{requireAuth: true }},
+        {
+          path: '/index',
+          component: () => import('./views/newDashBoard/home/index'),
+          name: '首页',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/userlist',
+          component: () => import('./views/newDashBoard/userList/userList'),
+          name: '用户列表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/hislist',
+          component: () => import('./views/newDashBoard/hisList/hisList'),
+          name: '签约列表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/channellist',
+          component: () => import('./views/newDashBoard/channelList/channelList'),
+          name: '渠道列表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/findCustomer',
+          component: () => import('./views/newDashBoard/findCustomer/findCustomer'),
+          name: '查找用户车',
+          menuShow: true, 
+          meta:{requireAuth: true }},
+        {
+          path: '/findRedis',
+          component: () => import('./views/newDashBoard/findRedis/findRedis'),
+          name: '获取Redis值',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
       ]
     },
   ]

@@ -16,6 +16,7 @@ module.exports = {
         .set('@assets',resolve('src/assets'))
         .set('styles',resolve('src/styles'))
         .set('@utils',resolve('src/utils'))
+        .set('@views',resolve('src/views'))
     },
     devServer:{
         // 设置代理

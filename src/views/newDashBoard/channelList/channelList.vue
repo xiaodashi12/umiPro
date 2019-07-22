@@ -2,7 +2,7 @@
     <div class='ect-page'>
         <div style="">
             <div>
-                <el-table :data="tableData"  border style="width: 83%">
+                <el-table :data="tableData" stripe border style="width: 83%">
                     <el-table-column prop="id" label="主键" width="100">
                     </el-table-column>
                     <el-table-column prop="name" label="名称" width="200">

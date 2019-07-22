@@ -7,6 +7,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    id: '123456',
+    openedTab: ['index'],
+    activeTab: '',
     token:getToken(),
     operatorInfo:getLocalStorage('operatorInfo') || {},//系统操作员
     customerInfo:{},//ETC客户
@@ -29,6 +32,16 @@ export default new Vuex.Store({
     application_order_no:(state) => state.application_order_no,
   },
   mutations: {
+    addTab (state, componentName) {
+      state.openedTab.push(componentName)
+    },
+    changeTab (state, componentName) {
+      state.activeTab = componentName
+    },
+    deductTab (state, componentName) {
+      let index = state.openedTab.indexOf(componentName)
+      state.openedTab.splice(index, 1)
+    },
     SET_TOKEN: (state, token) => {
       state.token = token
     },
@@ -71,13 +84,16 @@ export default new Vuex.Store({
           
         }).then(res => {
           const data = res
-          console.log(data.data.token)
-          setToken(data.data.token)
-          commit('SET_TOKEN', data.data.token);
-          setLocalStorage('expireTime', new Date().getTime() + 1000*60*60*24*7)
-          setLocalStorage('operatorInfo',data);
-          commit('SET_OPERATORINFO',data);
-
+          if(res.code==200){
+            console.log(data.data.token)
+            setToken(data.data.token)
+            commit('SET_TOKEN', data.data.token);
+          }
+            setLocalStorage('expireTime', new Date().getTime() + 1000*60*60*24*7)
+            setLocalStorage('operatorInfo',data);
+            commit('SET_OPERATORINFO',data);
+          
+          
           resolve()
         }).catch(error => {
           setLocalStorage('expireTime', 0)
@@ -139,7 +155,7 @@ export default new Vuex.Store({
         commit('SET_APPOINTINFO',{})
 
         removeToken();
-        clearLocalStorage('operatorInfo');
+        // clearLocalStorage('operatorInfo');
 
 
         resolve()

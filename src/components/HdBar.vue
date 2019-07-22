@@ -162,6 +162,7 @@
             ])
         },
         created() {
+            console.log(this.operatorInfo)
             this.getDesktopStatus();
 
         },
