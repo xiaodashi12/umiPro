@@ -743,11 +743,59 @@ export const refundTypeList = {
     '1': '本人',
     '2': '他人'
 }
-
+export const colorOptionsInfo = [
+    {
+      id:0,
+      value:"蓝色",
+      name:"蓝色"
+    },
+    {
+      id:1,
+      value:"黄色",
+      name:"黄色"
+    },
+    {
+      id:2,
+      value:"黑色",
+      name:"黑色"
+    },
+    {
+      id:3,
+      value:"白色",
+      name:"白色"
+    },
+    {
+      id:4,
+      value:"渐变绿色",
+      name:"渐变绿色"
+    },
+    {
+      id:5,
+      value:"黄绿双拼色",
+      name:"黄绿双拼色"
+    },
+    {
+      id:6,
+      value:"蓝白渐变色",
+      name:"蓝白渐变色"
+    }
+]
 export function getRefundType(val) {
     return refundTypeList[val] || ''
 }
-
+const plateAccountToTypeMap = new Map([
+	['0', "储值卡"],
+	['1', "记账卡"],
+	['2', "信用卡"]
+])
+const plateAccountToStateMap = new Map([
+	['1', "正常"],
+	['2', "有卡挂起"],
+	['3', "无卡挂起"],
+	['4', "有卡注销"],
+    ['5', "无卡注销"],
+    ['6', "卡挂失"]
+])
 const plateColorToColorMap = new Map([
 	['0', "蓝色"],
 	['1', "黄色"],
@@ -761,13 +809,16 @@ const plateColorToColorMap = new Map([
 ])
 const plateMenuToListMap = new Map([
 	['index', "首页"],
-	['userlist', "用户列表"],
+	['userlist', "员工列表"],
 	['hislist', "签约列表"],
 	['channellist', "渠道列表"],
 	['findCustomer', "查找用户车"],
-	['findRedis', "获取Redis值"],
+    ['findRedis', "获取Redis值"],
+    ['customerList', "客户列表"],
 ])
 export {
     plateColorToColorMap,
-    plateMenuToListMap
+    plateMenuToListMap,
+    plateAccountToTypeMap,
+    plateAccountToStateMap
 }

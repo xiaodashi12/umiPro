@@ -63,48 +63,12 @@ import fetch from '@utils/fetch'
 import {getToken} from '@/utils/auth';
 import axios from 'axios'
 import {mapGetters , mapActions} from "vuex";
-import {plateColorToColorMap} from "@utils/dictionaries"
+import {plateColorToColorMap,colorOptionsInfo} from "@utils/dictionaries"
 export default {
     data(){
         return{
             plateColorToColorMap,
-            optionsInfo: [
-                {
-                  id:'0',
-                  value:"蓝色",
-                  name:"蓝色"
-                },
-                {
-                  id:'1',
-                  value:"黄色",
-                  name:"黄色"
-                },
-                {
-                  id:'2',
-                  value:"黑色",
-                  name:"黑色"
-                },
-                {
-                  id:'3',
-                  value:"白色",
-                  name:"白色"
-                },
-                {
-                  id:'4',
-                  value:"渐变绿色",
-                  name:"渐变绿色"
-                },
-                {
-                  id:'5',
-                  value:"黄绿双拼色",
-                  name:"黄绿双拼色"
-                },
-                {
-                  id:'6',
-                  value:"蓝白渐变色",
-                  name:"蓝白渐变色"
-                }
-            ],
+            optionsInfo: colorOptionsInfo,
             values:'',
             screenHeight: document.body.clientHeight-180,
             areaValue:'',

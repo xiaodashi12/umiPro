@@ -60,11 +60,19 @@ export default new Router({
           component: () => import('./views/newDashBoard/findCustomer/findCustomer'),
           name: '查找用户车',
           menuShow: true, 
-          meta:{requireAuth: true }},
+          meta:{requireAuth: true }
+        },
         {
           path: '/findRedis',
           component: () => import('./views/newDashBoard/findRedis/findRedis'),
           name: '获取Redis值',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/customerList',
+          component: () => import('./views/newDashBoard/customerList/customerList'),
+          name: '客户列表',
           menuShow: true, 
           meta:{requireAuth: true }
         },

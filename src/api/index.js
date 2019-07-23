@@ -42,7 +42,18 @@ const config = {
     'removeCustomer':{
         url: '/redis/removeCustomerCar',
         method: ''
-    }
-
+    },
+    'findCardPub':{
+        url: '/cardpub/findCardPub',
+        method: ''
+    },
+    'cardLost':{
+        url: '/cardpub/cardLost',
+        method: ''
+    },
+    'cardUnLost':{
+        url: '/cardpub/cardUnLost',
+        method: ''
+    },
 }
 export default config;

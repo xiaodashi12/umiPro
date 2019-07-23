@@ -121,7 +121,7 @@ export default {
             plateColorToColorMap,
             optionsInfo: [],
             values:'',
-            screenHeight: 450,
+            screenHeight: 430,
             areaValue:'',
             currentPage:1,
             pageSized:10,
