@@ -8,7 +8,6 @@
 </template>
 <script>
     import {cmds, ftBtns} from "@/utils/ftBtnConsts";
-    import WsApi from "@/api/wsApi";
 
 
     export default {

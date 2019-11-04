@@ -17,7 +17,7 @@
                 <el-col :span="2" class="etc-col">
                     <label class="ect-input">员工名称：</label>
                 </el-col>
-                <el-col :span="3">
+                <el-col :span="2">
                     <div class="grid-content bg-purple-light">
                         <el-input
                             class="ect-input"
@@ -29,7 +29,7 @@
                 <el-col :span="2" class="etc-col">
                     <label class="ect-input">网点编号：</label>
                 </el-col>
-                <el-col :span="3">
+                <el-col :span="2">
                     <div class="grid-content bg-purple-light">
                         <el-input
                             class="ect-input"
@@ -38,9 +38,10 @@
                         />
                     </div>
                 </el-col>
-                <el-col :span="3" style="margin-left:20px;">
+                <el-col :span="5" style="margin-left:20px;">
                     <div class="grid-content bg-purple-light ect-input">
                         <el-button type="primary" icon="el-icon-search" @click="serachData()">搜索</el-button>
+                         <el-button type="primary" icon="el-icon-circle-plus" @click="addNewUser()">新增用户</el-button>
                     </div>
                 </el-col>
             </el-row>
@@ -75,6 +76,73 @@
                 </el-pagination>
             </div>
         </div>
+        <div>
+            <el-dialog
+            title="新增用户"
+            :visible.sync="dialogVisible"
+            width="800px"
+            :before-close="handleClose">
+                <el-form :model="form" label-width="80px">
+                    <el-row :gutter="20">
+                        <el-col :span="12">
+                            <el-form-item label="姓名">
+                                <el-input v-model="form.name"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="性别">
+                                <el-radio-group v-model="form.gender">
+                                    <el-radio label="1">男</el-radio>
+                                    <el-radio label="2">女</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row :gutter="20">
+                        <el-col :span="12">
+                            <el-form-item label="年龄">
+                                <el-input v-model="form.age"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="工作">
+                                <el-select v-model="form.job" clearable placeholder="请选择职业">
+                                    <el-option
+                                        v-for="item in options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row :gutter="20">
+                        <el-col :span="12">
+                            <el-form-item label="年龄">
+                                <el-input v-model="form.age"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="工作">
+                                <el-select v-model="form.job" clearable placeholder="请选择职业">
+                                    <el-option
+                                        v-for="item in options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-form>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="ensureData()" style="margin-left:40px !important;">确 定</el-button>
+                </span>
+            </el-dialog>
+        </div>
     </div>
 </template>
 <script>
@@ -86,6 +154,23 @@ import {mapGetters , mapActions} from "vuex";
 export default {
     data(){
         return{
+            form:{
+                name:'',
+                age:'',
+                gender:'',
+                job:''
+            },
+            options: [{
+                value: '0',
+                label: '老师'
+            }, {
+                value: '1',
+                label: '学生'
+            }, {
+                value: '2',
+                label: '老师傅'
+            }],
+            dialogVisible:false,
             screenHeight: 430,
             areaValue:'',
             currentPage:1,
@@ -108,7 +193,16 @@ export default {
         this.showDataList();
     },
     methods: {
-       
+       addNewUser(){
+           for(var key in this.form){
+               this.form[key]="";
+           }
+           this.dialogVisible=true;
+           
+       },
+       ensureData(){
+           alert("是否点击确认按钮?")
+       },
         handleSizeChange(val) {
             this.pageSized=val;
             this.showDataList();

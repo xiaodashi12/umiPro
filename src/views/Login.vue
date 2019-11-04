@@ -130,7 +130,15 @@ import { getToken, setToken, removeToken, getLocalStorage, setLocalStorage,clear
                            }
                         }, error => {
                             console.log(error)
-                            this.loginMsg = error.msg;
+//                          this.loginMsg = error.msg;
+							this.$msgbox({
+		                        message:  error.message,
+		                        title: '失败',
+		                        customClass: 'my_msgBox singelBtn',
+		                        dangerouslyUseHTMLString: true,
+		                        confirmButtonText: '确定',
+		                        type: 'error'
+		                    })
                         });
                     } else {
                         return false;

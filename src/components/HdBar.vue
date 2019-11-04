@@ -89,7 +89,6 @@
 <script>
 
     import {mapGetters, mapActions} from 'vuex'
-    import wsApi from '@/api/wsApi'
     import dynamicForm from '@/components/dynamic-form/form'
     import {debug} from 'util';
     import {debuggerStatement} from '@babel/types';

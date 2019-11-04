@@ -16,6 +16,7 @@
     "moment": "^2.24.0",
     "nprogress": "^0.2.0",
     "vue": "^2.6.6",
+    "vue-msgbox": "^0.2.14",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
     "webpack-bundle-analyzer": "^3.3.2"

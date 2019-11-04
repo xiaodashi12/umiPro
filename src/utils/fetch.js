@@ -9,7 +9,7 @@ import wsConsts from '@/utils/wsConsts'
 
 // 创建axios实例
 const service = axios.create({
-    baseURL: "http://10.26.3.223:10021/manager", // api的base_url
+    baseURL: "http://172.18.61.4:10022/manager", // api的base_url
     dataType:"json",
     headers:{
         'Content-Type':'application/json'
@@ -59,13 +59,16 @@ service.interceptors.response.use(response => {
     if (!res.hasOwnProperty('code')) {
         return res;
     }
-
     let expireTime = getLocalStorage('expireTime');
     if(res.code == 503){
         console.log(res)
         dlgUtils.loginTimeout()
         return Promise.reject({code: res.code, message: res.msg})
-    }else{
+    }else if (res.code != 200){
+    	console.log("not ---200")
+   		return Promise.reject({code: res.code, message: res.msg})
+    }
+    else{
         setLocalStorage('expireTime', new Date().getTime() + 1000*60*60*24*7)
         return res;
     }

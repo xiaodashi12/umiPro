@@ -16,10 +16,12 @@ module.exports = [{
   }, {
     name: '获取redis值',
     componentName: 'findRedis'
-  }, {
-    name: '客户列表',
-    componentName: 'customerList'
-  }]
+  }
+//, {
+//  name: '客户列表',
+//  componentName: 'customerList'
+//}
+  ]
 }, {
   name: 'Form',
   id: 'form',
