@@ -76,6 +76,13 @@ export default new Router({
           menuShow: true, 
           meta:{requireAuth: true }
         },
+        {
+          path: '/roleMenu',
+          component: () => import('./views/newDashBoard/roleMenu/index'),
+          name: '权限菜单',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
       ]
     },
   ]

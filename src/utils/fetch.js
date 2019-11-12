@@ -9,12 +9,13 @@ import wsConsts from '@/utils/wsConsts'
 
 // 创建axios实例
 const service = axios.create({
-    baseURL: "http://172.18.61.4:10022/manager", // api的base_url
+//  baseURL: "http://172.18.61.4:10022/manager", // api的base_url
+	baseURL: "http://localhost:10025/manager", // api的base_url
     dataType:"json",
     headers:{
         'Content-Type':'application/json'
     },
-    timeout: 5000 // 请求超时时间
+    timeout: 30000 // 请求超时时间
 })
 
 
@@ -79,3 +80,28 @@ service.interceptors.response.use(response => {
     return Promise.reject({code: error.code, message: error.msg})
 })
 export default service
+
+
+
+/**
+ * 统一封装
+ */
+export function hsFetch(data,success,error){
+	fetch(data).then(res => {
+	            success(res)
+	        }).catch(er => {
+	        	if(error){
+	        		error(er)
+	        	}else{
+		            this.endLoading()
+		            this.$msgbox({
+		                message:  error.message,
+		                title: '失败',
+		                customClass: 'my_msgBox singelBtn',
+		                dangerouslyUseHTMLString: true,
+		                confirmButtonText: '确定',
+		                type: 'error'
+		            })
+	           }
+	        })
+}

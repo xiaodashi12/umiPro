@@ -815,6 +815,7 @@ const plateMenuToListMap = new Map([
 	['findCustomer', "查找用户车"],
     ['findRedis', "获取Redis值"],
     ['customerList', "客户列表"],
+    ['roleMenu', "菜单权限"],
 ])
 export {
     plateColorToColorMap,

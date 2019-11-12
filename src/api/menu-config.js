@@ -16,6 +16,9 @@ module.exports = [{
   }, {
     name: '获取redis值',
     componentName: 'findRedis'
+  },{
+  	name:'权限菜单',
+  	componentName: 'roleMenu'
   }
 //, {
 //  name: '客户列表',

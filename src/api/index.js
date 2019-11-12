@@ -55,5 +55,17 @@ const config = {
         url: '/cardpub/cardUnLost',
         method: ''
     },
+    'findRoleByType':{
+    	url:'sysUserRole/findRoleByType',
+    	method:'post'
+    },
+    'updateRoleIdByBranchPre':{
+    	url:'sysUserRole/updateRoleIdByBranchPre',
+    	method:'post'
+    },
+    'syncData':{
+    	url:'operator/copy',
+    	method:'get'
+    }
 }
 export default config;
