@@ -49,17 +49,18 @@
         <div style="margin-top:60px;">
             <div>
                 <el-table :data="tableData" stripe border style="width: 100%" :height="screenHeight">
-                    <el-table-column fixed prop="opId" label="员工编号" width="200" sortable>
+                    <el-table-column fixed prop="opId" label="员工编号" min-width="5%" sortable>
                     </el-table-column>
-                    <el-table-column prop="opName" label="员工名称" width="200">
+                    <el-table-column prop="opName" label="员工名称" min-width="5%">
                     </el-table-column>
-                    <el-table-column prop="branchNo" label="网点编号" width="200" sortable>
+                    <el-table-column prop="branchNo" label="网点编号" min-width="5%" sortable>
                     </el-table-column>
-                    <el-table-column prop="branchName" label="网点名称" width="200">
+                    <el-table-column prop="branchName" label="网点名称" min-width="6%">
                     </el-table-column>
-                    <el-table-column label="操作" width="200">
+                    <el-table-column label="操作" min-width="10%">
                     <template slot-scope="scope">
                         <el-button type="danger" size="small" icon="el-icon-refresh" @click="handlepwd(scope.row)">密码重置</el-button>
+                        <el-button type="primary" size="small" @click="handleRole(scope.row)">配置角色</el-button>
                     </template>
                     </el-table-column>
                 </el-table>
@@ -142,6 +143,81 @@
                     <el-button type="primary" @click="ensureData()" style="margin-left:40px !important;">确 定</el-button>
                 </span>
             </el-dialog>
+             <el-dialog
+            title="权限修改"
+            close-on-click-modal
+            :visible.sync="auditLogVisible"
+            width="640px"
+            :before-close="auditClose">
+                <div style="background-color:#fff;height:420px;overflow-y: auto;">
+                    <el-row>
+                        <el-col :span="10">
+                        
+                        <el-table
+                            :data="hasOwnData"
+                            border
+                            height="380"
+                            style="width: 100%;margin-bottom: 0px"
+                            @selection-change="handleSelectionChange">
+                            
+                            <el-table-column label="已拥有角色">
+                                <el-table-column
+                                type="selection"
+                                width="40">
+                                </el-table-column>
+                                <el-table-column v-for="(item, key) in tableKey"
+                                                :key="key"
+                                                :prop="item.value"
+                                                :label="item.name"
+                                                :width="item.width"
+                                                :formatter="tableFormatter"
+                                                show-overflow-tooltip
+                                >
+                                </el-table-column>
+                            </el-table-column>
+                        </el-table>
+                        </el-col>
+
+                        <el-col :span="4">
+                        <div style="margin-top: 100%;margin-left:25%;margin-right:25%">
+                            <!-- <el-button @click="selectItems">获取选中数据</el-button> -->
+                            <el-button type="primary" @click="selectItems" icon="icon el-icon-d-arrow-right"></el-button>
+                        </div>
+                        </el-col>
+
+                        <el-col :span="10">
+                        <el-table
+                            :data="resultData"
+                            height="380"
+                            style="width: 100%;margin-bottom: 0px"
+                            border
+                            >
+                            <el-table-column label="未拥有角色">
+                                <el-table-column v-for="(item, key) in tableKey"
+                                                :key="key"
+                                                :prop="item.value"
+                                                :label="item.name"
+                                                :width="item.width"
+                                                :formatter="tableFormatter"
+                                                show-overflow-tooltip
+                                >
+                                    
+                                </el-table-column>
+                                <el-table-column label="操作">
+                                    <template slot-scope="scope">
+                                        <el-button
+                                        size="mini"
+                                        type="danger"
+                                        @click.native.prevent="handleDelete(scope.$index, scope.row,resultData)">转移数据</el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table-column>
+                            
+                        </el-table>
+                        </el-col>
+                    </el-row>
+                </div>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -149,17 +225,35 @@
 import api from '@/api'
 import fetch from '@utils/fetch'
 import {getToken} from '@/utils/auth';
+import {platePadFloorMap} from '@/utils/dictionaries';
 import axios from 'axios'
 import {mapGetters , mapActions} from "vuex";
 export default {
     data(){
         return{
+            hasOwnData:[],
+            resultData:[],
+            tableKey: [{
+                name: '类型',
+                value: 'type',
+                label: 100
+            },{
+                name: '角色名称',
+                value: 'name',
+                label: 100
+            }],
+            platePadFloorMap,
+            generateData: [],
+            value: [1],
+            value4: [1],
+            valueModel:'',
             form:{
                 name:'',
                 age:'',
                 gender:'',
                 job:''
             },
+             auditLogVisible:false,
             options: [{
                 value: '0',
                 label: '老师'
@@ -182,8 +276,9 @@ export default {
                 branchNo:'',
                 opName:'',
                 opId:'',
-            }
-            
+            },
+            operatorId:'',
+            chooseDataArr:[]
         }
     },
     created(){
@@ -192,7 +287,85 @@ export default {
         }
         this.showDataList();
     },
+    mounted(){
+        // console.log(this.data+"#111111")
+    },
     methods: {
+        tableFormatter(row, column, cellValue){
+            if (column.property === 'type') {
+                if(cellValue===0){
+                    return '柜面'
+                }else if(cellValue===1){
+                    return 'PAD'
+                }else if(cellValue===2){
+                    return '管理后台'
+                }
+            }else{
+                return cellValue 
+            } 
+        },
+        handleDelete(idx,row,rowData){
+            console.log(row,"row")
+            let arr=[];
+            arr.push(row.id);
+            let params = {
+                url: api['updateUserRole'].url,
+                method: 'post',
+                data: {
+                    roleIds:arr,
+                    operatorId:this.operatorId,
+                    type:1
+                }
+            }
+            this.startLoading();
+            fetch(params).then(res => {
+                row['opId']=this.operatorId;
+                this.handleRole(row);
+                this.endLoading()
+            }).catch(error => {
+                this.endLoading()
+            })
+        },
+        selectItems(){
+            let arr=[];
+            this.chooseDataArr.forEach((item,idx)=>{
+                arr.push(item.id);
+            })
+            let params = {
+                url: api['updateUserRole'].url,
+                method: 'post',
+                data: {
+                    roleIds:arr,
+                    operatorId:this.operatorId,
+                    type:2
+                }
+            }
+            this.startLoading();
+            fetch(params).then(res => {
+                let row={
+                    opId:this.operatorId
+                }
+                // row['opId']=this.operatorId;
+                // console.log(this.operatorId,"this.operatorId")
+                this.handleRole(row);
+                // this.endLoading()
+            }).catch(error => {
+                this.endLoading()
+            })
+        },
+        handleSelectionChange(val){
+            this.chooseDataArr=val;
+            
+        },
+        handleClose(){
+            
+        },
+        handleChange(value, direction, movedKeys) {
+            console.log(value, direction, movedKeys);
+        },
+        auditClose(){
+            this.auditLogVisible=false;
+        },
        addNewUser(){
            for(var key in this.form){
                this.form[key]="";
@@ -229,6 +402,37 @@ export default {
         },
         handleClick(row) {
             console.log(row);
+        },
+        handleRole(row){
+            console.log(row,"row");
+             this.auditLogVisible=true;
+             let params = {
+                url: api['findUserRole'].url,
+                method: 'post',
+                data: {
+                    operatorId:row.opId
+                }
+            }
+            
+            this.operatorId=row.opId;
+            // this.generateData=[];
+            this.startLoading();
+            fetch(params).then(res => {
+                let data=res.data;
+                let arrOwnData=[];
+                let arrData=[];
+                data.forEach((item,idx)=>{
+                    if(item.isOwn==0){
+                        arrData.push(item)
+                    }else if(item.isOwn==1){
+                        arrOwnData.push(item)
+                    }
+                })
+                this.hasOwnData=arrOwnData;
+                this.resultData=arrData
+            }).catch(error => {
+                this.endLoading()
+            })
         },
         handlepwd(row){
             this.$confirm('此操作将重置密码, 是否继续?', '提示', {

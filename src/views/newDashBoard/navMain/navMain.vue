@@ -1,28 +1,60 @@
 <!--本页为tab标签-->
 <template>
-  <el-tabs
-    v-model="editableTabsValue"
-    type="card"
-    closable
-    @tab-remove="removeTab"
-    @tab-click="handleClickTab($event.name)"
-  >
-    <el-tab-pane
-      :key="item.name"
-      v-for="item in editableTabs"
-      :label="item.title"
-      :name="item.name"
+  <div>
+      <scroll-pane ref="scrollPane" class="tags-view-wrapper">
+      <router-link
+        v-for="item in editableTabs"
+        ref="item"
+        :key="item.name"
+        :class="isActive(item.name)?'active':''"
+        :to="{ path: item.name }"
+        tag="span"
+        class="tags-view-item"
+        @click.prevent.native="handleClickTab(item.name)"
+        @contextmenu.prevent.native="openMenu($event)"
+      >
+        {{ item.title }}
+        <span v-if="item.name!='index'" class="el-icon-close" @click.prevent.stop="removeTab(item.name)"/>
+      </router-link>
+    </scroll-pane>
+      <!-- <el-tabs
+      v-model="editableTabsValue"
+      type="card"
+      closable
+      @tab-remove="removeTab"
+      @tab-click="handleClickTab($event.name)"
+      @contextmenu.prevent.native="openMenu($event)"
     >
-    </el-tab-pane>
-  </el-tabs>
+      <el-tab-pane
+        :key="item.name"
+        v-for="item in editableTabs"
+        :label="item.title"
+        :name="item.name"
+        
+      >
+      </el-tab-pane>
+    </el-tabs> -->
+    <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
+      <li @click="refreshSelectedTag">刷新页面</li>
+      <li v-if="editableTabsValue!='index'" @click="removeTab(editableTabsValue)">关闭当前</li>
+      <li @click="closeOthersTags">关闭其他</li>
+      <li @click="closeAllTags">关闭所有</li>
+    </ul>
+  </div>
+  
 </template>
 
 <script>
 import {plateMenuToListMap} from '@utils/dictionaries'
+import ScrollPane from './ScrollPane'
 export default {
+  components: { ScrollPane },
   name: 'navMain',
   data () {
     return {
+      visible: false,
+      top: 0,
+      left: 0,
       plateMenuToListMap,
       editableTabsValue: 'index',
       editableTabs: [{
@@ -34,9 +66,60 @@ export default {
     }
   },
   methods: {
+    isActive(route) {
+      return route === this.editableTabsValue;
+    },
     handleClickTab (route) {
+      console.log(route);
       this.$store.commit('changeTab', route)
       this.$router.push(route)
+    },
+    closeOthersTags(){
+      console.log(this.editableTabsValue+"","当前选中的tab")
+      console.log(this.openedTab,"所有打开的tab")
+      for(var i = this.openedTab.length-1;i >= 0;i--){
+        if(this.openedTab[i] =='index' || this.openedTab[i] ==this.editableTabsValue+""){
+          // debugger
+          continue;
+        }else{
+          this.removeTab(this.openedTab[i])
+        }
+      }
+      console.log(this.openedTab,"所有打开的tab1")
+    },
+    closeAllTags(){
+      for(var i = this.openedTab.length-1;i >= 0;i--){
+        if(this.openedTab[i] !='index'){
+          // debugger
+          this.removeTab(this.openedTab[i])
+        }
+      }
+      this.editableTabs= [{
+        title: '首页',
+        name: 'index'
+      }];
+      this.editableTabsValue='index';
+      this.$router.push('index')
+    },
+    refreshSelectedTag(){
+      window.location.reload()
+    },
+    openMenu(e){
+        const menuMinWidth = 105
+        const offsetLeft = this.$el.getBoundingClientRect().left // container margin left
+        const offsetWidth = this.$el.offsetWidth // container width
+        const maxLeft = offsetWidth - menuMinWidth // left boundary
+        const left = e.clientX-15 // 15: margin right
+
+        if (left > maxLeft) {
+          this.left = maxLeft
+        } else {
+          this.left = left
+        }
+
+        this.top = e.clientY-30;
+        this.visible = true
+        // this.selectedTag = tag
     },
     removeTab (targetName) {
       // 首页不允许被关闭（为了防止el-tabs栏中一个tab都没有）
@@ -65,6 +148,9 @@ export default {
         this.$store.commit('addTab', 'index')
         this.$router.push('/index')
       }
+    },
+    closeMenu() {
+      this.visible = false
     }
   },
   computed: {
@@ -76,6 +162,13 @@ export default {
     }
   },
   watch: {
+    visible(value) {
+      if (value) {
+        document.body.addEventListener('click', this.closeMenu)
+      } else {
+        document.body.removeEventListener('click', this.closeMenu)
+      }
+    },
     getOpenedTab (val) {
       if (val.length > this.openedTab.length) {
         // 添加了新的tab页
@@ -111,6 +204,63 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  .tags-view-wrapper {
+    .tags-view-item {
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+      height: 26px;
+      line-height: 26px;
+      border: 1px solid #d8dce5;
+      color: #495060;
+      background: #fff;
+      padding: 0 8px;
+      font-size: 12px;
+      margin-left: 5px;
+      margin-top: 4px;
+      &:first-of-type {
+        margin-left: 15px;
+      }
+      &:last-of-type {
+        margin-right: 15px;
+      }
+      &.active {
+        background-color: #42b983;
+        color: #fff;
+        border-color: #42b983;
+        &::before {
+          content: '';
+          background: #fff;
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          position: relative;
+          margin-right: 2px;
+        }
+      }
+    }
+  }
+  .contextmenu {
+    margin: 0;
+    background: #fff;
+    z-index: 3000;
+    position: absolute;
+    list-style-type: none;
+    padding: 5px 0;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #333;
+    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .3);
+    li {
+      margin: 0;
+      padding: 7px 16px;
+      cursor: pointer;
+      &:hover {
+        background: #eee;
+      }
+    }
+  }
 </style>

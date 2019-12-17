@@ -150,7 +150,7 @@ export default {
         if(document.body.clientHeight>700){
             this.screenHeight=520;
         }
-        this.showDataList();
+        // this.showDataList();
         this.showBankList();
     },
     methods: {

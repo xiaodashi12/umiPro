@@ -807,6 +807,19 @@ const plateColorToColorMap = new Map([
 	['7', "临时牌照"],
 	['8', "未确定"],
 ])
+const platePayTypeMap = new Map([
+	[1, "现金"],
+	[2, "扫码支付"],
+	[3, "pos机"],
+	[4, "转帐"],
+	[5, "微信收款码"],
+	[6, "未知"]
+])
+const platePadFloorMap = new Map([
+    [0, "柜面"],
+	[1, "PAD"],
+	[2, "管理后台"],
+])
 const plateMenuToListMap = new Map([
 	['index', "首页"],
 	['userlist', "员工列表"],
@@ -816,10 +829,19 @@ const plateMenuToListMap = new Map([
     ['findRedis', "获取Redis值"],
     ['customerList', "客户列表"],
     ['roleMenu', "菜单权限"],
+    ['branchReport', "充值报表"],
+    ['allReport', "所有网点充值"],
+    ['onwerReport', "自营网点充值"],
+    ['findRoleList', "角色列表查询"],
+    ['b', "消费区间报表"],
+    ['a', "消费报表"],
+    ['c', "银行报表"],
 ])
 export {
     plateColorToColorMap,
     plateMenuToListMap,
     plateAccountToTypeMap,
-    plateAccountToStateMap
+    plateAccountToStateMap,
+    platePayTypeMap,
+    platePadFloorMap
 }

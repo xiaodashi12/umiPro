@@ -42,7 +42,34 @@ export  function format(time, format){
     }
   })
 }
-
+export  function tsmDateToString(date){
+  if (date) {
+    var time = new Date(date);
+    var y = time.getFullYear();
+    var M = time.getMonth() + 1;
+    var d = time.getDate();
+    return y + '-' + addZero(M) + '-' + addZero(d);
+  } else {
+      return '';    
+  }
+}
+function addZero(m) {
+  return m < 10 ? '0' + m : m;
+}
+export  function dateToString(date){
+  if (date) {
+    var time = new Date(date);
+    var y = time.getFullYear();
+    var M = time.getMonth() + 1;
+    var d = time.getDate();
+    var h = time.getHours();
+    var m = time.getMinutes();
+    var s = time.getSeconds();
+    return y + '-' + addZero(M) + '-' + addZero(d) + ' ' + addZero(h) + ':' + addZero(m) + ':' + addZero(s);
+  } else {
+      return '';    
+  }
+}
 export  function getArchivesName(code){
   let arr = {
     '1': '身份证正面',
@@ -52,4 +79,23 @@ export  function getArchivesName(code){
     '6': '车头45度照',
   }
   return arr[code] ? arr[code] : '--'
+}
+export function getDefaultKey(data){
+  let arr;
+  if(data && data.length>0){
+    for(var i=0;i<data.length;i++){
+      if(data[i].status=="1"){ 
+        arr.push(data[i].id);
+        if(data[i].children && data[i].children.length>0){
+          arr=getDefaultKey(data[i].children)
+        }
+      }else{
+        if(data[i].children && data[i].children.length>0){
+          arr=getDefaultKey(data[i].children)
+        }
+      }
+      
+    }
+  }
+	return arr;
 }

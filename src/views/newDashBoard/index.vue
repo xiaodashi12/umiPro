@@ -2,7 +2,7 @@
     <div style="position: absolute;height: 100%;width:100%;">
         <etc-hdBar></etc-hdBar>
         <el-row class="tac">
-        <el-col :span="4" style="height:100%;">
+        <el-col :span="4" style="height:94%;overflow-y:auto">
             <el-menu
                 default-active=""
                 class="el-menu-vertical-demo"
@@ -18,7 +18,7 @@
                 </el-menu-item>
                 <el-submenu
                 v-for="item of menu"
-                :index="item.id"
+                :index="item.name"
                 :key="item.id"
                 >
                 <template slot="title">
@@ -49,19 +49,26 @@
     
 </template>
 <script>
+import {mapGetters, mapActions} from 'vuex'
 import navMain from '@/views/newDashBoard/navMain/navMain'
-import menu from '@/api/menu-config.js'
+// import menu from '@/api/menu-config.js'
 import EtcHdBar from '@/components/HdBar';
   export default {
     components:{EtcHdBar,navMain},
     data () {
         return {
-            menu: menu,
+            menu: [],
             openedTab: []
         }
     },
     mounted(){
+        this.menu=this.operatorInfo.data.manageAuth;
         // this.$router.push('/userList');
+    },
+    computed: {
+        ...mapGetters([
+            'operatorInfo'
+        ])
     },
     methods: {
       handleOpen(key, keyPath) {

@@ -20,10 +20,10 @@ module.exports = [{
   	name:'权限菜单',
   	componentName: 'roleMenu'
   }
-//, {
-//  name: '客户列表',
-//  componentName: 'customerList'
-//}
+  ,{
+  	name:'银行报表',
+  	componentName: 'c'
+  }
   ]
 }, {
   name: 'Form',

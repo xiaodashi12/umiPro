@@ -55,13 +55,13 @@
                 <el-submenu index="2" popper-class="loginInfo">
                     <template slot="title">
                         <div class="avatar">
-                            <div class="name">{{operatorInfo.data.nickName}}</div>
-                            <div class="branch">{{operatorInfo.data.nickName}}</div>
+                            <div class="name">{{operatorInfo.data.op_name}}</div>
+                            <div class="branch">{{operatorInfo.data.branch_name}}</div>
                         </div>
                     </template>
                     <el-menu-item-group>
                         <template slot="title">用户中心</template>
-                        <el-menu-item index="1-1">你好 - {{this.operatorInfo.data.nickName}}</el-menu-item>
+                        <el-menu-item index="1-1">你好 - {{operatorInfo.data.op_name}}</el-menu-item>
                         <el-menu-item index="1-2">
                             <span @click="handleOnLogOut">退出登录</span>
                         </el-menu-item>

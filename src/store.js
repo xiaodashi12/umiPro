@@ -85,9 +85,9 @@ export default new Vuex.Store({
         }).then(res => {
           const data = res
           if(res.code==200){
-            console.log(data.data.token)
-            setToken(data.data.token)
-            commit('SET_TOKEN', data.data.token);
+            console.log(data.data.ticket)
+            setToken(data.data.ticket)
+            commit('SET_TOKEN', data.data.ticket);
           }
             setLocalStorage('expireTime', new Date().getTime() + 1000*60*60*24*7)
             setLocalStorage('operatorInfo',data);

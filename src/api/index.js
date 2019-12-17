@@ -65,7 +65,43 @@ const config = {
     },
     'syncData':{
     	url:'operator/copy',
-    	method:'get'
+    	method:'post'
+    },
+    'onwerReport':{
+    	url:'rechargeReport/onwerReport',
+    	method:'post'
+    },
+    'allReport':{
+    	url:'rechargeReport/allReport',
+    	method:'post'
+    },
+    'branchReport':{
+    	url:'rechargeReport/branchReport',
+    	method:'post'
+    },
+    'findRoleList':{
+    	url:'sysUserRole/findRoleList',
+    	method:'post'
+    },
+    'sysUserMenu':{
+    	url:'sysUserRole/menu',
+    	method:'post'
+    },
+    'updateRoleMenu':{
+    	url:'sysUserRole/updateRoleMenu',
+    	method:'post'
+    },
+    'updateUserRole':{
+    	url:'sysUserRole/updateUserRole',
+    	method:'post'
+    },
+    'findUserRole':{
+    	url:'sysUserRole/findUserRole',
+    	method:'post'
+    },
+    'addRole':{
+    	url:'sysUserRole/addRole',
+    	method:'post'
     }
 }
 export default config;
