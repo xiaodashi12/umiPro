@@ -1,24 +1,35 @@
 <template>
-    <div class='ect-page'>
+    <div class='app-container'>
         <div style="position:fixed;z-index:999;width:100%;background-color:#eee;">
             <el-row style="display:flex;align-items:center;">
                 <el-date-picker
                 v-model="auditData.beginDate"
                 type="date"
+                 size="mini"
                 @change="changeBeginDate"
                 placeholder="选择日期">
                 </el-date-picker>
                 --
                 <el-date-picker
+                 size="mini"
                 v-model="auditData.endDate"
                 type="date"
                     @change="changeEndDate"
                 placeholder="选择日期">
                 </el-date-picker>
+                <el-select size="mini" v-model="titleVal" @change="selectAreaChange" placeholder="请选择">
+                    <el-option
+                    v-for="item in titleLabel"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                    >
+                    </el-option>
+                </el-select>
                 <el-col :span="5" style="margin-left:20px;">
                     <div class="grid-content bg-purple-light ect-input">
-                        <el-button type="primary" icon="el-icon-search" @click="serachData()">搜索</el-button>
-                        <el-button type="primary" icon="el-icon-download" @click="exported">导出</el-button>
+                        <el-button size="mini" type="primary" icon="el-icon-search" @click="serachData()">搜索</el-button>
+                        <el-button size="mini" type="primary" icon="el-icon-download" @click="exported">导出</el-button>
                     </div>
                 </el-col>
             </el-row>
@@ -29,26 +40,27 @@
                 :data="tableData" 
                 stripe 
                 border 
-                style="width: 100%;position:relative;" 
-                :height="screenHeight" 
+                v-loading="loading"
                 :summary-method="getSummaries"
                 show-summary 
                 id="table">
-                    <el-table-column prop="branchName" width="150px;" label="网点名称">
+                    <el-table-column prop="branchName" label="网点名称">
                     </el-table-column>
-                    <el-table-column prop="cashMoney" width="150px;" label="小计">
-                    </el-table-column>
-                    <el-table-column prop="cashMoney" width="150px;" label="现金">
-                    </el-table-column>
-                    <el-table-column prop="posManey" width="150px;" label="POS机" >
-                    </el-table-column>
-                    <el-table-column prop="changeMoney" width="150px;" label="转账">
-                    </el-table-column>
-                    <el-table-column prop="webChatMoney" width="150px;" label="微信收款码">
-                    </el-table-column>
-                    <el-table-column prop="thirdPayMoney" width="150px;" label="微信扫码">
-                    </el-table-column>
-                    <el-table-column prop="unknowMoney" width="150px;" label="未知">
+                    <el-table-column align="center" prop="titled" :label="titled">
+                        <el-table-column prop="cashMoney" label="小计">
+                        </el-table-column>
+                        <el-table-column prop="cashMoney" label="现金">
+                        </el-table-column>
+                        <el-table-column prop="posManey" label="POS机" >
+                        </el-table-column>
+                        <el-table-column prop="changeMoney" label="转账">
+                        </el-table-column>
+                        <el-table-column prop="webChatMoney" label="微信收款码">
+                        </el-table-column>
+                        <el-table-column prop="thirdPayMoney" label="微信扫码">
+                        </el-table-column>
+                        <el-table-column prop="unknowMoney" label="未知">
+                        </el-table-column>
                     </el-table-column>
                 </el-table>
             </div>
@@ -78,6 +90,20 @@ import {mapGetters , mapActions} from "vuex";
 export default {
     data(){
         return{
+            titleVal:'0',
+            titled:'苏通卡充值',
+            titleLabel:[
+                {label:'苏通卡充值',value:'0'},
+                {label:'小计',value:'1'},
+                {label:'OBU销售',value:'2'},
+                {label:'苏通卡销售',value:'3'},
+                {label:'读卡器销售',value:'4'},
+                {label:'蓝牙盒子销售',value:'5'},
+                {label:'旅游联票销售',value:'6'},
+                {label:'合计',value:'7'},
+            ],
+            // 遮罩层
+            loading: true,
             platePayTypeMap,
             dialogVisible:false,
             screenHeight: 430,
@@ -130,6 +156,9 @@ export default {
 
             return sums;
         },
+        selectAreaChange(val){
+            this.titled=this.titleLabel[val].label;           
+        },
         exported(){
             let table = document.getElementById('table');
             let worksheet = XLSX.utils.table_to_sheet(table);
@@ -137,7 +166,7 @@ export default {
             XLSX.utils.book_append_sheet(workbook, worksheet, 'sheet');
             // 以上四行也可以直接一行搞定，如果不需要对表格数据进行修改的话
             let workbooked = XLSX.utils.table_to_book(document.getElementById('table'))
-            XLSX.writeFile(workbooked, '自己网点充值.xlsx');
+            XLSX.writeFile(workbooked, this.titled+'.xlsx');
         },
         handleClose(){
             
@@ -175,12 +204,12 @@ export default {
                     pageSize: this.pageSized
                 }
             }
-            this.startLoading();
+            this.loading = true;
             fetch(params).then(res => {
                 this.tableData = res.data;
-                this.endLoading();
+                this.loading = false;
             }).catch(error => {
-                this.endLoading()
+                this.loading = false;
                 this.$msgbox({
                     message:  error.message,
                     title: '失败',
@@ -202,8 +231,9 @@ export default {
     .ect-page{
         height: 90%;
         position: absolute;
-        width: 100%;
-        overflow-y: scroll;
+        width: 82%;
+        padding:10px;
+        // overflow-y: scroll;
     }
     .ect-input{
         margin:10px;

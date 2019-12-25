@@ -10,6 +10,9 @@ $dialog-height: calc(100vh * 0.7);
   margin: 0 auto 0;
 }
 
+.el-table--border,.el-table th.is-leaf, .el-table td,.el-table--border th, .el-table--border td {
+  border: 1px solid #bababa !important;
+}
 #new-user-reserve {
   span {
     min-width: 52px
@@ -66,7 +69,20 @@ $dialog-height: calc(100vh * 0.7);
   }
 
 }
-
+.ect-page{
+  height: 90%;
+  position: absolute;
+  width: 82%;
+  padding: 10px;
+}
+//main-container全局样式
+.app-container {
+  padding: 20px;
+  height: calc(100% - 120px);
+  position: absolute;
+  overflow-y: auto;
+  width:81%;
+}
 .el-menu {
   min-width: 118px;
 }

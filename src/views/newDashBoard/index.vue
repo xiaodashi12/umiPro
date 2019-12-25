@@ -2,7 +2,7 @@
     <div style="position: absolute;height: 100%;width:100%;">
         <etc-hdBar></etc-hdBar>
         <el-row class="tac">
-        <el-col :span="4" style="height:94%;overflow-y:auto">
+        <el-col :span="4" style="height:calc(100% - 50px);overflow-y:auto">
             <el-menu
                 default-active=""
                 class="el-menu-vertical-demo"
@@ -38,7 +38,7 @@
                 </el-submenu>
             </el-menu>
         </el-col>
-        <el-col :span="20">
+        <el-col :span="20" style="height:calc(100% - 90px);">
             <navMain></navMain>
             <keep-alive>
                 <router-view/>
@@ -51,18 +51,18 @@
 <script>
 import {mapGetters, mapActions} from 'vuex'
 import navMain from '@/views/newDashBoard/navMain/navMain'
-// import menu from '@/api/menu-config.js'
+import menu from '@/api/menu-config.js'
 import EtcHdBar from '@/components/HdBar';
   export default {
     components:{EtcHdBar,navMain},
     data () {
         return {
-            menu: [],
+            menu: menu,
             openedTab: []
         }
     },
     mounted(){
-        this.menu=this.operatorInfo.data.manageAuth;
+        //  this.menu=this.operatorInfo.data.manageAuth;
         // this.$router.push('/userList');
     },
     computed: {

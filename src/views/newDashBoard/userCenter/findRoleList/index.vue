@@ -371,7 +371,7 @@ export default {
     .ect-page{
         height: 90%;
         position: absolute;
-        width: 100%;
+        width: 82%;
         overflow-y: scroll;
     }
     .ect-input{

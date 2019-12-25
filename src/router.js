@@ -84,7 +84,7 @@ export default new Router({
           meta:{requireAuth: true }
         },
         {
-          path: '/branchReport',
+          path: '/rechargeList',
           component: () => import('./views/newDashBoard/moneyList/rechargeList/index'),
           name: '充值报表',
           menuShow: true, 
@@ -100,7 +100,14 @@ export default new Router({
         {
           path: '/onwerReport',
           component: () => import('./views/newDashBoard/moneyList/onwerReport/index'),
-          name: '自营网点充值',
+          name: '自营网点资金来源细分区间报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/sutongRefundForm',
+          component: () => import('./views/newDashBoard/moneyList/sutongRefundFprm/index'),
+          name: '苏通卡客户销户退款批量审批单',
           menuShow: true, 
           meta:{requireAuth: true }
         },
@@ -112,9 +119,30 @@ export default new Router({
           meta:{requireAuth: true }
         },
         {
-          path: '/b',
-          component: () => import('./views/newDashBoard/userCenter/intervalReport/index'),
-          name: '消费区间报表',
+          path: '/intervalReport',
+          component: () => import('./views/newDashBoard/consumList/intervalReport/index'),
+          name: '苏通卡消费情况区间报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/clearNotice',
+          component: () => import('./views/newDashBoard/consumList/clearNotice/index'),
+          name: '清分通知书',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/etcRefundForm',
+          component: () => import('./views/newDashBoard/consumList/etcRefundForm/index'),
+          name: 'ETC退费确认表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/consumBookCard',
+          component: () => import('./views/newDashBoard/consumList/consumBookCard/index'),
+          name: '记账卡用户消费统计月报表',
           menuShow: true, 
           meta:{requireAuth: true }
         },
@@ -126,9 +154,93 @@ export default new Router({
           meta:{requireAuth: true }
         },
         {
-          path: '/c',
-          component: () => import('./views/newDashBoard/userCenter/bankDataList/index'),
-          name: '银行报表',
+          path: '/bankDataList',
+          component: () => import('./views/newDashBoard/moneyList/bankDataList/index'),
+          name: '银行联名记账',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/d',
+          component: () => import('./views/newDashBoard/specialPage/refundAccount/index'),
+          name: '圈存汇总表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/appSumaryList',
+          component: () => import('./views/newDashBoard/moneyList/appSumaryList/index'),
+          name: '各合作单位充值报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/bankSumaryList',
+          component: () => import('./views/newDashBoard/moneyList/bankSumaryList/index'),
+          name: '招行APP充值圈存区间报表（区间）',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/sutongDailyReport',
+          component: () => import('./views/newDashBoard/moneyList/sutongDailyReport/index'),
+          name: '服务区苏通卡服务点资金日报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/rechargeMoney',
+          component: () => import('./views/newDashBoard/moneyList/rechargeMoney/index'),
+          name: '网上充值报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/summaryMoneyList',
+          component: () => import('./views/newDashBoard/moneyList/summaryMoneyList/index'),
+          name: '各银行充值报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/userPass',
+          component: () => import('./views/newDashBoard/specialPage/refundAccount/list'),
+          name: '员工审核',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/branchPass',
+          component: () => import('./views/newDashBoard/specialPage/refundAccount/branchList'),
+          name: '网点审核',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/pianquPass',
+          component: () => import('./views/newDashBoard/specialPage/refundAccount/pianquList'),
+          name: '片区审核',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/caiwuPass',
+          component: () => import('./views/newDashBoard/specialPage/refundAccount/caiwuList'),
+          name: '财务审核',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/serviceFundRecond',
+          component: () => import('./views/newDashBoard/finalState/serviceFundRecond/index'),
+          name: '服务区资金对账',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/capitalOperateOutlet',
+          component: () => import('./views/newDashBoard/finalState/capitalOperateOutlet/index'),
+          name: '自营网点资金对账',
           menuShow: true, 
           meta:{requireAuth: true }
         },

@@ -102,6 +102,18 @@ const config = {
     'addRole':{
     	url:'sysUserRole/addRole',
     	method:'post'
+    },
+    'findList':{
+    	url:'refundApply/findList',
+    	method:'post'
+    },
+    'getProcess':{
+    	url:'refundApply/process',
+    	method:'post'
+    },
+    'updateApply':{
+    	url:'refundApply/updateApply',
+    	method:'post'
     }
 }
 export default config;

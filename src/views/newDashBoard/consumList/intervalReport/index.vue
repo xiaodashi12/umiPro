@@ -1,38 +1,38 @@
 <template>
-    <div class='ect-page'>
-        <div class="serachTitle" style="">
-            <el-row :gutter="24" style="width:100%;">
-                <el-col :span="3">
-                    <div class="taskTitle">
-                        区间列表
-                    </div>
-                </el-col>
-                <el-col :span="21" style="display:flex;align-items:center;">
-                    <div>
-                        <el-date-picker
-                        v-model="auditData.beginDate"
-                        type="date"
-                        @change="changeBeginDate"
-                        placeholder="选择日期">
-                        </el-date-picker>
-                        --
-                        <el-date-picker
-                        v-model="auditData.endDate"
-                        type="date"
-                         @change="changeEndDate"
-                        placeholder="选择日期">
-                        </el-date-picker>
-                    </div>
-                    <el-button icon="el-icon-search" @click="serachData"></el-button>
-                </el-col>
-            </el-row>
-        </div>  
+    <div class="app-container">
+        <el-form :inline="true" class="titleVal">
+            <el-form-item label="表格">
+                <el-date-picker
+                v-model="auditData.beginDate"
+                type="date"
+                    size="mini"
+                @change="changeBeginDate"
+                placeholder="选择日期">
+                </el-date-picker>
+            </el-form-item>
+            <el-form-item label="表格">
+                <el-date-picker
+                v-model="auditData.endDate"
+                type="date"
+                    size="mini"
+                @change="changeEndDate"
+                placeholder="选择日期">
+                </el-date-picker>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="serachData">搜索</el-button>
+                <el-button type="primary" icon="el-icon-download" size="mini" @click="exported">导出</el-button>
+            </el-form-item>
+        </el-form>
         <div style="background-color:#fff;height: 74%;">
                 <el-table 
                 :data="bankData" 
                 :summary-method="getSummaries"
                 show-summary
-                style="width: 100%;height:100%;overflow-y: auto;" >
+                v-loading="loading"
+                id="table"
+               >
+                    <el-table-column label="苏通卡消费情况区间报表" align="center">
                         <el-table-column
                             prop="name"
                             label="渠道名称"
@@ -70,11 +70,13 @@
                                 min-width="10%" align="center">
                             </el-table-column>
                         </el-table-column>
+                    </el-table-column>                       
                 </el-table>
         </div>
     </div>
 </template>
 <script>
+import XLSX from 'xlsx'
 import api from '@/api'
 import fetch from '@/utils/fetch'
 import {getToken,getLocalStorage} from '@/utils/auth';
@@ -84,6 +86,7 @@ import {mapGetters , mapActions} from "vuex";
 export default {
     data(){
         return{
+            loading:true,
             searchIdx:'',
             options:[],
             valueType: '',
@@ -114,6 +117,15 @@ export default {
         
     },
     methods: {
+        exported(){
+            let table = document.getElementById('table');
+            let worksheet = XLSX.utils.table_to_sheet(table);
+            let workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'sheet');
+            // 以上四行也可以直接一行搞定，如果不需要对表格数据进行修改的话
+            let workbooked = XLSX.utils.table_to_book(document.getElementById('table'))
+            XLSX.writeFile(workbooked, '苏通卡消费情况区间报表.xlsx');
+        },
         getSummaries(param){
             const { columns, data } = param;
             const sums = [];
@@ -158,7 +170,7 @@ export default {
             this.showDataList();
         },
         showDataList(){
-            // this.startLoading();
+            this.loading=false;
             // let params = {
             //     url: api['getStatisticResult'].url,
             //     method: 'get',
@@ -208,10 +220,7 @@ export default {
     .el-button + .el-button{
         margin:0px !important;
     }
-    .el-input__inner{
-        height:32px !important;
-        line-height: 32px !important;
-    }
+    
     .el-button{
         padding:8px 10px;
     }
@@ -227,7 +236,7 @@ export default {
         position: absolute;
         width: 100%;
         overflow-y: scroll;
-        padding:0 10px;
+        padding:10px;
         box-sizing:border-box;
         position: relative;
         .serachTitle{

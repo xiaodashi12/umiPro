@@ -11,9 +11,9 @@
                 </el-date-picker>
                 --
                 <el-date-picker
+                 size="mini"
                 v-model="auditData.endDate"
                 type="date"
-                 size="mini"
                     @change="changeEndDate"
                 placeholder="选择日期">
                 </el-date-picker>
@@ -32,40 +32,35 @@
                 stripe 
                 border 
                 v-loading="loading"
-                style="width: 100%" 
-                :height="screenHeight"
                 :summary-method="getSummaries"
                 show-summary 
                 id="table">
-                    <el-table-column prop="branchName" label="网点名称" width="150px;">
+                    <el-table-column prop="cashMoney" label="日期">
                     </el-table-column>
-                    <el-table-column prop="cashMoney" label="小计" width="150px;">
+                    <el-table-column prop="branchName" label="受理网点">
+                    </el-table-column>                    
+                    <el-table-column prop="cashMoney" label="客户姓名">
                     </el-table-column>
-                    <el-table-column prop="cashMoney" label="现金" width="150px;">
+                    <el-table-column prop="posManey" label="苏通卡卡号" >
                     </el-table-column>
-                    <el-table-column prop="posManey" label="POS机" width="150px;" >
+                    <el-table-column prop="changeMoney" label="退款账号">
                     </el-table-column>
-                    <el-table-column prop="changeMoney" label="转账" width="150px;">
+                    <el-table-column prop="webChatMoney" label="退款账户名">
                     </el-table-column>
-                    <el-table-column prop="webChatMoney" label="微信收款码" width="150px;">
+                    <el-table-column prop="thirdPayMoney" label="退款金额（元）">
                     </el-table-column>
-                    <el-table-column prop="thirdPayMoney" label="微信扫码" width="150px;">
+                    <el-table-column prop="unknowMoney" label="备注">
                     </el-table-column>
-                    <el-table-column prop="unknowMoney" label="未知" width="150px;">
+                    <el-table-column prop="changeMoney" label="账户开户行">
+                    </el-table-column>
+                    <el-table-column prop="webChatMoney" label="账户开户地">
+                    </el-table-column>
+                    <el-table-column prop="thirdPayMoney" label="TASK_ID">
+                    </el-table-column>
+                    <el-table-column prop="unknowMoney" label="REFUND_ID">
                     </el-table-column>
                 </el-table>
             </div>
-            <!-- <div class="block">
-                <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-sizes="[10, 20, 50,100,200]"
-                :page-size="10"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="total">
-                </el-pagination>
-            </div> -->
         </div>
     </div>
 </template>
@@ -81,7 +76,9 @@ import {mapGetters , mapActions} from "vuex";
 export default {
     data(){
         return{
-            loading:true,
+            
+            // 遮罩层
+            loading: true,
             platePayTypeMap,
             dialogVisible:false,
             screenHeight: 430,
@@ -134,6 +131,9 @@ export default {
 
             return sums;
         },
+        selectAreaChange(val){
+            this.titled=this.titleLabel[val].label;           
+        },
         exported(){
             let table = document.getElementById('table');
             let worksheet = XLSX.utils.table_to_sheet(table);
@@ -141,7 +141,7 @@ export default {
             XLSX.utils.book_append_sheet(workbook, worksheet, 'sheet');
             // 以上四行也可以直接一行搞定，如果不需要对表格数据进行修改的话
             let workbooked = XLSX.utils.table_to_book(document.getElementById('table'))
-            XLSX.writeFile(workbooked, '所有网点充值.xlsx');
+            XLSX.writeFile(workbooked, '自己网点充值.xlsx');
         },
         handleClose(){
             
@@ -169,31 +169,32 @@ export default {
             this.showDataList();
         },
         showDataList(){
-            let params = {
-                url: api['allReport'].url,
-                method: 'post',
-                data: {
-                    startDate:this.auditData.beginDate,
-                    endDate:this.auditData.endDate,
-                    pageIndex: this.pageIndexed,
-                    pageSize: this.pageSized
-                }
-            }
-            this.loading=true;
-            fetch(params).then(res => {
-                this.tableData = res.data;
-                this.loading=false;
-            }).catch(error => {
-                this.loading=false;
-                this.$msgbox({
-                    message:  error.message,
-                    title: '失败',
-                    customClass: 'my_msgBox singelBtn',
-                    dangerouslyUseHTMLString: true,
-                    confirmButtonText: '确定',
-                    type: 'error'
-                })
-            })
+            this.loading = false;
+            // let params = {
+            //     url: api['onwerReport'].url,
+            //     method: 'post',
+            //     data: {
+            //         startDate:this.auditData.beginDate,
+            //         endDate:this.auditData.endDate,
+            //         pageIndex: this.pageIndexed,
+            //         pageSize: this.pageSized
+            //     }
+            // }
+            // this.loading = true;
+            // fetch(params).then(res => {
+            //     this.tableData = res.data;
+            //     this.loading = false;
+            // }).catch(error => {
+            //     this.loading = false;
+            //     this.$msgbox({
+            //         message:  error.message,
+            //         title: '失败',
+            //         customClass: 'my_msgBox singelBtn',
+            //         dangerouslyUseHTMLString: true,
+            //         confirmButtonText: '确定',
+            //         type: 'error'
+            //     })
+            // })
         }
     },
 }
@@ -208,6 +209,7 @@ export default {
         position: absolute;
         width: 82%;
         padding:10px;
+        // overflow-y: scroll;
     }
     .ect-input{
         margin:10px;

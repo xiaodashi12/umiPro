@@ -37,48 +37,58 @@
                 border
                 id="table"
                 style="width: 100%; margin-top: 20px">
-                    <el-table-column
-                        prop="name"
-                        label="类型"
-                        align="center"
-                        >
-                    </el-table-column>
-                    <el-table-column
-                        prop="type"
-                        align="center"
-                        label="消费场景">
+                    <el-table-column 
+                        label="银行绑定记账卡结算情况区间报表"
+                        align="center">
+                        <el-table-column
+                            prop="name"
+                            label="类型"
+                            align="center"
+                            >
+                        </el-table-column>
+                        <el-table-column
+                            prop="type"
+                            align="center"
+                            label="消费场景">
+                        </el-table-column>
+                        
+                        <el-table-column
+                            align="center"
+                            prop="shoulData"
+                            label="日期">
+                        </el-table-column>
+                        <el-table-column
+                            prop="newData"
+                            align="center"
+                            label="已发送金额">
+                        </el-table-column>
+                        <el-table-column
+                            prop="noData"
+                            align="center"
+                            label="已清分金额">
+                        </el-table-column>
+                        <el-table-column
+                            prop="bankData"
+                            align="center"
+                            label="未响应金额">
+                        </el-table-column>
+                        <el-table-column
+                            prop="noInData"
+                            align="center"
+                            label="封账">
+                        </el-table-column>
+                        <el-table-column
+                            prop="noMoney"
+                            align="center"
+                            label="实际入账">
+                        </el-table-column>
+                        <el-table-column
+                            prop="noMoney"
+                            align="center"
+                            label="入账差异">
+                        </el-table-column>
                     </el-table-column>
                     
-                    <el-table-column
-                        align="center"
-                        prop="shoulData"
-                        label="应发数据">
-                    </el-table-column>
-                    <el-table-column
-                        prop="newData"
-                        align="center"
-                        label="实发数据">
-                    </el-table-column>
-                    <el-table-column
-                        prop="noData"
-                        align="center"
-                        label="未发送">
-                    </el-table-column>
-                    <el-table-column
-                        prop="bankData"
-                        align="center"
-                        label="银行清分">
-                    </el-table-column>
-                    <el-table-column
-                        prop="noInData"
-                        align="center"
-                        label="未响应数据">
-                    </el-table-column>
-                    <el-table-column
-                        prop="noMoney"
-                        align="center"
-                        label="退款">
-                    </el-table-column>
                 </el-table>
         </div>  
     </div>
@@ -94,7 +104,7 @@ import {mapGetters , mapActions} from "vuex";
 export default {
     data(){
         return{
-            headerTitle:['渠道','应发数据','实际发送','未发送','银行','未响应数','退款'],
+            headerTitle:[],
             searchIdx:'',
             options:[],
             valueType: '',
@@ -116,7 +126,7 @@ export default {
                             id: 1,
                             date: '2016-05-01',
                             name: '工行',
-                            type:'省内',
+                            type:'分对分',
                             shoulData: 11,
                             newData: 12,
                             noData: 13,
@@ -137,7 +147,7 @@ export default {
                         id: 1,
                         date: '2016-05-01',
                         name: '工行',
-                        type:'停车场',
+                        type:'小计',
                         shoulData: 311,
                         newData: 312,
                         noData: 313,
@@ -149,7 +159,7 @@ export default {
                             id: 2,
                             date: '2019-05-01',
                             name: '建行',
-                            type:'省内',
+                            type:'分对分',
                             shoulData: 411,
                             newData: 412,
                             noData: 413,
@@ -171,7 +181,7 @@ export default {
                             id: 2,
                             date: '2019-05-01',
                             name: '建行',
-                            type:'停车场',
+                            type:'小计',
                             shoulData: 611,
                             newData: 612,
                             noData: 613,

@@ -2,7 +2,11 @@
     <div class='ect-page'>
         <div style="">
             <div>
-                <el-table :data="tableData" stripe border style="width: 83%">
+                <el-table 
+                :data="tableData" 
+                stripe 
+                border 
+                :height="screenHeight">
                     <el-table-column prop="id" label="主键" width="100">
                     </el-table-column>
                     <el-table-column prop="name" label="名称" width="200">
@@ -21,7 +25,10 @@
                     </el-table-column>
                     <el-table-column prop="extend" label="扩展字段" width="250" >
                     </el-table-column>
-                    <el-table-column prop="createTime" label="创建时间" width="100">
+                    <el-table-column prop="createTime" label="创建时间" width="200">
+                        <template slot-scope="scope">
+                             {{scope.row.createTime | formatDate}}
+                        </template>
                     </el-table-column>
                     <el-table-column prop="simpleName" label="简称" width="100" >
                     </el-table-column>
@@ -49,11 +56,13 @@
 import api from '@/api'
 import fetch from '@utils/fetch'
 import {getToken} from '@/utils/auth';
+// import {dateToString} from '@/utils/utils';
 import axios from 'axios'
 import {mapGetters , mapActions} from "vuex";
 export default {
     data(){
         return{
+            screenHeight: 520,
             areaValue:'',
             tableData: [],
             userInfo:{
@@ -77,10 +86,41 @@ export default {
         }
     },
     created(){
+        if(document.body.clientHeight>700){
+            this.screenHeight=610;
+        }
         this.showDataList();
     },
+    filters:{
+        formatDate: function (time) {
+            var re = /-?\d+/
+            var m = re.exec(time)
+            var d = new Date(parseInt(m[0]))
+            var o = {
+                'M+': d.getMonth() + 1,
+                'd+': d.getDate(),
+                'h+': d.getHours(),
+                'm+': d.getMinutes(),
+                's+': d.getSeconds(),
+                'q+': Math.floor((d.getMonth() + 3) / 3),
+                'S': d.getMilliseconds()
+            }
+            var format = 'yyyy-MM-dd mm:ss'
+            if (/(y+)/.test(format)) {
+                format = format.replace(RegExp.$1, (d.getFullYear() + '').substr(4 - RegExp.$1.length))
+            }
+            for (var k in o) {
+                if (new RegExp('(' + k + ')').test(format)) {
+                format = format.replace(RegExp.$1, RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length))
+                }
+            }
+            return format
+            }
+    },
     methods: {
-    
+        addZero(m) {
+            return m < 10 ? '0' + m : m;
+        },
         handleClick(row) {
             console.log(row);
         },
@@ -196,9 +236,10 @@ export default {
         text-align: center;
     }
     .ect-page{
-        height: 90%;
+        height: 84%;
         position: absolute;
-        width: 100%;
+        width: 82%;
+        padding:10px;
         overflow-y: scroll;
     }
     .ect-input{

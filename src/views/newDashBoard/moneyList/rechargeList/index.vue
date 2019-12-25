@@ -1,36 +1,36 @@
 <template>
-    <div class='ect-page'>
-        <div style="position:fixed;z-index:999;width:100%;background-color:#eee;">
-            <el-row style="display:flex;align-items:center;">
+    <div class="app-container">
+        <el-form :inline="true" class="titleVal">
+            <el-form-item label="表格">
                 <el-date-picker
                 v-model="auditData.beginDate"
                 type="date"
+                    size="mini"
                 @change="changeBeginDate"
                 placeholder="选择日期">
                 </el-date-picker>
-                --
+            </el-form-item>
+            <el-form-item label="表格">
                 <el-date-picker
                 v-model="auditData.endDate"
                 type="date"
-                    @change="changeEndDate"
+                    size="mini"
+                @change="changeEndDate"
                 placeholder="选择日期">
                 </el-date-picker>
-                <el-col :span="5" style="margin-left:20px;">
-                    <div class="grid-content bg-purple-light ect-input">
-                        <el-button type="primary" icon="el-icon-search" @click="serachData()">搜索</el-button>
-                        <el-button type="primary" icon="el-icon-download" @click="exported">导出</el-button>
-                    </div>
-                </el-col>
-            </el-row>
-        </div>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="serachData">搜索</el-button>
+                <el-button type="primary" icon="el-icon-download" size="mini" @click="exported">导出</el-button>
+            </el-form-item>
+        </el-form>
         <div style="margin-top:60px;">
             <div>
                 <el-table 
                 :data="tableData" 
                 stripe 
                 border 
-                style="width: 100%" 
-                :height="screenHeight"
+                v-loading="loading"
                 :summary-method="getSummaries"
                 show-summary  
                 id="table">
@@ -75,6 +75,7 @@ import {mapGetters , mapActions} from "vuex";
 export default {
     data(){
         return{
+            loading:true,
             form:{
                 name:'',
                 age:'',
@@ -108,7 +109,6 @@ export default {
         }
         this.auditData.endDate=tsmDateToString(new Date());
         this.auditData.beginDate=tsmDateToString(new Date().getTime()-7*24*60*60*1000);
-        debugger
         this.showDataList();
     },
     methods: {
@@ -184,12 +184,12 @@ export default {
                     pageSize: this.pageSized
                 }
             }
-            this.startLoading();
+            this.loading=true;
             fetch(params).then(res => {
                 this.tableData = res.data;
-                this.endLoading();
+                this.loading=false;
             }).catch(error => {
-                this.endLoading()
+                this.loading=false;
                 this.$msgbox({
                     message:  error.message,
                     title: '失败',
@@ -211,8 +211,8 @@ export default {
     .ect-page{
         height: 90%;
         position: absolute;
-        width: 100%;
-        overflow-y: scroll;
+        width: 82%;
+        padding:10px;
     }
     .ect-input{
         margin:10px;

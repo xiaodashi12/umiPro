@@ -815,6 +815,12 @@ const platePayTypeMap = new Map([
 	[5, "微信收款码"],
 	[6, "未知"]
 ])
+const procesStatusMap = new Map([
+    [0, "申请"],
+	[1, "网点审批"],
+    [2, "片区审批"],
+    [3, "财务审批"]
+])
 const platePadFloorMap = new Map([
     [0, "柜面"],
 	[1, "PAD"],
@@ -829,13 +835,27 @@ const plateMenuToListMap = new Map([
     ['findRedis', "获取Redis值"],
     ['customerList', "客户列表"],
     ['roleMenu', "菜单权限"],
-    ['branchReport', "充值报表"],
+    ['rechargeList', "充值报表"],
     ['allReport', "所有网点充值"],
-    ['onwerReport', "自营网点充值"],
+    ['onwerReport', "自营网点资金来源细分区间报表"],
     ['findRoleList', "角色列表查询"],
-    ['b', "消费区间报表"],
-    ['a', "消费报表"],
-    ['c', "银行报表"],
+    ['appSumaryList', "各合作单位充值报表"],
+    ['bankSumaryList', "招行APP充值圈存区间报表（区间）"],
+    ['rechargeMoney', "网上充值报表"],
+    ['summaryMoneyList', "各银行充值报表"],
+    ['userPass', "员工审核"],
+    ['branchPass', "网点审核"],
+    ['pianquPass', "片区审核"],
+    ['caiwuPass', "财务审核"],
+    ['bankDataList', "银行联名记账"],
+    ['sutongRefundForm', "苏通卡客户销户退款批量审批单"],
+    ['sutongDailyReport', "服务区苏通卡服务点资金日报表"],
+    ['intervalReport', "苏通卡消费情况区间报表"],
+    ['clearNotice', "清分通知书"],
+    ['etcRefundForm', "ETC退费确认表"],
+    ['consumBookCard', "记账卡用户消费统计月报表"],
+    ['serviceFundRecond', "服务区资金对账"],
+    ['capitalOperateOutlet', "自营网点资金对账"],
 ])
 export {
     plateColorToColorMap,
@@ -843,5 +863,6 @@ export {
     plateAccountToTypeMap,
     plateAccountToStateMap,
     platePayTypeMap,
-    platePadFloorMap
+    platePadFloorMap,
+    procesStatusMap
 }

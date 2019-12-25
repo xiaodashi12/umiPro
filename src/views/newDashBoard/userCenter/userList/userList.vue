@@ -1,229 +1,214 @@
 <template>
-    <div class='ect-page'>
-        <div style="position:fixed;z-index:999;width:100%;background-color:#eee;">
-            <el-row style="display:flex;align-items:center;">
-                <el-col :span="2" class="etc-col">
-                    <label class="ect-input">员工编号：</label>
-                </el-col>
-                <el-col :span="3">   
-                    <div class="grid-content bg-purple-light">
-                        <el-input
-                            class="ect-input"
-                            v-model="userInfo.ptId"
-                            @blur="handleEvent($event,1)"
-                        />
-                    </div>
-                </el-col>
-                <el-col :span="2" class="etc-col">
-                    <label class="ect-input">员工名称：</label>
-                </el-col>
-                <el-col :span="2">
-                    <div class="grid-content bg-purple-light">
-                        <el-input
-                            class="ect-input"
-                            v-model="userInfo.ptName"
-                            @blur="handleEvent($event,2)"
-                        />
-                    </div>
-                </el-col>
-                <el-col :span="2" class="etc-col">
-                    <label class="ect-input">网点编号：</label>
-                </el-col>
-                <el-col :span="2">
-                    <div class="grid-content bg-purple-light">
-                        <el-input
-                            class="ect-input"
-                             v-model="userInfo.branchNo"
-                            @blur="handleEvent($event,3)"
-                        />
-                    </div>
-                </el-col>
-                <el-col :span="5" style="margin-left:20px;">
-                    <div class="grid-content bg-purple-light ect-input">
-                        <el-button type="primary" icon="el-icon-search" @click="serachData()">搜索</el-button>
-                         <el-button type="primary" icon="el-icon-circle-plus" @click="addNewUser()">新增用户</el-button>
-                    </div>
-                </el-col>
-            </el-row>
-        </div>
-        <div style="margin-top:60px;">
-            <div>
-                <el-table :data="tableData" stripe border style="width: 100%" :height="screenHeight">
-                    <el-table-column fixed prop="opId" label="员工编号" min-width="5%" sortable>
-                    </el-table-column>
-                    <el-table-column prop="opName" label="员工名称" min-width="5%">
-                    </el-table-column>
-                    <el-table-column prop="branchNo" label="网点编号" min-width="5%" sortable>
-                    </el-table-column>
-                    <el-table-column prop="branchName" label="网点名称" min-width="6%">
-                    </el-table-column>
-                    <el-table-column label="操作" min-width="10%">
-                    <template slot-scope="scope">
-                        <el-button type="danger" size="small" icon="el-icon-refresh" @click="handlepwd(scope.row)">密码重置</el-button>
-                        <el-button type="primary" size="small" @click="handleRole(scope.row)">配置角色</el-button>
-                    </template>
-                    </el-table-column>
-                </el-table>
-            </div>
-            <div class="block">
-                <el-pagination
-                @size-change="handleSizeChange"
+  <div class="app-container">
+    <div>
+        <el-form :inline="true">
+            <el-form-item label="员工编号">
+                <el-input
+                v-model="userInfo.ptId"
+                placeholder="请输入员工编号"
+                clearable
+                size="small"
+                @blur="handleEvent($event,1)"
+                />
+            </el-form-item>
+            <el-form-item label="员工名称">
+                <el-input
+                    placeholder="请输入员工名称"
+                    size="small"
+                    clearable
+                    v-model="userInfo.ptName"
+                    @blur="handleEvent($event,2)"
+                />
+            </el-form-item>
+            <el-form-item label="网点编号">
+                <el-input
+                    placeholder="请输入网点编号"
+                    size="small"
+                    clearable
+                    v-model="userInfo.branchNo"
+                    @blur="handleEvent($event,2)"
+                />
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="serachData">搜索</el-button>
+                <el-button type="primary" icon="el-icon-plus" size="mini" @click="addNewUser">新增</el-button>
+            </el-form-item>
+            </el-form>
+
+            <el-table
+            v-loading="loading"
+            :data="tableData"
+            >
+            <el-table-column fixed prop="opId" label="员工编号" sortable></el-table-column>
+            <el-table-column prop="opName" label="员工名称" align="center">
+            </el-table-column>
+            <el-table-column prop="branchNo" label="网点编号" sortable></el-table-column>
+            <el-table-column prop="branchName" label="网点名称"></el-table-column>
+            <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+                <template slot-scope="scope">
+                    <el-button type="danger"  size="mini" icon="el-icon-refresh" @click="handlepwd(scope.row)">密码重置</el-button>
+                    <el-button type="primary"  size="mini" @click="handleRole(scope.row)">配置角色</el-button>
+                </template>
+            </el-table-column>
+            </el-table>
+            <el-pagination
+            v-show="total>0"
+            :total="total"
+            @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="currentPage"
                 :page-sizes="[10, 20, 50,100,200]"
                 :page-size="10"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="total">
-                </el-pagination>
-            </div>
-        </div>
-        <div>
-            <el-dialog
-            title="新增用户"
-            :visible.sync="dialogVisible"
-            width="800px"
-            :before-close="handleClose">
-                <el-form :model="form" label-width="80px">
-                    <el-row :gutter="20">
-                        <el-col :span="12">
-                            <el-form-item label="姓名">
-                                <el-input v-model="form.name"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="性别">
-                                <el-radio-group v-model="form.gender">
-                                    <el-radio label="1">男</el-radio>
-                                    <el-radio label="2">女</el-radio>
-                                </el-radio-group>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="20">
-                        <el-col :span="12">
-                            <el-form-item label="年龄">
-                                <el-input v-model="form.age"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="工作">
-                                <el-select v-model="form.job" clearable placeholder="请选择职业">
-                                    <el-option
-                                        v-for="item in options"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="20">
-                        <el-col :span="12">
-                            <el-form-item label="年龄">
-                                <el-input v-model="form.age"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="工作">
-                                <el-select v-model="form.job" clearable placeholder="请选择职业">
-                                    <el-option
-                                        v-for="item in options"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                </el-form>
-                <span slot="footer" class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="ensureData()" style="margin-left:40px !important;">确 定</el-button>
-                </span>
-            </el-dialog>
-             <el-dialog
+            ></el-pagination>
+    </div>
+    <div>
+        <el-dialog
+        title="新增用户"
+        :visible.sync="dialogVisible"
+        width="800px"
+        :before-close="handleClose">
+            <el-form :model="form" label-width="80px">
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-form-item label="姓名">
+                            <el-input v-model="form.name"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="性别">
+                            <el-radio-group v-model="form.gender">
+                                <el-radio label="1">男</el-radio>
+                                <el-radio label="2">女</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-form-item label="年龄">
+                            <el-input v-model="form.age"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="工作">
+                            <el-select v-model="form.job" clearable placeholder="请选择职业">
+                                <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-form-item label="年龄">
+                            <el-input v-model="form.age"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="工作">
+                            <el-select v-model="form.job" clearable placeholder="请选择职业">
+                                <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="ensureData()" style="margin-left:40px !important;">确 定</el-button>
+            </span>
+        </el-dialog>
+         <el-dialog
             title="权限修改"
             close-on-click-modal
             :visible.sync="auditLogVisible"
             width="640px"
             :before-close="auditClose">
-                <div style="background-color:#fff;height:420px;overflow-y: auto;">
-                    <el-row>
-                        <el-col :span="10">
+            <div style="background-color:#fff;height:420px;overflow-y: auto;">
+                <el-row>
+                    <el-col :span="10">
+                    
+                    <el-table
+                        :data="hasOwnData"
+                        border
+                        height="380"
+                        style="width: 100%;margin-bottom: 0px"
+                        @selection-change="handleSelectionChange">
                         
-                        <el-table
-                            :data="hasOwnData"
-                            border
-                            height="380"
-                            style="width: 100%;margin-bottom: 0px"
-                            @selection-change="handleSelectionChange">
-                            
-                            <el-table-column label="已拥有角色">
-                                <el-table-column
-                                type="selection"
-                                width="40">
-                                </el-table-column>
-                                <el-table-column v-for="(item, key) in tableKey"
-                                                :key="key"
-                                                :prop="item.value"
-                                                :label="item.name"
-                                                :width="item.width"
-                                                :formatter="tableFormatter"
-                                                show-overflow-tooltip
-                                >
-                                </el-table-column>
+                        <el-table-column label="已拥有角色">
+                            <el-table-column
+                            type="selection"
+                            width="40">
                             </el-table-column>
-                        </el-table>
-                        </el-col>
-
-                        <el-col :span="4">
-                        <div style="margin-top: 100%;margin-left:25%;margin-right:25%">
-                            <!-- <el-button @click="selectItems">获取选中数据</el-button> -->
-                            <el-button type="primary" @click="selectItems" icon="icon el-icon-d-arrow-right"></el-button>
-                        </div>
-                        </el-col>
-
-                        <el-col :span="10">
-                        <el-table
-                            :data="resultData"
-                            height="380"
-                            style="width: 100%;margin-bottom: 0px"
-                            border
+                            <el-table-column v-for="(item, key) in tableKey"
+                                            :key="key"
+                                            :prop="item.value"
+                                            :label="item.name"
+                                            :width="item.width"
+                                            :formatter="tableFormatter"
+                                            show-overflow-tooltip
                             >
-                            <el-table-column label="未拥有角色">
-                                <el-table-column v-for="(item, key) in tableKey"
-                                                :key="key"
-                                                :prop="item.value"
-                                                :label="item.name"
-                                                :width="item.width"
-                                                :formatter="tableFormatter"
-                                                show-overflow-tooltip
-                                >
-                                    
-                                </el-table-column>
-                                <el-table-column label="操作">
-                                    <template slot-scope="scope">
-                                        <el-button
-                                        size="mini"
-                                        type="danger"
-                                        @click.native.prevent="handleDelete(scope.$index, scope.row,resultData)">转移数据</el-button>
-                                    </template>
-                                </el-table-column>
                             </el-table-column>
-                            
-                        </el-table>
-                        </el-col>
-                    </el-row>
-                </div>
-            </el-dialog>
-        </div>
+                        </el-table-column>
+                    </el-table>
+                    </el-col>
+
+                    <el-col :span="4">
+                    <div style="margin-top: 100%;margin-left:25%;margin-right:25%">
+                        <!-- <el-button @click="selectItems">获取选中数据</el-button> -->
+                        <el-button type="primary" @click="selectItems" icon="icon el-icon-d-arrow-right"></el-button>
+                    </div>
+                    </el-col>
+
+                    <el-col :span="10">
+                    <el-table
+                        :data="resultData"
+                        height="380"
+                        style="width: 100%;margin-bottom: 0px"
+                        border
+                        >
+                        <el-table-column label="未拥有角色">
+                            <el-table-column v-for="(item, key) in tableKey"
+                                            :key="key"
+                                            :prop="item.value"
+                                            :label="item.name"
+                                            :width="item.width"
+                                            :formatter="tableFormatter"
+                                            show-overflow-tooltip
+                            >
+                                
+                            </el-table-column>
+                            <el-table-column label="操作">
+                                <template slot-scope="scope">
+                                    <el-button
+                                    size="mini"
+                                    type="danger"
+                                    @click.native.prevent="handleDelete(scope.$index, scope.row,resultData)">转移数据</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table-column>
+                        
+                    </el-table>
+                    </el-col>
+                </el-row>
+            </div>
+        </el-dialog>
     </div>
+  </div>
 </template>
 <script>
 import api from '@/api'
-import fetch from '@utils/fetch'
+import fetch from '@/utils/fetch'
 import {getToken} from '@/utils/auth';
 import {platePadFloorMap} from '@/utils/dictionaries';
 import axios from 'axios'
@@ -231,6 +216,8 @@ import {mapGetters , mapActions} from "vuex";
 export default {
     data(){
         return{
+            // 遮罩层
+            loading: true,
             hasOwnData:[],
             resultData:[],
             tableKey: [{
@@ -282,9 +269,9 @@ export default {
         }
     },
     created(){
-        if(document.body.clientHeight>700){
-            this.screenHeight=520;
-        }
+        // if(document.body.clientHeight>700){
+        //     this.screenHeight=520;
+        // }
         this.showDataList();
     },
     mounted(){
@@ -340,7 +327,7 @@ export default {
                     type:2
                 }
             }
-            this.startLoading();
+            this.loading = true;
             fetch(params).then(res => {
                 let row={
                     opId:this.operatorId
@@ -349,8 +336,9 @@ export default {
                 // console.log(this.operatorId,"this.operatorId")
                 this.handleRole(row);
                 // this.endLoading()
+                this.loading = false;
             }).catch(error => {
-                this.endLoading()
+                this.loading = false;
             })
         },
         handleSelectionChange(val){
@@ -416,7 +404,7 @@ export default {
             
             this.operatorId=row.opId;
             // this.generateData=[];
-            this.startLoading();
+            this.loading = true;
             fetch(params).then(res => {
                 let data=res.data;
                 let arrOwnData=[];
@@ -429,9 +417,10 @@ export default {
                     }
                 })
                 this.hasOwnData=arrOwnData;
-                this.resultData=arrData
+                this.resultData=arrData;
+                this.loading = false;
             }).catch(error => {
-                this.endLoading()
+                this.loading = false;
             })
         },
         handlepwd(row){
@@ -454,7 +443,7 @@ export default {
                         message: '重置密码成功!'
                     });
                 }).catch(error => {
-                    this.endLoading()
+                    // this.endLoading()
                     this.$msgbox({
                         message:  error.message,
                         title: '失败',
@@ -487,12 +476,13 @@ export default {
                     pageSize: this.pageSized
                 }
             }
+            this.loading = true;
             fetch(params).then(res => {
-                this.endLoading();
+                this.loading = false;
                 this.tableData = res.data.data;
                 this.total=res.data.total;
             }).catch(error => {
-                this.endLoading()
+                this.loading = false;
                 this.$msgbox({
                     message:  error.message,
                     title: '失败',
@@ -514,7 +504,7 @@ export default {
     .ect-page{
         height: 90%;
         position: absolute;
-        width: 100%;
+        width: 82%;
         overflow-y: scroll;
     }
     .ect-input{

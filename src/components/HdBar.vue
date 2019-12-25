@@ -51,7 +51,7 @@
                     <div class="title" :class="sts.cs == 0 ? 'setting' : ''">设置</div>
                 </el-menu-item>
             </el-menu>
-            <el-menu class="el-menu-demo" mode="horizontal">
+            <el-menu class="el-menu-demo" mode="horizontal" v-if="operatorInfo.data">
                 <el-submenu index="2" popper-class="loginInfo">
                     <template slot="title">
                         <div class="avatar">

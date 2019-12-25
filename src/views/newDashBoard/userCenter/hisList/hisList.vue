@@ -8,6 +8,7 @@
                 <el-col :span="3">   
                     <div class="grid-content bg-purple-light">
                         <el-input
+                            size="mini"
                             class="ect-input"
                             v-model="userInfo.licensePlate"
                             @blur="handleEvent($event,1)"
@@ -20,6 +21,7 @@
                 <el-col :span="3">
                     <div class="grid-content bg-purple-light">
                         <el-input
+                            size="mini"
                             class="ect-input"
                             v-model="userInfo.bankCardNumber"
                             @blur="handleEvent($event,2)"
@@ -32,6 +34,7 @@
                 <el-col :span="3">
                     <div class="grid-content bg-purple-light">
                         <el-input
+                            size="mini"
                             class="ect-input"
                              v-model="userInfo.name"
                             @blur="handleEvent($event,3)"
@@ -39,7 +42,7 @@
                     </div>
                 </el-col>
                 <el-col :span="3" style="margin-left:10px;">
-                    <el-select v-model="values" clearable  placeholder="签约渠道" @change="selectChange">
+                    <el-select size="mini" v-model="values" clearable  placeholder="签约渠道" @change="selectChange">
                         <el-option
                         v-for="item in optionsInfo"
                         :key="item.id"
@@ -50,14 +53,14 @@
                 </el-col>
                 <el-col :span="2" style="margin-left:10px;">
                     <div class="grid-content bg-purple-light ect-input">
-                        <el-button type="primary" icon="el-icon-search" @click="serachData()">搜索</el-button>
+                        <el-button  size="mini" type="primary" icon="el-icon-search" @click="serachData()">搜索</el-button>
                     </div>
                 </el-col>
             </el-row>
         </div>
         <div style="margin-top:60px;">
             <div>
-                <el-table :data="tableData" stripe border style="width: 83%" :height="screenHeight">
+                <el-table :data="tableData" stripe border style="width: 100%" :height="screenHeight">
                     <el-table-column prop="status" label="签约状态" width="100">
                         <template slot-scope="scope">
                              {{scope.row.status==0 ? "失效" : "正常"}}
@@ -303,7 +306,7 @@ export default {
     .ect-page{
         height: 90%;
         position: absolute;
-        width: 100%;
+        width: 82%;
         overflow-y: scroll;
     }
     .ect-input{
