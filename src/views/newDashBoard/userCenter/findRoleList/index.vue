@@ -7,7 +7,7 @@
                     </el-col> -->
                     <el-col :span="5" style="margin-left:20px;">
                         <label class="ect-input">类型：</label>
-                        <el-select v-model="optionVal" clearable placeholder="请选择类型">
+                        <el-select  size="mini" v-model="optionVal" clearable placeholder="请选择类型">
                             <el-option
                                 v-for="item in options"
                                 :key="item.value"
@@ -18,32 +18,38 @@
                     </el-col>
                     <el-col :span="5" style="margin-left:20px;">
                         <div class="grid-content bg-purple-light ect-input">
-                            <el-button type="primary" icon="el-icon-search" @click="serachData()">搜索</el-button>
-                            <el-button type="primary" icon="el-icon-circle-plus" @click="addNewUser()">新增角色</el-button>
+                            <el-button type="primary" size="mini" icon="el-icon-search" @click="serachData()">搜索</el-button>
+                            <el-button type="primary" size="mini" icon="el-icon-circle-plus" @click="addNewUser()">新增角色</el-button>
                         </div>
                     </el-col>
                 </el-row>
             </div>
             <div style="margin-top:60px;">
-                <el-table :data="tableData" stripe border style="width: 100%" :height="screenHeight">
-                    <el-table-column prop="id" label="id" min-width="5%">
+                <el-table 
+                :data="tableData" 
+                stripe 
+                border 
+                v-loading="loading"
+                style="width: 100%" 
+                :height="screenHeight">
+                    <el-table-column prop="id" label="id" align="center">
                     </el-table-column>
-                    <el-table-column prop="name" label="名称" min-width="5%">
+                    <el-table-column prop="name" label="名称" align="center">
                     </el-table-column>
-                    <el-table-column prop="type" label="类型" min-width="10%">
+                    <el-table-column prop="type" label="类型" align="center">
                         <template slot-scope="scope">
                             <span style="margin-left: 10px">{{ platePadFloorMap.get(scope.row.type)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="status" label="状态" min-width="5%">
+                    <el-table-column prop="status" label="状态" align="center">
                         <template slot-scope="scope">
                             <span v-if="scope.row.status=='0'" style="margin-left: 10px">禁用</span>
                             <span v-else style="margin-left: 10px">正常</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label="操作" min-width="10%">
+                    <el-table-column label="操作" align="center">
                         <template slot-scope="scope">
-                            <el-button type="danger" size="small" icon="el-icon-thumb" @click="operateRow(scope.row)">操作</el-button>
+                            <el-button type="danger" size="mini" icon="el-icon-s-order" @click="operateRow(scope.row)">操作</el-button>
                             
                         </template>
                     </el-table-column>
@@ -121,6 +127,7 @@ import {mapGetters , mapActions} from "vuex";
 export default {
     data(){
         return{
+            loading:true,
             userRole:"",
             roleName:'',
             addUserVisible:false,
@@ -195,13 +202,13 @@ export default {
                     type:this.userRole
                 }
             }
-            this.startLoading();
+            this.loading=true;
             fetch(params).then(res => {
-                 this.endLoading();
+                 this.loading=false;;
                  this.addUserVisible=false;
                  this.showDataList();
             }).catch(error => {
-                this.endLoading()
+                this.loading=false;
             })
         },
         addNewUser(){
@@ -258,12 +265,13 @@ export default {
             this.roleId=id;
             this.optionTree=[];
             this.checkedKey=[];
-            this.startLoading();
+            this.loading=true;
             fetch(params).then(res => {
                 this.optionTree=res.data;
                 this.getDefaultKey(this.optionTree)//被选中数据处理
+                this.loading=false;
             }).catch(error => {
-                this.endLoading()
+                this.loading=false;
             })
         },
         chooseData(val){
@@ -302,11 +310,11 @@ export default {
                     type:typeVal
                 }
             }
-            this.startLoading();
+            this.loading=true;
             fetch(params).then(res => {
-                this.endLoading();
+                this.loading=false;;
             }).catch(error => {
-                this.endLoading()
+                this.loading=false;
                 this.$msgbox({
                     message:  error.message,
                     title: '失败',
@@ -344,12 +352,12 @@ export default {
                     type:this.optionVal
                 }
             }
-            this.startLoading();
+            this.loading=true;
             fetch(params).then(res => {
                 this.tableData = res.data;
-                this.endLoading();
+                this.loading=false;
             }).catch(error => {
-                this.endLoading()
+                this.loading=false;
                 this.$msgbox({
                     message:  error.message,
                     title: '失败',

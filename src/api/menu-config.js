@@ -53,6 +53,7 @@ module.exports = [
     name: '财务列表',
     id: '3005',
     sub:[
+      {componentName: "dotSale", id: 30051, name: "网点设备销售来源核对日表"},
       {componentName: "serviceFundRecond", id: 30052, name: "服务区资金对账"},
       {componentName: "capitalOperateOutlet", id: 30053, name: "自营网点资金对账"},
     ]

@@ -10,7 +10,7 @@
                 placeholder="选择日期">
                 </el-date-picker>
             </el-form-item>
-            <el-form-item label="表格">
+            <el-form-item label="--">
                 <el-date-picker
                 v-model="auditData.endDate"
                 type="date"
@@ -24,7 +24,7 @@
                 <el-button type="primary" icon="el-icon-download" size="mini" @click="exported">导出</el-button>
             </el-form-item>
         </el-form>
-        <div style="margin-top:60px;">
+        <div>
             <div>
                 <el-table 
                 :data="tableData" 

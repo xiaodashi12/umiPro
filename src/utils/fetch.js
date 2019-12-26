@@ -57,13 +57,11 @@ service.interceptors.response.use(response => {
         return Promise.reject({code: "", message: '网络异常'});
     }
     const res = response.data;
-    console.log(res)
     if (!res.hasOwnProperty('code')) {
         return res;
     }
     let expireTime = getLocalStorage('expireTime');
     if(res.code == 503){
-        console.log(res)
         dlgUtils.loginTimeout()
         return Promise.reject({code: res.code, message: res.msg})
     }else if (res.code != 200){

@@ -70,13 +70,10 @@ export default {
       return route === this.editableTabsValue;
     },
     handleClickTab (route) {
-      console.log(route);
       this.$store.commit('changeTab', route)
       this.$router.push(route)
     },
     closeOthersTags(){
-      console.log(this.editableTabsValue+"","当前选中的tab")
-      console.log(this.openedTab,"所有打开的tab")
       for(var i = this.openedTab.length-1;i >= 0;i--){
         if(this.openedTab[i] =='index' || this.openedTab[i] ==this.editableTabsValue+""){
           // debugger
@@ -85,7 +82,6 @@ export default {
           this.removeTab(this.openedTab[i])
         }
       }
-      console.log(this.openedTab,"所有打开的tab1")
     },
     closeAllTags(){
       for(var i = this.openedTab.length-1;i >= 0;i--){
@@ -151,7 +147,23 @@ export default {
     },
     closeMenu() {
       this.visible = false
-    }
+    },
+    //这个是一个样式封装，目前还没写好
+     moveToCurrentTag() {
+      const tags = this.$refs.item
+      
+      this.$nextTick(() => {
+        tags.forEach((tag,idx)=>{
+            if ("/"+tag.to.path === this.$route.path) {
+              // debugger
+              console.log(tag,"item")
+              this.$refs.scrollPane.moveToTarget(tag)
+              // when query is different then update
+            }
+        })
+      });
+      
+    },
   },
   computed: {
     getOpenedTab () {
@@ -162,6 +174,9 @@ export default {
     }
   },
   watch: {
+    $route() {
+      this.moveToCurrentTag()
+    },
     visible(value) {
       if (value) {
         document.body.addEventListener('click', this.closeMenu)

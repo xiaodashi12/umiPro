@@ -21,15 +21,17 @@ export default {
   },
   methods: {
     handleScroll(e) {
+      debugger
       const eventDelta = e.wheelDelta || -e.deltaY * 40
       const $scrollWrapper = this.scrollWrapper
       $scrollWrapper.scrollLeft = $scrollWrapper.scrollLeft + eventDelta / 4
     },
     moveToTarget(currentTag) {
+      debugger
       const $container = this.$refs.scrollContainer.$el
       const $containerWidth = $container.offsetWidth
       const $scrollWrapper = this.scrollWrapper
-      const tagList = this.$parent.$refs.tag
+      const tagList = this.$parent.$refs.item
 
       let firstTag = null
       let lastTag = null

@@ -856,6 +856,7 @@ const plateMenuToListMap = new Map([
     ['consumBookCard', "记账卡用户消费统计月报表"],
     ['serviceFundRecond', "服务区资金对账"],
     ['capitalOperateOutlet', "自营网点资金对账"],
+    ['dotSale', "网点设备销售来源核对日表"],
 ])
 export {
     plateColorToColorMap,

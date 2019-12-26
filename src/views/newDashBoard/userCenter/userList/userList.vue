@@ -30,7 +30,9 @@
                 />
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="serachData">搜索</el-button>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="serachData">搜索</el-button>               
+            </el-form-item>
+            <el-form-item>
                 <el-button type="primary" icon="el-icon-plus" size="mini" @click="addNewUser">新增</el-button>
             </el-form-item>
             </el-form>
@@ -142,6 +144,7 @@
                         :data="hasOwnData"
                         border
                         height="380"
+                        v-loading="loading"
                         style="width: 100%;margin-bottom: 0px"
                         @selection-change="handleSelectionChange">
                         

@@ -10,7 +10,8 @@
                 placeholder="选择日期">
                 </el-date-picker>
             </el-form-item>
-            <el-form-item label="表格">
+            --
+            <el-form-item>
                 <el-date-picker
                 v-model="auditData.endDate"
                 type="date"
@@ -21,6 +22,8 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="serachData">搜索</el-button>
+            </el-form-item>
+            <el-form-item>
                 <el-button type="primary" icon="el-icon-download" size="mini" @click="exported">导出</el-button>
             </el-form-item>
         </el-form>

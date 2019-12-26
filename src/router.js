@@ -244,6 +244,13 @@ export default new Router({
           menuShow: true, 
           meta:{requireAuth: true }
         },
+        {
+          path: '/dotSale',
+          component: () => import('./views/newDashBoard/finalState/dotSale/index'),
+          name: '网点设备销售来源核对日表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
       ]
     },
   ]

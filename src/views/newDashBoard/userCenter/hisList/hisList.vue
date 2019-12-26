@@ -1,5 +1,5 @@
 <template>
-    <div class='ect-page'>
+    <div class='app-container'>
         <div style="position:fixed;z-index:999;width:100%;background-color:#eee;">
             <el-row style="display:flex;align-items:center;">
                 <el-col :span="2" class="etc-col">
@@ -60,7 +60,13 @@
         </div>
         <div style="margin-top:60px;">
             <div>
-                <el-table :data="tableData" stripe border style="width: 100%" :height="screenHeight">
+                <el-table 
+                v-loading="loading"
+                :data="tableData" 
+                stripe 
+                border 
+                style="width: 100%" 
+                :height="screenHeight">
                     <el-table-column prop="status" label="签约状态" width="100">
                         <template slot-scope="scope">
                              {{scope.row.status==0 ? "失效" : "正常"}}
@@ -121,6 +127,7 @@ import {plateColorToColorMap} from "@utils/dictionaries"
 export default {
     data(){
         return{
+            loading:true,
             plateColorToColorMap,
             optionsInfo: [],
             values:'',
@@ -153,6 +160,7 @@ export default {
         if(document.body.clientHeight>700){
             this.screenHeight=520;
         }
+        this.loading=false;
         // this.showDataList();
         this.showBankList();
     },
@@ -279,12 +287,14 @@ export default {
                     pageSize: this.pageSized
                 }
             }
+            this.loading=true;
             fetch(params).then(res => {
 
                 this.tableData = res.data.data;
                 this.total=res.data.total;
+                this.loading=false;
             }).catch(error => {
-                this.endLoading()
+                this.loading=false;
                 this.$msgbox({
                     message:  error.message,
                     title: '失败',

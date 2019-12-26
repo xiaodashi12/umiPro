@@ -40,9 +40,7 @@
         </el-col>
         <el-col :span="20" style="height:calc(100% - 90px);">
             <navMain></navMain>
-            <keep-alive>
-                <router-view/>
-            </keep-alive>
+            <router-view/>
         </el-col>
     </el-row>
     </div>
@@ -95,9 +93,9 @@ import EtcHdBar from '@/components/HdBar';
             this.openedTab = this.$store.state.openedTab
             // tabNum 为当前点击的列表项在openedTab中的index，若不存在则为-1
             let tabNum = this.openedTab.indexOf(componentName)
-            console.log(tabNum)
-            console.log(this.openedTab)
-            console.log(this.$store.state.openedTab)
+            // console.log(tabNum)
+            // console.log(this.openedTab)
+            // console.log(this.$store.state.openedTab)
             if (tabNum === -1) {
                 // 该标签当前没有打开
                 // 将componentName加入到已打开标签页state.openedTab数组中

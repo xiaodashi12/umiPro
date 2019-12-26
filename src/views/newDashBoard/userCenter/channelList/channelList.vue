@@ -2,7 +2,8 @@
     <div class='ect-page'>
         <div style="">
             <div>
-                <el-table 
+                <el-table
+                v-loading="loading" 
                 :data="tableData" 
                 stripe 
                 border 
@@ -64,6 +65,7 @@ export default {
         return{
             screenHeight: 520,
             areaValue:'',
+            loading:true,
             tableData: [],
             userInfo:{
                 bankcardType:'',
@@ -145,7 +147,7 @@ export default {
                     });
                     this.showDataList();
                 }).catch(error => {
-                    this.endLoading()
+                    
                     this.$msgbox({
                         message:  error.message,
                         title: '失败',
@@ -212,11 +214,13 @@ export default {
                     token:getToken()
                 }
             }
+            this.loading=true;
             fetch(params).then(res => {
 
                 this.tableData = res.data;
+                this.loading=false;
             }).catch(error => {
-                this.endLoading()
+                this.loading=false;
                 this.$msgbox({
                     message:  error.message,
                     title: '失败',
