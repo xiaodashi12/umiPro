@@ -84,9 +84,9 @@ export default new Router({
           meta:{requireAuth: true }
         },
         {
-          path: '/rechargeList',
+          path: '/branchReport',
           component: () => import('./views/newDashBoard/moneyList/rechargeList/index'),
-          name: '充值报表',
+          name: '自己网点充值',
           menuShow: true, 
           meta:{requireAuth: true }
         },
@@ -246,8 +246,15 @@ export default new Router({
         },
         {
           path: '/dotSale',
-          component: () => import('./views/newDashBoard/finalState/dotSale/index'),
+          component: () => import('./views/newDashBoard/saleReport/dotSale/index'),
           name: '网点设备销售来源核对日表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/electronicSales',
+          component: () => import('./views/newDashBoard/saleReport/electronicSales/index'),
+          name: '电子标签销售区间报表',
           menuShow: true, 
           meta:{requireAuth: true }
         },

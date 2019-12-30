@@ -1,7 +1,7 @@
 <template>
     <div class="app-container">
-        <el-form :inline="true" class="titleVal">
-            <el-form-item label="表格">
+        <div style="position:fixed;z-index:999;width:100%;background-color:#eee;">
+            <el-row style="display:flex;align-items:center;">
                 <el-date-picker
                 v-model="auditData.beginDate"
                 type="date"
@@ -9,24 +9,22 @@
                 @change="changeBeginDate"
                 placeholder="选择日期">
                 </el-date-picker>
-            </el-form-item>
-            --
-            <el-form-item>
+                --
                 <el-date-picker
                 v-model="auditData.endDate"
                 type="date"
                     size="mini"
-                @change="changeEndDate"
+                    @change="changeEndDate"
                 placeholder="选择日期">
                 </el-date-picker>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="serachData">搜索</el-button>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" icon="el-icon-download" size="mini" @click="exported">导出</el-button>
-            </el-form-item>
-        </el-form>
+                <el-col :span="5">
+                    <div class="grid-content bg-purple-light ect-input" style="margin-left:10px;">
+                        <el-button size="mini" type="primary" icon="el-icon-search" @click="serachData()">搜索</el-button>
+                        <el-button size="mini" type="primary" icon="el-icon-download" @click="exported">导出</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
         <div style="background-color:#fff;height: 74%;">
                 <el-table 
                 :data="bankData" 
@@ -220,9 +218,7 @@ export default {
         padding:10px;
         border-bottom:1px solid #bababa;
     }
-    .el-button + .el-button{
-        margin:0px !important;
-    }
+    
     
     .el-button{
         padding:8px 10px;

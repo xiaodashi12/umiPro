@@ -22,7 +22,7 @@
                 :key="item.id"
                 >
                 <template slot="title">
-                    <i class="el-icon-location"></i>
+                    <i class="el-icon-s-order"></i>
                     <span>{{item.name}}</span>
                 </template>
                 <el-menu-item-group class="over-hide">
@@ -56,6 +56,7 @@ import EtcHdBar from '@/components/HdBar';
     data () {
         return {
             menu: menu,
+            // menu: [],
             openedTab: []
         }
     },

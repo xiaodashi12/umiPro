@@ -835,7 +835,7 @@ const plateMenuToListMap = new Map([
     ['findRedis', "获取Redis值"],
     ['customerList', "客户列表"],
     ['roleMenu', "菜单权限"],
-    ['rechargeList', "充值报表"],
+    ['branchReport', "自己网点充值"],
     ['allReport', "所有网点充值"],
     ['onwerReport', "自营网点资金来源细分区间报表"],
     ['findRoleList', "角色列表查询"],
@@ -857,6 +857,7 @@ const plateMenuToListMap = new Map([
     ['serviceFundRecond', "服务区资金对账"],
     ['capitalOperateOutlet', "自营网点资金对账"],
     ['dotSale', "网点设备销售来源核对日表"],
+    ['electronicSales', "电子标签销售区间报表"],
 ])
 export {
     plateColorToColorMap,

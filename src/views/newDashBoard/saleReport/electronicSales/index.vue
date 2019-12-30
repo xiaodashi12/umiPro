@@ -27,7 +27,13 @@
         </div>
         <div style="margin-top:60px;">
             <div style="height: calc(100% - 160px);width: 100%;overflow-y: scroll;position: absolute;">
-                <el-table class="tb-edit" highlight-current-row :data="tableData" style="width: 100%">
+                <el-table 
+                :span-method="objectSpanMethod"
+                class="tb-edit" 
+                highlight-current-row 
+                :data="tableData" 
+                id="table"
+                style="width: 100%">
                     <template v-for="(col,index) in cols">
                         <el-table-column v-bind:key="index" :prop="col.prop" :label="col.label">
                         </el-table-column>
@@ -55,25 +61,141 @@ export default {
     data(){
         return{
             cols: [
-                { label: "节点编号", prop: "node", type: "normal" },
-                { label: "名称", prop: "name", type: "normal" },
-                { label: "类型", prop: "type", type: "sort" },
-                { label: "坐标", prop: "coordinate", type: "normal" }
+                { label: "节点类别", prop: "node", type: "normal" },
+                { label: "节点名称", prop: "name", type: "normal" },
+                { label: "节点方式", prop: "type", type: "normal" },
+                { label: "节点金额", prop: "coordinate", type: "normal" },
+                { label: "钱1", prop: "money", type: "normal" },
+                { label: "钱2", prop: "money", type: "normal" },
+                { label: "钱3", prop: "money2", type: "normal" },
+                { label: "钱4", prop: "money3", type: "normal" },
             ],
             tableData: [
                 {
-                    node: "0051",
-                    name: " 机库顶",
-                    type: "UWB",
+                    id:1,
+                    ids:2,
+                    idz:1,
+                    node: "资金来源",
+                    name: " 苏通卡充值",
+                    type: "POS",
                     status: "正常",
-                    coordinate: "12.21,34.45,34.6"
+                    coordinate: "金额",
+                    money:111,
+                    money1:112,
+                    money2:113,
+                    money3:114,
                 },
                 {
-                    node: "0061",
-                    name: "机库门",
+                    id:1,
+                    ids:2,
+                    idz:2,
+                    node: "资金来源",
+                    name: "苏通卡充值",
+                    type: "微信扫码",
+                    status: "低电",
+                    coordinate: "金额",
+                    money:211,
+                    money1:212,
+                    money2:213,
+                    money3:214,
+                },
+                {
+                    id:1,
+                    ids:2,
+                    idz:3,
+                    node: "资金来源",
+                    name: "苏通卡充值",
+                    type: "现金",
+                    status: "低电",
+                    coordinate: "金额",
+                    money:211,
+                    money1:212,
+                    money2:213,
+                    money3:214,
+                },
+                {
+                    id:2,
+                    ids:1,
+                    idz:4,
+                    node: "套餐情况",
+                    name: "记账卡",
+                    type: "你好",
+                    status: "低电",
+                    coordinate: "金额",
+                    money:211,
+                    money1:212,
+                    money2:213,
+                    money3:214,
+                },
+                {
+                    id:2,
+                    ids:1,
+                    idz:4,
+                    node: "套餐情况",
+                    name: "记账卡",
+                    type: "你好",
+                    status: "低电",
+                    coordinate: "数量",
+                    money:211,
+                    money1:212,
+                    money2:213,
+                    money3:214,
+                },
+                {
+                    id:2,
+                    ids:1,
+                    idz:2,
+                    node: "套餐情况",
+                    name: "记账卡",
                     type: "GPS",
                     status: "低电",
-                    coordinate: "45.41,67.45,78.6"
+                    coordinate: "金额",
+                    money:211,
+                    money1:212,
+                    money2:213,
+                    money3:214,
+                },
+                {
+                    id:2,
+                    ids:1,
+                    idz:2,
+                    node: "套餐情况",
+                    name: "记账卡",
+                    type: "GPS",
+                    status: "低电",
+                    coordinate: "数量",
+                    money:211,
+                    money1:212,
+                    money2:213,
+                    money3:214,
+                },
+                {
+                    id:2,
+                    ids:2,
+                    idz:3,
+                    node: "套餐情况",
+                    name: "网单补发",
+                    type: "GPS",
+                    status: "低电",
+                    coordinate: "金额",
+                    money:211,
+                    money1:212,
+                    money2:213,
+                    money3:214,
+                },
+                {
+                    id:2,
+                    ids:2,
+                    idz:3,
+                    node: "套餐情况",
+                    name: "网单补发",
+                    type: "GPS",
+                    status: "低电",
+                    coordinate: "数量",
+                    money:211,
+                    money1:212,
+                    money2:213,
+                    money3:214,
                 }
             ],
             // 遮罩层
@@ -92,9 +214,12 @@ export default {
             },
             spanArr: [], // 一个空的数组，用于存放每一行记录的合并数
             pos: 0, // spanArr 的索引
+            posT: 0, // spanArr 的索引
             contentSpanArr: [],
-            idArr:[],
-            idPos: 0
+            ownSpanArr:[],
+            position: 0,
+            rowAndColumn:[],
+            rowRoomColumn:[],
         }
     },
     created(){
@@ -117,13 +242,27 @@ export default {
         },
          // 合并单元格
         objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-            if (columnIndex === 0) {
-                const row1 = this.idArr[rowIndex]
-                const col1 = row1 > 0 ? 1 : 0
+            if (columnIndex === 0 ) {
+                const _row = this.spanArr[rowIndex];
+                const _col = _row > 0 ? 1 : 0;
                 return {
-                    rowspan: row1,
-                    colspan: col1
-                }
+                    rowspan: _row,
+                    colspan: _col
+                };
+            } else if (columnIndex === 1) {
+                const _row = this.contentSpanArr[rowIndex];
+                const _col = _row > 0 ? 1 : 0;
+                return {
+                    rowspan: _row,
+                    colspan: _col
+                };
+            } else if (columnIndex === 2) {
+                const _row = this.ownSpanArr[rowIndex];
+                const _col = _row > 0 ? 1 : 0;
+                return {
+                    rowspan: _row,
+                    colspan: _col
+                };
             }
         },
         getSummaries(param){
@@ -163,7 +302,7 @@ export default {
             XLSX.utils.book_append_sheet(workbook, worksheet, 'sheet');
             // 以上四行也可以直接一行搞定，如果不需要对表格数据进行修改的话
             let workbooked = XLSX.utils.table_to_book(document.getElementById('table'))
-            XLSX.writeFile(workbooked, '自营网点资金对账.xlsx');
+            XLSX.writeFile(workbooked, '网点设备销售来源核对日表.xlsx');
         },
         handleClose(){
             
@@ -191,22 +330,46 @@ export default {
             this.showDataList();
         },
         mergeData(){
-            this.idArr = []
-            this.idPos = 0
-            for (let i = 0; i < this.tableData.length; i++) {
-                if (i === 0) {
-                    this.idArr.push(1)
-                    this.idPos = 0
-                } else {
-                    if (this.tableData[i].id === this.tableData[i - 1].id) {
-                        this.idArr[this.idPos] += 1
-                        this.idArr.push(0)
-                    } else {
-                        this.idArr.push(1)
-                        this.idPos = i
-                    }
-                }
+            // 设定一个数组spanArr/contentSpanArr来存放要合并的格数，同时还要设定一个变量pos/position来记录
+          this.spanArr = [];
+          this.contentSpanArr = [];
+          this.ownSpanArr = [];
+          let data=this.tableData;
+          for (var i = 0; i < data.length; i++) {
+            if (i === 0) {
+              this.spanArr.push(1);
+              this.pos = 0;
+              this.contentSpanArr.push(1);
+              this.posT=0;
+              this.ownSpanArr.push(1);
+              this.position = 0;
+            } else {
+              // 判断当前元素与上一个元素是否相同(第1和第2列)
+              if (data[i].id === data[i - 1].id) {
+                this.spanArr[this.pos] += 1;
+                this.spanArr.push(0);
+              } else {
+                this.spanArr.push(1);
+                this.pos = i;
+              }
+              if (data[i].ids === data[i - 1].ids) {
+                this.contentSpanArr[this.posT] += 1;
+                this.contentSpanArr.push(0);
+              } else {
+                this.contentSpanArr.push(1);
+                this.posT = i;
+              }
+              debugger
+              // 判断当前元素与上一个元素是否相同(第3列)
+              if (data[i].idz === data[i - 1].idz) {
+                this.ownSpanArr[this.position] += 1;
+                this.ownSpanArr.push(0);
+              } else {
+                this.ownSpanArr.push(1);
+                this.position = i;
+              }
             }
+          }
         },
         showDataList(){
             this.loading = false;

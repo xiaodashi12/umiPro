@@ -160,6 +160,7 @@ export default {
         },
         handleClose(){
              this.dialogVisible=false;
+             this.showDataList();
         },
         handle(row,idx){
             this.dialogVisible=true;

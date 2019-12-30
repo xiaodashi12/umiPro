@@ -203,9 +203,7 @@ export default {
         padding:10px;
         border-bottom:1px solid #bababa;
     }
-    .el-button + .el-button{
-        margin:0px !important;
-    }
+    
     .el-input__inner{
         height:32px !important;
         line-height: 32px !important;

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true" class="titleVal">
-      <el-form-item label="表格">
+    <el-form :inline="true">
+      <el-form-item>
         <el-date-picker
         v-model="auditData.beginDate"
         type="date"
@@ -10,7 +10,7 @@
         placeholder="选择日期">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="表格">
+      <el-form-item label="--">
         <el-date-picker
         v-model="auditData.endDate"
         type="date"
@@ -68,6 +68,7 @@ import XLSX from 'xlsx'
 import api from '@/api'
 import fetch from '@/utils/fetch'
 import {getToken} from '@/utils/auth';
+import {dateToString,tsmDateToString} from '@/utils/utils'
 import {platePadFloorMap} from '@/utils/dictionaries';
 import axios from 'axios'
 import {mapGetters , mapActions} from "vuex";

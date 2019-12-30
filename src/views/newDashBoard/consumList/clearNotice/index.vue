@@ -1,29 +1,30 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true" class="titleVal">
-      <el-form-item label="表格">
-        <el-date-picker
-        v-model="auditData.beginDate"
-        type="date"
-            size="mini"
-        @change="changeBeginDate"
-        placeholder="选择日期">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="表格">
-        <el-date-picker
-        v-model="auditData.endDate"
-        type="date"
-            size="mini"
-        @change="changeEndDate"
-        placeholder="选择日期">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="serachData">搜索</el-button>
-        <el-button type="primary" icon="el-icon-download" size="mini" @click="exported">导出</el-button>
-      </el-form-item>
-    </el-form>
+    <div style="position:fixed;z-index:999;width:100%;background-color:#eee;">
+        <el-row style="display:flex;align-items:center;">
+            <el-date-picker
+            v-model="auditData.beginDate"
+            type="date"
+                size="mini"
+            @change="changeBeginDate"
+            placeholder="选择日期">
+            </el-date-picker>
+            --
+            <el-date-picker
+            v-model="auditData.endDate"
+            type="date"
+                size="mini"
+                @change="changeEndDate"
+            placeholder="选择日期">
+            </el-date-picker>
+            <el-col :span="5">
+                <div class="grid-content bg-purple-light ect-input" style="margin-left:10px;">
+                    <el-button size="mini" type="primary" icon="el-icon-search" @click="serachData()">搜索</el-button>
+                    <el-button size="mini" type="primary" icon="el-icon-download" @click="exported">导出</el-button>
+                </div>
+            </el-col>
+        </el-row>
+    </div>
 
     <el-table
     v-loading="loading"
@@ -91,6 +92,7 @@
 import XLSX from 'xlsx'
 import api from '@/api'
 import fetch from '@/utils/fetch'
+import {dateToString,tsmDateToString} from '@/utils/utils'
 import {getToken} from '@/utils/auth';
 import {platePadFloorMap} from '@/utils/dictionaries';
 import axios from 'axios'
@@ -232,54 +234,10 @@ export default {
             } 
         },
         handleDelete(idx,row,rowData){
-            console.log(row,"row")
-            let arr=[];
-            arr.push(row.id);
-            let params = {
-                url: api['updateUserRole'].url,
-                method: 'post',
-                data: {
-                    roleIds:arr,
-                    operatorId:this.operatorId,
-                    type:1
-                }
-            }
-            this.startLoading();
-            fetch(params).then(res => {
-                row['opId']=this.operatorId;
-                this.handleRole(row);
-                this.endLoading()
-            }).catch(error => {
-                this.endLoading()
-            })
+            
         },
         selectItems(){
-            let arr=[];
-            this.chooseDataArr.forEach((item,idx)=>{
-                arr.push(item.id);
-            })
-            let params = {
-                url: api['updateUserRole'].url,
-                method: 'post',
-                data: {
-                    roleIds:arr,
-                    operatorId:this.operatorId,
-                    type:2
-                }
-            }
-            this.loading = true;
-            fetch(params).then(res => {
-                let row={
-                    opId:this.operatorId
-                }
-                // row['opId']=this.operatorId;
-                // console.log(this.operatorId,"this.operatorId")
-                this.handleRole(row);
-                // this.endLoading()
-                this.loading = false;
-            }).catch(error => {
-                this.loading = false;
-            })
+            
         },
         handleSelectionChange(val){
             this.chooseDataArr=val;
@@ -315,123 +273,23 @@ export default {
             this.showDataList();
         },
         handleEvent(event,idx){
-            console.log(event)
-            switch(idx){
-                case 1:
-                    this.userInfo.opId=event.target.value
-                    break;
-                case 2:
-                    this.userInfo.opName=event.target.value
-                    break;
-                case 3:
-                    this.userInfo.branchNo=event.target.value
-                    break;   
-            }
+            
         },
         handleClick(row) {
             console.log(row);
         },
         handleRole(row){
-            console.log(row,"row");
-             this.auditLogVisible=true;
-             let params = {
-                url: api['findUserRole'].url,
-                method: 'post',
-                data: {
-                    operatorId:row.opId
-                }
-            }
             
-            this.operatorId=row.opId;
-            // this.generateData=[];
-            this.loading = true;
-            fetch(params).then(res => {
-                let data=res.data;
-                let arrOwnData=[];
-                let arrData=[];
-                data.forEach((item,idx)=>{
-                    if(item.isOwn==0){
-                        arrData.push(item)
-                    }else if(item.isOwn==1){
-                        arrOwnData.push(item)
-                    }
-                })
-                this.hasOwnData=arrOwnData;
-                this.resultData=arrData;
-                this.loading = false;
-            }).catch(error => {
-                this.loading = false;
-            })
         },
         handlepwd(row){
-            this.$confirm('此操作将重置密码, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-             }).then(() => {
-                let params = {
-                    url: api['resetPwd'].url,
-                    method: 'post',
-                    data: {
-                        newPassword: "",
-                        opId: row.opId
-                    }
-                }
-                fetch(params).then(res => {
-                    this.$message({
-                        type: 'success',
-                        message: '重置密码成功!'
-                    });
-                }).catch(error => {
-                    // this.endLoading()
-                    this.$msgbox({
-                        message:  error.message,
-                        title: '失败',
-                        customClass: 'my_msgBox singelBtn',
-                        dangerouslyUseHTMLString: true,
-                        confirmButtonText: '确定',
-                        type: 'error'
-                    })
-                })
-            }).catch(() => {
-                // this.$message({
-                //     type: 'info',
-                //     message: '已取消删除'
-                // });          
-            });
+            
             
         },
         serachData(){
             this.showDataList();
         },
         showDataList(){
-            let params = {
-                url: api['userList'].url,
-                method: 'post',
-                data: {
-                    branchNo: this.userInfo.branchNo,
-                    opName: this.userInfo.opName,
-                    opId: this.userInfo.opId,
-                    pageIndex: this.pageIndexed,
-                    pageSize: this.pageSized
-                }
-            }
-            this.loading = true;
-            fetch(params).then(res => {
-                this.loading = false;
-                this.tableData = res.data.data;
-                this.total=res.data.total;
-            }).catch(error => {
-                this.loading = false;
-                this.$msgbox({
-                    message:  error.message,
-                    title: '失败',
-                    customClass: 'my_msgBox singelBtn',
-                    dangerouslyUseHTMLString: true,
-                    confirmButtonText: '确定',
-                    type: 'error'
-                })
-            })
+            this.loading=false;
         }
     },
 }

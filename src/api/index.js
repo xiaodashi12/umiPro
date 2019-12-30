@@ -114,6 +114,11 @@ const config = {
     'updateApply':{
     	url:'refundApply/updateApply',
     	method:'post'
+    },
+    'sellReportForBranch':{
+    	url:'/rechargeReport/sellReportForBranch',
+    	method:'post'
     }
+    
 }
 export default config;

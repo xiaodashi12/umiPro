@@ -98,7 +98,14 @@ export default {
       this.$router.push('index')
     },
     refreshSelectedTag(){
-      window.location.reload()
+      debugger
+      let pathName=this.editableTabsValue;
+      // this.$store.commit('deductTab', pathName)
+      // let deductIndex = this.openedTab.indexOf(pathName)
+      // this.openedTab.splice(pathName, 1)
+      this.$router.push(pathName)
+      // console.log(this.editableTabsValue,"当前路由")
+      // this.$router.push(this.editableTabsValue);
     },
     openMenu(e){
         const menuMinWidth = 105
@@ -148,7 +155,7 @@ export default {
     closeMenu() {
       this.visible = false
     },
-    //这个是一个样式封装，目前还没写好
+     //这个是一个样式封装接口，当右侧tab长度超过页面长度，左侧多出的tab会隐藏。最后一个tab会显示出来
      moveToCurrentTag() {
       const tags = this.$refs.item
       

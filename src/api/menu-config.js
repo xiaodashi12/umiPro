@@ -27,7 +27,7 @@ module.exports = [
       name: '充值报表',
       id: '3003',
       sub:[
-        {componentName: "rechargeList",id: 30031,name: "自己网点充值"},
+        {componentName: "branchReport",id: 30031,name: "自己网点充值"},
         {componentName: "onwerReport",id: 30032,name:"自营网点资金来源细分区间报表"},
         {componentName: "allReport",id: 30033,name: "所有网点充值"},
         {componentName: "bankDataList",id: 30035,name: "银行联名记账"},        
@@ -53,9 +53,18 @@ module.exports = [
     name: '财务列表',
     id: '3005',
     sub:[
-      {componentName: "dotSale", id: 30051, name: "网点设备销售来源核对日表"},
+      // {componentName: "dotSale", id: 30051, name: "网点设备销售来源核对日表"},
       {componentName: "serviceFundRecond", id: 30052, name: "服务区资金对账"},
       {componentName: "capitalOperateOutlet", id: 30053, name: "自营网点资金对账"},
     ]
+  },
+  {
+    name: '销售列表',
+    id: '3006',
+    sub:[
+      {componentName: "dotSale", id: 30061, name: "网点设备销售来源核对日表"},
+      {componentName: "electronicSales", id: 30062, name: "电子标签销售区间报表"},
+    ]
   }
 ]
+

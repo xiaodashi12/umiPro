@@ -42,6 +42,11 @@ export default new Vuex.Store({
       let index = state.openedTab.indexOf(componentName)
       state.openedTab.splice(index, 1)
     },
+    DEL_CACHED_VIEW: (state, componentName) => {
+      debugger
+      let index = state.openedTab.indexOf(componentName)
+      state.openedTab.splice(index, 1);
+    },
     SET_TOKEN: (state, token) => {
       state.token = token
     },
@@ -70,8 +75,16 @@ export default new Vuex.Store({
       console.log(vehicleInfo, '-------');
       state.vehicleInfo = vehicleInfo
     },
+    
   },
   actions: {
+    delCachedView({ commit, state }, view) {
+      return new Promise(resolve => {
+        debugger
+        commit('DEL_CACHED_VIEW', view)
+        resolve([...state.openedTab])
+      })
+    },
     Login({ commit }, userInfo) {
       console.log(userInfo)
       return new Promise((resolve, reject) => {

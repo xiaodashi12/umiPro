@@ -26,7 +26,7 @@
             </el-row>
         </div>
         <div style="margin-top:60px;">
-            <div style="height: calc(100% - 160px);width: 100%;overflow-y: scroll;position: absolute;">
+            <div style="height: calc(100% - 120px);width: 100%;overflow-y: auto;position: absolute;">
                 <el-table 
                 :data="tableData" 
                 stripe 

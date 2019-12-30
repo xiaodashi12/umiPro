@@ -94,12 +94,7 @@ export default {
                     border-bottom-right-radius: 0;
                 }
             }
-            .el-button + .el-button{
-                margin-left:0;
-                border-top-left-radius:0;
-                border-bottom-left-radius: 0;
-                border-left:none;
-            }
+            
         }
     }
 </style>
