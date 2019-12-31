@@ -9,8 +9,10 @@ $dialog-height: calc(100vh * 0.7);
 .el-dialog{
   margin: 0 auto 0;
 }
-
-.el-table--border,.el-table th.is-leaf, .el-table td,.el-table--border th, .el-table--border td {
+.el-table th, .el-table td{
+  padding:6px 0 !important;
+}
+.el-table--fit,.el-table--border,.el-table th.is-leaf, .el-table td,.el-table--border th, .el-table--border td {
   border: 1px solid #bababa !important;
 }
 #new-user-reserve {
@@ -75,6 +77,9 @@ $dialog-height: calc(100vh * 0.7);
   width: 82%;
   padding: 10px;
 }
+// .el-table--fit{
+//   border:1px solid #bababa;
+// }
 //main-container全局样式
 .app-container {
   padding: 20px;

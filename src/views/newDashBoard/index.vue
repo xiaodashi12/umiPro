@@ -4,16 +4,16 @@
         <el-row class="tac">
         <el-col :span="4" style="height:calc(100% - 50px);overflow-y:auto">
             <el-menu
-                default-active=""
+                :default-active="itemActive"
                 class="el-menu-vertical-demo"
                 background-color="#545c64"
                 text-color="#fff"
                 unique-opened
                 router
-                active-text-color="#fff"
+                active-text-color="#01C1B2"
                 >
                 <el-menu-item index="index" @click="clickMenu('index')">
-                <i class="el-icon-star-on"></i>
+                <i class="iconfont etc-icon-shouye" style="font-size:22px;padding-right:10px;"></i>
                 <span slot="title">首页</span>
                 </el-menu-item>
                 <el-submenu
@@ -22,7 +22,7 @@
                 :key="item.id"
                 >
                 <template slot="title">
-                    <i class="el-icon-s-order"></i>
+                    <i :class="item.icon" style="font-size:22px;padding-right:10px;"></i>
                     <span>{{item.name}}</span>
                 </template>
                 <el-menu-item-group class="over-hide">
@@ -49,25 +49,35 @@
 <script>
 import {mapGetters, mapActions} from 'vuex'
 import navMain from '@/views/newDashBoard/navMain/navMain'
-import menu from '@/api/menu-config.js'
+// import menu from '@/api/menu-config.js'
 import EtcHdBar from '@/components/HdBar';
   export default {
     components:{EtcHdBar,navMain},
     data () {
         return {
-            menu: menu,
-            // menu: [],
+            itemActive:'index',
+            // menu: menu,
+            menu: [],
             openedTab: []
         }
     },
     mounted(){
-        //  this.menu=this.operatorInfo.data.manageAuth;
+         this.menu=this.operatorInfo.data.manageAuth;
         // this.$router.push('/userList');
+    },
+    watch:{
+        changeTab (val) {
+            // 监听activetab以实现点击左侧栏时激活已存在的标签
+            this.itemActive=val;
+        }
     },
     computed: {
         ...mapGetters([
             'operatorInfo'
-        ])
+        ]),
+        changeTab () {
+            return this.$store.state.activeTab
+        }
     },
     methods: {
       handleOpen(key, keyPath) {
@@ -109,9 +119,12 @@ import EtcHdBar from '@/components/HdBar';
     }
   }
 </script>
-<style scoped lang="scss">
+<style lang="scss">
     .el-menu-item-group__title{
         padding:0px !important;
+    }
+    .el-menu-item .is-active{
+        color:#01C1B2 !important;
     }
     .el-menu-vertical-demo{
         height: 100%;

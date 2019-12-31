@@ -69,7 +69,7 @@
                 </el-submenu>
             </el-menu>
         </div>
-        <main-dialog
+        <!-- <main-dialog
                 title="参数设置"
                 :dialogVisible="setUpVisible"
                 @onClose="setUpVisible = !setUpVisible">
@@ -80,24 +80,24 @@
                         :formLabelAlign="formLabelAlign"
                         @input="handleInput">
                 </dynamic-form>
-                <etc-DlgFooter :btninfos="ftBtnArrays" @ftClick="handleOnSave"></etc-DlgFooter>
-            </div>
-        </main-dialog>
+                <!-- <etc-DlgFooter :btninfos="ftBtnArrays" @ftClick="handleOnSave"></etc-DlgFooter> -->
+            <!--</div>
+        </main-dialog> -->
     </div>
 </template>
 
 <script>
 
     import {mapGetters, mapActions} from 'vuex'
-    import dynamicForm from '@/components/dynamic-form/form'
+    
     import {debug} from 'util';
     import {debuggerStatement} from '@babel/types';
-    import MainDialog from '@/components/mainDialog';
+    
     import EtcDlgFooter from "@/components/Dialog/DlgFooter";
     import { notice } from '../../public/static/notice'
     export default {
         name: 'HdBar',
-        components: {dynamicForm, MainDialog, EtcDlgFooter},
+        components: { EtcDlgFooter},
         props: {},
         data() {
             return {
@@ -598,12 +598,8 @@
 
             .el-menu-item {
                 font-size: 12px;
-                color: #666;
-
-                span {
-                    display: inline-block;
-                    color: #666;
-                    width: 100%;
+                .is-active{
+                    color:#01C1B2 !important;
                 }
             }
 

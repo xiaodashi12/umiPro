@@ -1,20 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true">
-      <el-form-item label="员工编号">
-        <el-input
-          v-model="userInfo.ptId"
-          placeholder="请输入员工编号"
-          clearable
-          size="small"
-          @blur="handleEvent($event,1)"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="serachData">搜索</el-button>
-        <!-- <el-button type="primary" icon="el-icon-plus" size="mini" @click="addNewUser">新增</el-button> -->
-      </el-form-item>
-    </el-form>
+    
 
     <el-table
       v-loading="loading"
@@ -33,14 +19,15 @@
                {{scope.row.hasCard==0 ? "无卡" : "有卡"}}
           </template>
       </el-table-column>
-      <el-table-column prop="processStatus" label="流程状态" align="center">
-          <template slot-scope="scope">
-              {{procesStatusMap.get(scope.row.processStatus)}}
-          </template>
-      </el-table-column>
       <el-table-column prop="hasObu" label="是否存在OBU" align="center">
           <template slot-scope="scope">
               {{scope.row.hasObu==0 ? "否" : "是"}}
+          </template>
+      </el-table-column>
+      <el-table-column prop="processStatus" label="流程状态" align="center">
+          <template slot-scope="scope">
+              {{procesStatusMap.get(scope.row.processStatus)}} 
+              <!-- <span style="background-color:red;color:#fff;padding:4px;border-radius:4px;">财务退回</span> -->
           </template>
       </el-table-column>
       <el-table-column label="操作" width="200px" align="center" fixed class-name="small-padding fixed-width">
@@ -50,7 +37,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
+    <!-- <el-pagination
       v-show="total>0"
       :total="total"
       @size-change="handleSizeChange"
@@ -59,13 +46,15 @@
         :page-sizes="[10, 20, 50,100,200]"
         :page-size="10"
         layout="total, sizes, prev, pager, next, jumper"
-    ></el-pagination>
+    ></el-pagination> -->
     <el-dialog
         title="审核信息"
         :visible.sync="dialogVisible"
         width="960px"
         :before-close="handleClose">
         <refundAccount 
+        :isControl="2"
+        :slideImg="slideImg"
         :passData="passData"
         :isBeDisabled="isBeDisabled"
         @closeDialog="closeDialog"
@@ -74,6 +63,7 @@
   </div>
 </template>
 <script>
+import {getImgUrl} from '@/utils/utils'
 import refundAccount from './index'
 import api from '@/api'
 import fetch from '@/utils/fetch'
@@ -85,6 +75,7 @@ export default {
     components:{refundAccount},
     data(){
         return{
+            slideImg:[],
             passData:{},
             isBeDisabled:true,
             plateColorToColorMap,
@@ -165,6 +156,16 @@ export default {
             this.dialogVisible=true;
             this.isBeDisabled= idx==0 ? true : false;
             this.passData=row;
+            const filesData=eval(this.passData.files);
+            let picDataImg=[]
+            for(let i=0;i<filesData.length;i++){
+                if(filesData[i]){
+                    let dataImage={};
+                    dataImage["vcPicUrl"]=getImgUrl()+filesData[i];
+                    picDataImg.push(dataImage);
+                }
+            }
+            this.slideImg=picDataImg;
         },
         handleSelectionChange(val){
             this.chooseDataArr=val;

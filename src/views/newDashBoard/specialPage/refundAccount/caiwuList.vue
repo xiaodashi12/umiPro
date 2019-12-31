@@ -1,20 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true">
-      <el-form-item label="员工编号">
-        <el-input
-          v-model="userInfo.ptId"
-          placeholder="请输入员工编号"
-          clearable
-          size="small"
-          @blur="handleEvent($event,1)"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="serachData">搜索</el-button>
-        <!-- <el-button type="primary" icon="el-icon-plus" size="mini" @click="addNewUser">新增</el-button> -->
-      </el-form-item>
-    </el-form>
+    
 
     <el-table
       v-loading="loading"
@@ -50,7 +36,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
+    <!-- <el-pagination
       v-show="total>0"
       :total="total"
       @size-change="handleSizeChange"
@@ -59,13 +45,15 @@
         :page-sizes="[10, 20, 50,100,200]"
         :page-size="10"
         layout="total, sizes, prev, pager, next, jumper"
-    ></el-pagination>
+    ></el-pagination> -->
     <el-dialog
         title="审核信息"
         :visible.sync="dialogVisible"
         width="960px"
         :before-close="handleClose">
         <refundAccount 
+        :isControl="3"
+        :slideImg="slideImg"
         :passData="passData"
         :isBeDisabled="isBeDisabled"
         @closeDialog="closeDialog"
@@ -75,6 +63,7 @@
   </div>
 </template>
 <script>
+import {getImgUrl} from '@/utils/utils'
 import refundAccount from './index'
 import api from '@/api'
 import fetch from '@/utils/fetch'
@@ -86,6 +75,7 @@ export default {
     components:{refundAccount},
     data(){
         return{
+            slideImg:[],
             isShowMoney:true,
             passData:{},
             isBeDisabled:true,
@@ -167,6 +157,16 @@ export default {
             this.dialogVisible=true;
             this.isBeDisabled= idx==0 ? true : false;
             this.passData=row;
+             const filesData=eval(this.passData.files);
+            let picDataImg=[]
+            for(let i=0;i<filesData.length;i++){
+                if(filesData[i]){
+                    let dataImage={};
+                    dataImage["vcPicUrl"]=getImgUrl()+filesData[i];
+                    picDataImg.push(dataImage);
+                }
+            }
+            this.slideImg=picDataImg;
         },
         handleSelectionChange(val){
             this.chooseDataArr=val;

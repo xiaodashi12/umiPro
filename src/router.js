@@ -18,7 +18,8 @@ export default new Router({
       children: [{
           path: 'newDashBoard',
           component: () => import('./views/newDashBoard/index')
-      }]
+      },
+      ]
     },
     {
       path: '/',
@@ -27,6 +28,10 @@ export default new Router({
       menuShow: true,
       iconCls: 'iconfont icon-users',
       children: [
+        {
+          path: '/redirect/:path*',
+          component: () => import('@/views/redirect')
+        },
         {
           path: '/index',
           component: () => import('./views/newDashBoard/home/index'),
@@ -86,7 +91,21 @@ export default new Router({
         {
           path: '/branchReport',
           component: () => import('./views/newDashBoard/moneyList/rechargeList/index'),
-          name: '自己网点充值',
+          name: '充值报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/branchReportCopy',
+          component: () => import('./views/newDashBoard/moneyList/rechargeListCopy/index'),
+          name: '充值报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/branchReportCofe',
+          component: () => import('./views/newDashBoard/moneyList/rechargeListCofe/index'),
+          name: '充值报表',
           menuShow: true, 
           meta:{requireAuth: true }
         },
@@ -100,7 +119,21 @@ export default new Router({
         {
           path: '/onwerReport',
           component: () => import('./views/newDashBoard/moneyList/onwerReport/index'),
-          name: '自营网点资金来源细分区间报表',
+          name: '资金来源细分报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/onwerReportCopy',
+          component: () => import('./views/newDashBoard/moneyList/onwerReportCopy/index'),
+          name: '资金来源细分报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/onwerReportCofe',
+          component: () => import('./views/newDashBoard/moneyList/onwerReportCofe/index'),
+          name: '资金来源细分报表',
           menuShow: true, 
           meta:{requireAuth: true }
         },
@@ -112,16 +145,37 @@ export default new Router({
           meta:{requireAuth: true }
         },
         {
+          path: '/sinopecRechargeReport',
+          component: () => import('./views/newDashBoard/moneyList/sinopecRechargeReport/index'),
+          name: '中石化充值报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/sinopecRechargeReportCopy',
+          component: () => import('./views/newDashBoard/moneyList/sinopecRechargeReportCopy/index'),
+          name: '中石化充值报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/sinopecRechargeReportCofe',
+          component: () => import('./views/newDashBoard/moneyList/sinopecRechargeReportCofe/index'),
+          name: '中石化充值报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
           path: '/findRoleList',
           component: () => import('./views/newDashBoard/userCenter/findRoleList/index'),
-          name: '角色权限配置',
+          name: '角色查询',
           menuShow: true, 
           meta:{requireAuth: true }
         },
         {
           path: '/intervalReport',
           component: () => import('./views/newDashBoard/consumList/intervalReport/index'),
-          name: '苏通卡消费情况区间报表',
+          name: '苏通卡消费区间报表',
           menuShow: true, 
           meta:{requireAuth: true }
         },
@@ -142,7 +196,7 @@ export default new Router({
         {
           path: '/consumBookCard',
           component: () => import('./views/newDashBoard/consumList/consumBookCard/index'),
-          name: '记账卡用户消费统计月报表',
+          name: '托收记账卡消费区间表',
           menuShow: true, 
           meta:{requireAuth: true }
         },
@@ -156,7 +210,7 @@ export default new Router({
         {
           path: '/bankDataList',
           component: () => import('./views/newDashBoard/moneyList/bankDataList/index'),
-          name: '银行联名记账',
+          name: '联名记账卡消费区间表',
           menuShow: true, 
           meta:{requireAuth: true }
         },
@@ -189,6 +243,20 @@ export default new Router({
           meta:{requireAuth: true }
         },
         {
+          path: '/sutongDailyReportCopy',
+          component: () => import('./views/newDashBoard/moneyList/sutongDailyReportCopy/index'),
+          name: '服务区苏通卡服务点资金日报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/sutongDailyReportCofe',
+          component: () => import('./views/newDashBoard/moneyList/sutongDailyReportCofe/index'),
+          name: '服务区苏通卡服务点资金日报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
           path: '/rechargeMoney',
           component: () => import('./views/newDashBoard/moneyList/rechargeMoney/index'),
           name: '网上充值报表',
@@ -205,7 +273,7 @@ export default new Router({
         {
           path: '/userPass',
           component: () => import('./views/newDashBoard/specialPage/refundAccount/list'),
-          name: '员工审核',
+          name: '退款提交',
           menuShow: true, 
           meta:{requireAuth: true }
         },
@@ -219,7 +287,7 @@ export default new Router({
         {
           path: '/pianquPass',
           component: () => import('./views/newDashBoard/specialPage/refundAccount/pianquList'),
-          name: '片区审核',
+          name: '片区校核',
           menuShow: true, 
           meta:{requireAuth: true }
         },
@@ -247,6 +315,20 @@ export default new Router({
         {
           path: '/dotSale',
           component: () => import('./views/newDashBoard/saleReport/dotSale/index'),
+          name: '网点设备销售来源核对日表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/dotSaleCofe',
+          component: () => import('./views/newDashBoard/saleReport/dotSaleCofe/index'),
+          name: '网点设备销售来源核对日表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/dotSaleCopy',
+          component: () => import('./views/newDashBoard/saleReport/dotSaleCopy/index'),
           name: '网点设备销售来源核对日表',
           menuShow: true, 
           meta:{requireAuth: true }

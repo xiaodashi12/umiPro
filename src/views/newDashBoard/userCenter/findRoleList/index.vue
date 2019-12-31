@@ -275,32 +275,94 @@ export default {
             })
         },
         chooseData(val){
-            console.log(this.$refs.tree.getCheckedKeys())
-            console.log(val)
-        },
-        chooseNode(val){
-            console.log(val,"chooseNode")
+            // console.log(this.$refs.tree.getCheckedKeys())
+            console.log(this.optionTree,"当前数据")
+            console.log(val,"当前触发选中的数据")
             let chooseData=val;
             let typeVal=1;
             let arr=[];
-            if(chooseData.status==0){
-                chooseData['status']=1;
-                typeVal=1;
-                arr.push(chooseData.id);
-            }else if(chooseData.status==1){
-                if(chooseData.children && chooseData.children.length>0){
-                    let childData=chooseData.children;
-                    childData.forEach((item,idx)=>{
-                        if(item.status==1){
-                            return;
-                        }
-                    })
+            if(chooseData.isParent){
+                if(chooseData.status==0){
+                    chooseData['status']=1;
+                    typeVal=1;
+                    arr.push(chooseData.id);
                 }else{
                     chooseData['status']=0;
                     typeVal=2;
                     arr.push(chooseData.id);
-                }  
+                }
+                if(chooseData.children && chooseData.children.length>0){
+                    let childData=chooseData.children;
+                    childData.forEach((item,idx)=>{                       
+                        arr.push(item.id);
+                    })
+                }
+            }else{
+                
+                if(chooseData.status==0){
+                    chooseData['status']=1;
+                    typeVal=1;
+                    arr.push(chooseData.id);
+                    const treeData=this.optionTree;
+                    for(let i=0;i<treeData.length;i++){
+                        if(treeData[i].children && treeData[i].children.length>0){
+                            for(let j=0;j<treeData[i].children.length;j++){
+                                if(treeData[i].children[j].id==chooseData.id){
+                                    console.log(treeData[i].id,"父节点ID")
+                                    
+                                    treeData[i]['status']=1;
+                                    arr.push(treeData[i].id);
+                                }
+                            }
+                        }                       
+                    }
+                    console.log(arr,"选中数据")
+                }else{
+                    chooseData['status']=0;
+                    typeVal=2;
+                    arr.push(chooseData.id);
+                    const treeData=this.optionTree;
+                    var canCanLe = true;
+                    var parentData = null;
+                    for(let i=0;i<treeData.length;i++){
+                        if(treeData[i].children && treeData[i].children.length>0){
+                            
+                            for(let j=0;j<treeData[i].children.length;j++){
+                                if(treeData[i].children[j].id==chooseData.id){
+                                   let arrData=treeData[i].children;
+                                   parentData = treeData[i]
+                                   for(let t=0;t<arrData.length;t++){
+                                        console.log(arrData[t].id,"子节点ID1111")
+                                        if(arrData[t].status==1){
+                                            canCanLe = false;
+                                            break;
+                                        }
+                                    }
+                                }
+                                // console.log(treeData[i].children[j].id,"子节点ID1111")
+                                // if(treeData[i].children[j].status==1){
+                                   
+                                //     canCanLe = false;
+                                //     break;
+                                // }
+                                // if(treeData[i].children[j].id==chooseData.id){
+                                //     console.log(treeData[i].id,"父节点ID")
+                                //     parentData = treeData[i]
+                                //     console.log(treeData[i].children[j].status,"当前节点状态1111")
+                                    
+                                // }
+                                
+                            }
+                        }                       
+                    }
+                    if(canCanLe){
+                        parentData['status']=0;
+                        arr.push(parentData.id);
+                    }
+                }
+                
             }
+            console.log(arr,"最后选中的选中数据")
             let params = {
                 url: api['updateRoleMenu'].url,
                 method: 'post',
@@ -310,6 +372,7 @@ export default {
                     type:typeVal
                 }
             }
+            console.log(params,"参数111")
             this.loading=true;
             fetch(params).then(res => {
                 this.loading=false;;
@@ -324,6 +387,61 @@ export default {
                     type: 'error'
                 })
             })
+        },
+        chooseNode(val){
+            // console.log(val,"chooseNode")
+            // let chooseData=val;
+            // let typeVal=1;
+            // let arr=[];
+            // debugger
+            // if(chooseData.status==0){
+            //     chooseData['status']=1;
+            //     typeVal=1;
+            //     arr.push(chooseData.id);
+            // }else if(chooseData.status==1){
+            //     chooseData['status']=0;
+            //     if(chooseData.children && chooseData.children.length>0){
+            //         let childData=chooseData.children;
+            //         childData.forEach((item,idx)=>{
+            //             if(item.status==1){
+            //                 arr.push(item.id);
+            //                 typeVal=1;
+            //             }else{
+            //                 arr.push(item.id);
+            //                 typeVal=2;
+            //             }
+            //         })
+            //     }else{
+            //         chooseData['status']=0;
+            //         typeVal=2;
+            //         arr.push(chooseData.id);
+            //     }  
+            // }
+            
+            // let params = {
+            //     url: api['updateRoleMenu'].url,
+            //     method: 'post',
+            //     data: {
+            //         roleId:this.roleId,
+            //         menuIds:arr,
+            //         type:typeVal
+            //     }
+            // }
+            // console.log(params,"参数111")
+            // this.loading=true;
+            // fetch(params).then(res => {
+            //     this.loading=false;;
+            // }).catch(error => {
+            //     this.loading=false;
+            //     this.$msgbox({
+            //         message:  error.message,
+            //         title: '失败',
+            //         customClass: 'my_msgBox singelBtn',
+            //         dangerouslyUseHTMLString: true,
+            //         confirmButtonText: '确定',
+            //         type: 'error'
+            //     })
+            // })
         },
         changeBeginDate(val){
              this.auditData.beginDate=tsmDateToString(val);

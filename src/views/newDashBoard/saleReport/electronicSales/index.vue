@@ -26,7 +26,7 @@
             </el-row>
         </div>
         <div style="margin-top:60px;">
-            <div style="height: calc(100% - 160px);width: 100%;overflow-y: scroll;position: absolute;">
+            <div style="height: calc(100% - 100px);width: 100%;overflow-y: auto;position: relative;">
                 <el-table 
                 :span-method="objectSpanMethod"
                 class="tb-edit" 
@@ -359,7 +359,6 @@ export default {
                 this.contentSpanArr.push(1);
                 this.posT = i;
               }
-              debugger
               // 判断当前元素与上一个元素是否相同(第3列)
               if (data[i].idz === data[i - 1].idz) {
                 this.ownSpanArr[this.position] += 1;

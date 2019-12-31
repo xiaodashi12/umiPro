@@ -98,12 +98,16 @@ export default {
       this.$router.push('index')
     },
     refreshSelectedTag(){
-      debugger
       let pathName=this.editableTabsValue;
       // this.$store.commit('deductTab', pathName)
       // let deductIndex = this.openedTab.indexOf(pathName)
       // this.openedTab.splice(pathName, 1)
-      this.$router.push(pathName)
+      this.$nextTick(() => {
+        this.$router.replace({
+          path: '/redirect/' + pathName
+        })
+      })
+      // this.$router.push(pathName)
       // console.log(this.editableTabsValue,"当前路由")
       // this.$router.push(this.editableTabsValue);
     },

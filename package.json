@@ -15,6 +15,7 @@
     "jsencrypt": "^3.0.0-rc.1",
     "moment": "^2.24.0",
     "nprogress": "^0.2.0",
+    "v-viewer": "^1.5.1",
     "vue": "^2.6.6",
     "vue-msgbox": "^0.2.14",
     "vue-router": "^3.0.1",

@@ -22,16 +22,13 @@ module.exports = {
         // 设置代理
         // before: require('./src/mock'),
         proxy: {
-            "/issue": {
-            target: "http://192.168.10.246:10021", // 访问数据的计算机域名121.199.71.86:8003
-            ws: true, // 是否启用websockets
-            changOrigin: true //开启代理
-            },
-            "/archives": {
-                target: "http://192.168.10.246:10021", // 访问数据的计算机域名121.199.71.86:8003 http://10.33.2.189:9000
+            "/manager": {
+                // target: "http://172.18.61.4:10022", // 正式地址的base_url
+                // target: "http://172.18.205.4:10021",// 测试地址的base_url
+                target: "http://192.168.10.203:10025", // 本地地址的base_url
                 ws: true, // 是否启用websockets
                 changOrigin: true //开启代理
-            }
+            },
         }
         
     },

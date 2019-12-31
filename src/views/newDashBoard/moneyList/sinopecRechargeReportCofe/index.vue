@@ -26,7 +26,7 @@
             </el-row>
         </div>
         <div style="margin-top:60px;">
-            <div style="height: calc(100% - 100px);width: 100%;overflow-y: auto;position: relative;">
+            <div style="height: calc(100% - 100px);overflow-y: auto;position: relative;">
                 <el-table 
                 :data="tableData" 
                 stripe 
@@ -40,24 +40,36 @@
                     </el-table-column>
                      <el-table-column prop="type" label="服务区名称">
                     </el-table-column>
+                    <el-table-column align="center" label="苏通卡销售">
+                        <el-table-column prop="shoulData" label="小计">
+                        </el-table-column>
+                        <el-table-column prop="newData" label="现金">
+                        </el-table-column>
+                        <el-table-column prop="noData" label="POS机" >
+                        </el-table-column>
+                        <el-table-column prop="bankData" label="微信收款码">
+                        </el-table-column>
+                    </el-table-column>
+                    <el-table-column align="center" label="充值金额">
+                        <el-table-column prop="shoulData" label="小计">
+                        </el-table-column>
+                        <el-table-column prop="newData" label="现金">
+                        </el-table-column>
+                        <el-table-column prop="noData" label="POS机" >
+                        </el-table-column>
+                        <el-table-column prop="bankData" label="微信收款码">
+                        </el-table-column>
+                    </el-table-column>
                     <el-table-column align="center" label="合计">
-                        <el-table-column prop="shoulData" label="报表数">
+                        <el-table-column prop="shoulData" label="小计">
                         </el-table-column>
-                        <el-table-column prop="newData" label="对账结果">
+                        <el-table-column prop="newData" label="现金">
                         </el-table-column>
-                    </el-table-column>
-                    <el-table-column align="center" label="现金">
-                         <el-table-column prop="shoulData" label="报表数">
+                        <el-table-column prop="noData" label="POS机" >
                         </el-table-column>
-                        <el-table-column prop="newData" label="对账结果">
+                        <el-table-column prop="bankData" label="微信收款码">
                         </el-table-column>
-                    </el-table-column>
-                    <el-table-column align="center" label="刷卡">
-                         <el-table-column prop="shoulData" label="报表数">
-                        </el-table-column>
-                        <el-table-column prop="newData" label="对账结果">
-                        </el-table-column>
-                    </el-table-column> 
+                    </el-table-column>    
                 </el-table>
             </div>
         </div>
@@ -245,7 +257,7 @@ export default {
             XLSX.utils.book_append_sheet(workbook, worksheet, 'sheet');
             // 以上四行也可以直接一行搞定，如果不需要对表格数据进行修改的话
             let workbooked = XLSX.utils.table_to_book(document.getElementById('table'))
-            XLSX.writeFile(workbooked, '服务区资金对账.xlsx');
+            XLSX.writeFile(workbooked, '服务区苏通卡代理服务点资金来源细分日报表.xlsx');
         },
         handleClose(){
             

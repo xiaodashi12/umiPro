@@ -99,3 +99,8 @@ export function getDefaultKey(data){
   }
 	return arr;
 }
+
+export  function getImgUrl(){
+  //return "http://172.18.205.4/web/fileUpload/show/"//测试
+ return "172.18.61.3:10011/web/fileUpload/show/";//生产
+}

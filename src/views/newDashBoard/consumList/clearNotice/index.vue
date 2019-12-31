@@ -25,67 +25,69 @@
             </el-col>
         </el-row>
     </div>
+    <div style="margin-top:60px;">
+        <el-table
+        v-loading="loading"
+        :data="tableData"
+        class="titleVal"
+        id="table"
+        :summary-method="getSummaries"
+        show-summary
+        >
 
-    <el-table
-    v-loading="loading"
-    :data="tableData"
-    class="titleVal"
-    id="table"
-    :summary-method="getSummaries"
-    show-summary
-    >
-
-    <el-table-column align="center" prop="titled" :label="titled">
-        <el-table-column fixed prop="tsTimesp" label="清分方" align="center"></el-table-column>
-        <el-table-column label="清分合计" align="center">
-            <el-table-column prop="allData" label="条数" align="center">
+        <el-table-column align="center" prop="titled" :label="titled">
+            <el-table-column fixed prop="tsTimesp" label="清分方" align="center"></el-table-column>
+            <el-table-column label="清分合计" align="center">
+                <el-table-column prop="allData" label="条数" align="center">
+                </el-table-column>
+                <el-table-column prop="allData" label="金额" align="center">
+                </el-table-column>
             </el-table-column>
-            <el-table-column prop="allData" label="金额" align="center">
+            <el-table-column label="正常交易" align="center">
+                <el-table-column prop="allData" label="条数" align="center">
+                </el-table-column>
+                <el-table-column prop="allData" label="金额" align="center">
+                </el-table-column>
             </el-table-column>
-        </el-table-column>
-        <el-table-column label="正常交易" align="center">
-            <el-table-column prop="allData" label="条数" align="center">
+            <el-table-column label="争议支付" align="center">
+                <el-table-column prop="allData" label="条数" align="center">
+                </el-table-column>
+                <el-table-column prop="allData" label="金额" align="center">
+                </el-table-column>
             </el-table-column>
-            <el-table-column prop="allData" label="金额" align="center">
+            <el-table-column label="争议拒付" align="center">
+                <el-table-column prop="allData" label="条数" align="center">
+                </el-table-column>
+                <el-table-column prop="allData" label="金额" align="center">
+                </el-table-column>
             </el-table-column>
-        </el-table-column>
-        <el-table-column label="争议支付" align="center">
-            <el-table-column prop="allData" label="条数" align="center">
+            <el-table-column label="退费交易" align="center">
+                <el-table-column prop="allData" label="条数" align="center">
+                </el-table-column>
+                <el-table-column prop="allData" label="金额" align="center">
+                </el-table-column>
             </el-table-column>
-            <el-table-column prop="allData" label="金额" align="center">
-            </el-table-column>
-        </el-table-column>
-        <el-table-column label="争议拒付" align="center">
-            <el-table-column prop="allData" label="条数" align="center">
-            </el-table-column>
-            <el-table-column prop="allData" label="金额" align="center">
-            </el-table-column>
-        </el-table-column>
-        <el-table-column label="退费交易" align="center">
-            <el-table-column prop="allData" label="条数" align="center">
-            </el-table-column>
-            <el-table-column prop="allData" label="金额" align="center">
+            <el-table-column label="补交" align="center">
+                <el-table-column prop="allData" label="条数" align="center">
+                </el-table-column>
+                <el-table-column prop="allData" label="金额" align="center">
+                </el-table-column>
             </el-table-column>
         </el-table-column>
-        <el-table-column label="补交" align="center">
-            <el-table-column prop="allData" label="条数" align="center">
-            </el-table-column>
-            <el-table-column prop="allData" label="金额" align="center">
-            </el-table-column>
-        </el-table-column>
-    </el-table-column>
-      
-    </el-table>
-    <el-pagination
-      v-show="total>0"
-      :total="total"
-      @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[10, 20, 50,100,200]"
-        :page-size="10"
-        layout="total, sizes, prev, pager, next, jumper"
-    ></el-pagination>
+        
+        </el-table>
+        <el-pagination
+        v-show="total>0"
+        :total="total"
+        @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[10, 20, 50,100,200]"
+            :page-size="10"
+            layout="total, sizes, prev, pager, next, jumper"
+        ></el-pagination>
+    </div>
+    
   </div>
 </template>
 <script>

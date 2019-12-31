@@ -25,7 +25,7 @@
                 </el-col>
             </el-row>
         </div>
-        <div style="background-color:#fff;height: 74%;">
+        <div style="background-color:#fff;height: 74%;margin-top:60px;">
                 <el-table 
                 :data="bankData" 
                 :summary-method="getSummaries"

@@ -1,5 +1,5 @@
 <template>
-    <div class='ect-page'>
+    <div class='app-container'>
         <div style="position:fixed;z-index:999;width:100%;background-color:#eee;">
             <el-row style="display:flex;align-items:center;">
                 <el-date-picker
@@ -26,7 +26,7 @@
             </el-row>
         </div>
         <div style="margin-top:60px;">
-            <div style="height: calc(100% - 120px);width: 100%;overflow-y: auto;position: absolute;">
+            <div style="height: calc(100% - 100px);width: 100%;overflow-y: auto;position: relative;">
                 <el-table 
                 :data="tableData" 
                 stripe 

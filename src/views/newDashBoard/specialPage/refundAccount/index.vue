@@ -110,9 +110,16 @@
                         <label>电子凭证：</label>
                     </el-col>
                     <el-col :span="22" class="technoInfo">
-                        <div class="divInfo">
-                            
+                        <viewer :images="slideImg">
+                        <div class="divInfo inlineInfo" v-for="(item,idx) in slideImg" :key="idx">
+                           
+                                <img
+                                style="width: 100%; height: 100%;"
+                                :src="item.vcPicUrl"
+                                />
                         </div>
+                        </viewer>
+                        
                     </el-col>
                     
                 </el-row>
@@ -124,7 +131,10 @@
                 <div class="infoFlex infoFlexBtn" @click="handleClick(1)">
                     通过
                 </div>                
-                <div class="infoFlex infoFlexBtnd" @click="handleClick(0)">
+                <div class="infoFlex infoFlexBtnd" @click="handleClick(0)" v-if="isControl !='0'">
+                    拒绝
+                </div>
+                <div class="infoFlex infoFlexGray" @click="handleClick(0)" v-else>
                     拒绝
                 </div>
             </div>
@@ -158,15 +168,29 @@
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <el-row :span="24">
+                    <el-row :span="24" v-if="rgtIdx==1">
+                        <el-col :span="20">
+                            <el-form-item label="备注：" class="item" prop="okRemark">
+                                <el-input size="small" placeholder="请输入备注"
+                                            auto-complete="off"
+                                            v-model="manualModel.okRemark"/>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row :span="24" v-if="rgtIdx==0">
                         <el-col :span="20">
                             <el-form-item label="备注：" class="item" prop="remark">
                                 <el-input size="small" placeholder="请输入备注"
                                             auto-complete="off"
                                             v-model="manualModel.remark"/>
+                                
                             </el-form-item>
                         </el-col>
                     </el-row>
+                    <el-row :span="24" v-if="showText">
+                        <div style="color:red;">请输入退回原因</div>
+                    </el-row>
+                    
                 </el-form>
                 <div style="float:right;">
                     <el-button type="primary" size="small" style="width: 100px" @click="ensureData">确 定</el-button>
@@ -179,18 +203,24 @@
 </template>
 
 <script>
-   import {platePadFloorMap,plateColorToColorMap,procesStatusMap} from '@/utils/dictionaries';
+
+import {platePadFloorMap,plateColorToColorMap,procesStatusMap} from '@/utils/dictionaries';
 import api from '@/api'
 import fetch from '@/utils/fetch'
 import {getToken} from '@/utils/auth';
 import axios from 'axios'
 import {mapGetters , mapActions} from "vuex";
+
     export default {
         name: "ManualHandle",
         components: {
             
         },
         props: {
+            isControl:{
+                type: Number,
+                default:0
+            },
             passData: {
                 type: Object,
                 default:{}
@@ -199,6 +229,10 @@ import {mapGetters , mapActions} from "vuex";
                 type:Boolean,
                 default:true
             },
+            slideImg:{
+                type:Array,
+                default:[]
+            },
             isShowMoney:{
                 type:Boolean,
                 default:false
@@ -206,10 +240,12 @@ import {mapGetters , mapActions} from "vuex";
         },
         data() {
             return {
+                showText:false,
                 rgtIdx:0,
                 manualModel:{
                     money:'',
-                    remark:''
+                    remark:'',
+                    okRemark:'退款提交'
                 },
                 plateColorToColorMap,
                 procesStatusMap,
@@ -221,12 +257,16 @@ import {mapGetters , mapActions} from "vuex";
                     cur: false
                 },
                 rules: {
-                    
+                    remark:[
+                        { required: true, message: '请输入备注', trigger: 'blur' }
+                    ]
                 }
                 //visible:visible
             }
         },
         watch: {
+        },
+        created(){
         },
         // destroyed() {
         //
@@ -234,22 +274,37 @@ import {mapGetters , mapActions} from "vuex";
         mounted() {
         },
         methods: {
+            inite (viewer) {
+                this.$viewer = viewer
+            },
             ensureData(){
-                let money=this.manualModel.money;
-                if(money=='' || money==0){
-                    money='null';
+                if(this.rgtIdx==0 && this.manualModel.remark==""){
+                    this.showText=true;
+                    return;
                 }else{
-                    money=this.manualModel.money;
+                    this.showText=false;
                 }
-                let params = {
-                    url: api['getProcess'].url,
-                    method: 'post',
-                    data: {
+                let money=this.manualModel.money;
+                let data={};
+                if(money=='' || money==0){
+                    data={
+                        flag: this.rgtIdx,
+                        id:this.passData.id,
+                        remark:this.rgtIdx==0 ? this.manualModel.remark : this.manualModel.okRemark,
+                    }
+                }else{
+                    data={
                         flag: this.rgtIdx,
                         id:this.passData.id,
                         money:money,
-                        remark:this.manualModel.remark,
+                        remark:this.rgtIdx==0 ? this.manualModel.remark : this.manualModel.okRemark,
                     }
+                }
+                
+                let params = {
+                    url: api['getProcess'].url,
+                    method: 'post',
+                    data: data
                 }
                 this.loading = true;
                 fetch(params).then(res => {
@@ -263,6 +318,7 @@ import {mapGetters , mapActions} from "vuex";
                     }).then(action => {
                         this.$emit('closeDialog'); 
                         this.dialogVisible=false;
+                        this.showText=false;
                     });
                 }).catch(error => {
                     this.loading = false;
@@ -276,14 +332,19 @@ import {mapGetters , mapActions} from "vuex";
                     }).then(action => {
                         this.$emit('closeDialog'); 
                         this.dialogVisible=false;
+                        this.showText=false;
                     });
                 })
             },
             handleClose(){
                 this.dialogVisible=false;
+                this.showText=false;
             },
             handleClick(idx) {
                 this.rgtIdx=idx;
+                if(this.isBeDisabled && idx==0 && this.isControl==0){
+                    return;
+                }   
                 this.dialogVisible=true;
                 this.$nextTick(()=>{
                     this.$refs.manualModel.resetFields();
@@ -340,6 +401,7 @@ import {mapGetters , mapActions} from "vuex";
                                 type: 'success'
                             }).then(action => {
                                 this.dialogVisible=false;
+                                this.showText=false;
                                 this.$emit('closeDialog'); 
                             });
                         }).catch(error => {
@@ -353,6 +415,7 @@ import {mapGetters , mapActions} from "vuex";
                                 type: 'error'
                             }).then(action => {
                                 this.dialogVisible=false;
+                                 this.showText=false;
                                 this.$emit('closeDialog'); 
                             });
                         })
@@ -391,6 +454,9 @@ import {mapGetters , mapActions} from "vuex";
         }
         .infoFlexBtnd{
             background-color:#f56c6c;
+        }
+        .infoFlexGray{
+            background-color:#bababa;
         }
     }
     
@@ -470,6 +536,10 @@ import {mapGetters , mapActions} from "vuex";
                         width:150px;
                         height:150px;
                         border:1px dashed #bababa;
+                    }
+                    .inlineInfo{
+                        display:inline-block;
+                        margin:0 10px;
                     }
                     label {
                         display: inline-block;

@@ -1,20 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true">
-      <el-form-item label="员工编号">
-        <el-input
-          v-model="userInfo.ptId"
-          placeholder="请输入员工编号"
-          clearable
-          size="small"
-          @blur="handleEvent($event,1)"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="serachData">搜索</el-button>
-        <!-- <el-button type="primary" icon="el-icon-plus" size="mini" @click="addNewUser">新增</el-button> -->
-      </el-form-item>
-    </el-form>
+    
 
     <el-table
       v-loading="loading"
@@ -66,7 +52,9 @@
         width="960px"
         :before-close="handleClose">
         <refundAccount 
+        :isControl="1"
         :passData="passData"
+        :slideImg="slideImg"
         :isBeDisabled="isBeDisabled"
         @closeDialog="closeDialog"
         ></refundAccount>
@@ -74,6 +62,7 @@
   </div>
 </template>
 <script>
+import {getImgUrl} from '@/utils/utils'
 import refundAccount from './index'
 import api from '@/api'
 import fetch from '@/utils/fetch'
@@ -85,6 +74,7 @@ export default {
     components:{refundAccount},
     data(){
         return{
+            slideImg:[],
             passData:{},
             isBeDisabled:true,
             plateColorToColorMap,
@@ -165,6 +155,16 @@ export default {
             this.dialogVisible=true;
             this.isBeDisabled= idx==0 ? true : false;
             this.passData=row;
+            const filesData=eval(this.passData.files);
+            let picDataImg=[]
+            for(let i=0;i<filesData.length;i++){
+                if(filesData[i]){
+                    let dataImage={};
+                    dataImage["vcPicUrl"]=getImgUrl()+filesData[i];
+                    picDataImg.push(dataImage);
+                }
+            }
+            this.slideImg=picDataImg;
         },
         handleSelectionChange(val){
             this.chooseDataArr=val;

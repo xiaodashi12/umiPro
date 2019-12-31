@@ -24,43 +24,45 @@
         <el-button type="primary" icon="el-icon-download" size="mini" @click="exported">导出</el-button>
       </el-form-item>
     </el-form>
+    <div>
+        <el-table
+        v-loading="loading"
+        :data="tableData"
+        class="titleVal"
+        id="table"
+        :summary-method="getSummaries"
+        show-summary
+        >
 
-    <el-table
-    v-loading="loading"
-    :data="tableData"
-    class="titleVal"
-    id="table"
-    :summary-method="getSummaries"
-    show-summary
-    >
-
-    <el-table-column align="center" prop="titled" :label="titled">
-            <el-table-column prop="allData" label="用户名称" align="center">
-            </el-table-column>
-            <el-table-column label="消费情况" align="center">
-                <el-table-column prop="allData" label="周期" align="center">
+        <el-table-column align="center" prop="titled" :label="titled">
+                <el-table-column prop="allData" label="用户名称" align="center">
                 </el-table-column>
-                <el-table-column prop="allData" label="省内消费" align="center">
+                <el-table-column label="消费情况" align="center">
+                    <el-table-column prop="allData" label="周期" align="center">
+                    </el-table-column>
+                    <el-table-column prop="allData" label="省内消费" align="center">
+                    </el-table-column>
+                    <el-table-column prop="allData" label="省外消费" align="center">
+                    </el-table-column>
+                    <el-table-column prop="allData" label="总金额" align="center">
+                    </el-table-column>
                 </el-table-column>
-                <el-table-column prop="allData" label="省外消费" align="center">
-                </el-table-column>
-                <el-table-column prop="allData" label="总金额" align="center">
-                </el-table-column>
-            </el-table-column>
-           
-    </el-table-column>
-      
-    </el-table>
-    <el-pagination
-      v-show="total>0"
-      :total="total"
-      @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[10, 20, 50,100,200]"
-        :page-size="10"
-        layout="total, sizes, prev, pager, next, jumper"
-    ></el-pagination>
+            
+        </el-table-column>
+        
+        </el-table>
+        <el-pagination
+        v-show="total>0"
+        :total="total"
+        @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[10, 20, 50,100,200]"
+            :page-size="10"
+            layout="total, sizes, prev, pager, next, jumper"
+        ></el-pagination>
+    </div>
+    
   </div>
 </template>
 <script>
@@ -80,7 +82,7 @@ export default {
                 endDate :""
             },
             titleVal:'0',
-            titled:'记账卡用户消费统计月报表',
+            titled:'托收记账卡消费区间表',
             titleLabel:[],
             // 遮罩层
             loading: true,
@@ -186,7 +188,7 @@ export default {
             XLSX.utils.book_append_sheet(workbook, worksheet, 'sheet');
             // 以上四行也可以直接一行搞定，如果不需要对表格数据进行修改的话
             let workbooked = XLSX.utils.table_to_book(document.getElementById('table'))
-            XLSX.writeFile(workbooked, '记账卡用户消费统计月报表.xlsx');
+            XLSX.writeFile(workbooked, '托收记账卡消费区间表.xlsx');
         },
         selectAreaChange(val){
             this.titled=this.titleLabel[val].label;

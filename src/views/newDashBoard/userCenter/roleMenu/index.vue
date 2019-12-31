@@ -127,14 +127,13 @@ export default {
 	            }
            }
   			fetch(params).then(res => {
-	            console.log(res);
 	            this.$msgbox({
 	                message:  '同步成功' ,
 	                title: '成功',
 	                customClass: 'my_msgBox singelBtn',
 	                dangerouslyUseHTMLString: true,
 	                confirmButtonText: '确定',
-	                type: 'error'
+	                type: 'success'
 	            })
 	        }).catch(error => {
 	            this.endLoading()

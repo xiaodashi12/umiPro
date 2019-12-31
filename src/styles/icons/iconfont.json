@@ -1,0 +1,79 @@
+{
+  "id": "1588997",
+  "name": "js-etc-icon",
+  "font_family": "iconfont",
+  "css_prefix_text": "etc-icon-",
+  "description": "江苏ETC项目",
+  "glyphs": [
+    {
+      "icon_id": "568479",
+      "name": "销售",
+      "font_class": "xiaoshou",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "1039230",
+      "name": "消费总额",
+      "font_class": "consumption",
+      "unicode": "e6f1",
+      "unicode_decimal": 59121
+    },
+    {
+      "icon_id": "1249073",
+      "name": "新闻-当前",
+      "font_class": "dangqian",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "1277697",
+      "name": "首页",
+      "font_class": "shouye",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "1727334",
+      "name": "13末端网点",
+      "font_class": "moduanwangdian",
+      "unicode": "e890",
+      "unicode_decimal": 59536
+    },
+    {
+      "icon_id": "1977835",
+      "name": "部门职能工作审核",
+      "font_class": "bumenshen",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "7898842",
+      "name": "用户中心",
+      "font_class": "yonghuzhongxin",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "7992286",
+      "name": "财务报表",
+      "font_class": "caiwu",
+      "unicode": "e6db",
+      "unicode_decimal": 59099
+    },
+    {
+      "icon_id": "11323785",
+      "name": "网点大数据_壹米滴答",
+      "font_class": "wangdian",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "12587253",
+      "name": "充值",
+      "font_class": "chongzhi01-copy",
+      "unicode": "e7d1",
+      "unicode_decimal": 59345
+    }
+  ]
+}
