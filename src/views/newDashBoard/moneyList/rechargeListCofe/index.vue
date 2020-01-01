@@ -31,36 +31,47 @@
                 :data="tableData" 
                 stripe 
                 border 
+                :span-method="objectSpanMethod"
                 v-loading="loading"
                 :summary-method="getSummaries"
                 show-summary  
                 id="table">
-                    <el-table-column prop="branchName" label="网点名称">
+                    <el-table-column prop="nodeName" label="片区名称" align="center">
                     </el-table-column>
-                    <el-table-column prop="branchNo" label="网点编号">
+                    <el-table-column prop="branchName" label="网点名称" align="center">
                     </el-table-column>
-                    <el-table-column prop="count" label="数量">
+                    <el-table-column label="小计" align="center">
+                        <el-table-column prop="xiaoJiMoney" label="金额" align="center">
+                        </el-table-column>
+                        <el-table-column prop="xiaoJiCount" label="数量" align="center">
+                        </el-table-column>
                     </el-table-column>
-                    <el-table-column prop="money" label="充值钱数">
+                    <el-table-column label="现金" align="center">
+                        <el-table-column prop="cashMoney" label="金额" align="center">
+                        </el-table-column>
+                        <el-table-column prop="cashCount" label="数量" align="center">
+                        </el-table-column>
                     </el-table-column>
-                    <el-table-column prop="payChannel" label="充值方式">
-                        <template slot-scope="scope">
-                            <span style="margin-left: 10px">{{ platePayTypeMap.get(scope.row.payChannel)}}</span>
-                        </template>
+                    <el-table-column label="POS机" align="center">
+                        <el-table-column prop="posManey" label="金额" align="center">
+                        </el-table-column>
+                        <el-table-column prop="posCount" label="数量" align="center">
+                        </el-table-column>
+                    </el-table-column>
+                    <el-table-column label="转账" align="center">
+                        <el-table-column prop="changeMoney" label="金额" align="center">
+                        </el-table-column>
+                        <el-table-column prop="changeCount" label="数量" align="center">
+                        </el-table-column>
+                    </el-table-column>
+                    <el-table-column label="微信扫码" align="center">
+                        <el-table-column prop="thirdPayMoney" label="金额" align="center">
+                        </el-table-column>
+                        <el-table-column prop="thirdCount" label="数量" align="center">
+                        </el-table-column>
                     </el-table-column>
                 </el-table>
             </div>
-            <!-- <div class="block">
-                <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-sizes="[10, 20, 50,100,200]"
-                :page-size="10"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="total">
-                </el-pagination>
-            </div> -->
         </div>
     </div>
 </template>
@@ -101,7 +112,14 @@ export default {
                 beginDate : "",
                 endDate :""
             },
-            
+            spanArr: [], // 一个空的数组，用于存放每一行记录的合并数
+            pos: 0, // spanArr 的索引
+            posT: 0, // spanArr 的索引
+            contentSpanArr: [],
+            ownSpanArr:[],
+            position: 0,
+            rowAndColumn:[],
+            rowRoomColumn:[],
         }
     },
     created(){
@@ -113,6 +131,43 @@ export default {
         this.showDataList();
     },
     methods: {
+        // 合并单元格
+        objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+            if (columnIndex === 0 ) {
+                const _row = this.spanArr[rowIndex];
+                const _col = _row > 0 ? 1 : 0;
+                return {
+                    rowspan: _row,
+                    colspan: _col
+                };
+            } 
+        },
+        mergeData(){
+            // 设定一个数组spanArr/contentSpanArr来存放要合并的格数，同时还要设定一个变量pos/position来记录
+          this.spanArr = [];
+          this.contentSpanArr = [];
+          this.ownSpanArr = [];
+          let data=this.tableData;
+          for (var i = 0; i < data.length; i++) {
+            if (i === 0) {
+              this.spanArr.push(1);
+              this.pos = 0;
+              this.contentSpanArr.push(1);
+              this.posT=0;
+              this.ownSpanArr.push(1);
+              this.position = 0;
+            } else {
+              // 判断当前元素与上一个元素是否相同(第1和第2列)
+              if (data[i].branchNo === data[i - 1].branchNo) {
+                this.spanArr[this.pos] += 1;
+                this.spanArr.push(0);
+              } else {
+                this.spanArr.push(1);
+                this.pos = i;
+              }
+            }
+          }
+        },
         getSummaries(param){
             const { columns, data } = param;
             const sums = [];
@@ -176,18 +231,17 @@ export default {
         },
         showDataList(){
             let params = {
-                url: api['branchReport'].url,
+                url: api['rechargeAllReport'].url,
                 method: 'post',
                 data: {
-                    startDate:this.auditData.beginDate,
-                    endDate:this.auditData.endDate,
-                    pageIndex: this.pageIndexed,
-                    pageSize: this.pageSized
+                    startDate:this.auditData.beginDate.replace(/-/g, ""),
+                    endDate:this.auditData.endDate.replace(/-/g, ""),
                 }
             }
             this.loading=true;
             fetch(params).then(res => {
                 this.tableData = res.data;
+                this.mergeData();
                 this.loading=false;
             }).catch(error => {
                 this.loading=false;

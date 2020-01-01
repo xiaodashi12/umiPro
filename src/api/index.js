@@ -118,6 +118,18 @@ const config = {
     'sellReportForBranch':{
     	url:'/rechargeReport/sellReportForBranch',
     	method:'post'
+    },
+    'rechargeBranch':{
+    	url:'/rechargeReport/branch',
+    	method:'post'
+    },
+    'pinQuReport':{
+    	url:'/rechargeReport/pinQuReport',
+    	method:'post'
+    },
+    'rechargeAllReport':{
+    	url:'/rechargeReport/allReport',
+    	method:'post'
     }
     
 }

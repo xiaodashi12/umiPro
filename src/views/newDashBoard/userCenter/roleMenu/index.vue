@@ -73,7 +73,7 @@ export default {
     data(){
         return{
         	roleType:null,
-            roleTypes:[{id:0,name:'柜面'},{id:1,name:'PAD'}],
+            roleTypes:[{id:0,name:'柜面'},{id:1,name:'PAD'},{id:2,name:'管理后台'}],
             role:null,
             roles:[],
             entityIdPre:'',
@@ -167,7 +167,7 @@ export default {
 	                customClass: 'my_msgBox singelBtn',
 	                dangerouslyUseHTMLString: true,
 	                confirmButtonText: '确定',
-	                type: 'error'
+	                type: 'success'
 	            })
 	        }).catch(error => {
 	            this.endLoading()

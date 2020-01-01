@@ -35,32 +35,40 @@
                 :summary-method="getSummaries"
                 show-summary  
                 id="table">
-                    <el-table-column prop="branchName" label="网点名称">
+                    <el-table-column prop="branchName" label="网点名称" align="center">
                     </el-table-column>
-                    <el-table-column prop="branchNo" label="网点编号">
+                    <el-table-column label="小计" align="center">
+                        <el-table-column prop="xiaoJiMoney" label="金额" align="center">
+                        </el-table-column>
+                        <el-table-column prop="xiaoJiCount" label="数量" align="center">
+                        </el-table-column>
                     </el-table-column>
-                    <el-table-column prop="count" label="数量">
+                    <el-table-column label="现金" align="center">
+                        <el-table-column prop="cashMoney" label="金额" align="center">
+                        </el-table-column>
+                        <el-table-column prop="cashCount" label="数量" align="center">
+                        </el-table-column>
                     </el-table-column>
-                    <el-table-column prop="money" label="充值钱数">
+                    <el-table-column label="POS机" align="center">
+                        <el-table-column prop="posManey" label="金额" align="center">
+                        </el-table-column>
+                        <el-table-column prop="posCount" label="数量" align="center">
+                        </el-table-column>
                     </el-table-column>
-                    <el-table-column prop="payChannel" label="充值方式">
-                        <template slot-scope="scope">
-                            <span style="margin-left: 10px">{{ platePayTypeMap.get(scope.row.payChannel)}}</span>
-                        </template>
+                    <el-table-column label="转账" align="center">
+                        <el-table-column prop="changeMoney" label="金额" align="center">
+                        </el-table-column>
+                        <el-table-column prop="changeCount" label="数量" align="center">
+                        </el-table-column>
+                    </el-table-column>
+                    <el-table-column label="微信扫码" align="center">
+                        <el-table-column prop="thirdPayMoney" label="金额" align="center">
+                        </el-table-column>
+                        <el-table-column prop="thirdCount" label="数量" align="center">
+                        </el-table-column>
                     </el-table-column>
                 </el-table>
             </div>
-            <!-- <div class="block">
-                <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-sizes="[10, 20, 50,100,200]"
-                :page-size="10"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="total">
-                </el-pagination>
-            </div> -->
         </div>
     </div>
 </template>
@@ -176,13 +184,11 @@ export default {
         },
         showDataList(){
             let params = {
-                url: api['branchReport'].url,
+                url: api['rechargeBranch'].url,
                 method: 'post',
                 data: {
-                    startDate:this.auditData.beginDate,
-                    endDate:this.auditData.endDate,
-                    pageIndex: this.pageIndexed,
-                    pageSize: this.pageSized
+                    startDate:this.auditData.beginDate.replace(/-/g, ""),
+                    endDate:this.auditData.endDate.replace(/-/g, ""),
                 }
             }
             this.loading=true;

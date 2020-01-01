@@ -45,7 +45,7 @@
                     </el-col>
                     <el-col :span="8">
                         <label>卡内余额：</label>
-                        <span class="rg">{{passData.cardAmount}}</span>
+                        <span class="rg">{{passData.cardAmount/100}}（元）</span>
                     </el-col>
                 </el-row>
             </div>

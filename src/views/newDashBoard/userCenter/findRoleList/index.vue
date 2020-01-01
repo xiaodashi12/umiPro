@@ -225,6 +225,7 @@ export default {
         },
         auditClose(){
             this.auditLogVisible=false;
+            this.showDataList();
         },
         bookEnsure(){
 
@@ -298,7 +299,7 @@ export default {
                     })
                 }
             }else{
-                
+                debugger
                 if(chooseData.status==0){
                     chooseData['status']=1;
                     typeVal=1;

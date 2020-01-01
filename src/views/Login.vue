@@ -124,7 +124,8 @@ import { getToken, setToken, removeToken, getLocalStorage, setLocalStorage,clear
                              console.log('res'+res)
                            if(getLocalStorage('operatorInfo').code==200){
                                 this.$router.push({name: 'NewDashBoard'});
-                           }else if(getLocalStorage('operatorInfo').code!=200){
+                                window.location.reload();
+                          }else if(getLocalStorage('operatorInfo').code!=200){
                                 this.loginMsg = getLocalStorage('operatorInfo').msg;
                                 return;
                            }
