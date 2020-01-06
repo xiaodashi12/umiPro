@@ -130,6 +130,58 @@ const config = {
     'rechargeAllReport':{
     	url:'/rechargeReport/allReport',
     	method:'post'
+    },
+    'queryClear':{
+    	url:'/rechargeReport/queryClear',
+    	method:'post'
+    },
+    'findOrderDetailBranch':{
+    	url:'/detail/findOrderDetailBranch',
+    	method:'post'
+    },
+    'findOrderDetailBranchToday':{
+    	url:'/detail/findOrderDetailBranchToday',
+    	method:'post'
+    },
+    'equilibrium':{
+    	url:'/detail/equilibrium',
+    	method:'post'
+    },
+    'findOrderDetailPinQu':{
+    	url:'/detail/findOrderDetailPinQu',
+    	method:'post'
+    },
+    'findOrderDetaiAll':{
+    	url:'/detail/findOrderDetaiAll',
+    	method:'post'
+    },
+    'sellReportDetailForBranch':{
+    	url:'/detail/sellReportDetailForBranch',
+    	method:'post'
+    },
+    'findOrderDetailAll':{
+    	url:'/benReportDetail/findOrderDetail',
+    	method:'post'
+    },
+    'saleReportDetailForBranch':{
+    	url:'/benReportDetail/saleReportDetailForBranch',
+    	method:'post'
+    },
+    'saleReportDetailForBranch':{
+    	url:'/benReportDetail/saleReportDetailForBranch',
+    	method:'post'
+    },
+    'findOrderDetailPinQuSome':{
+    	url:'/pinQuReportDetail/findOrderDetailPinQu',
+    	method:'post'
+    },
+    'updatePayChannel':{
+    	url:'/detail/updatePayChannel',
+    	method:'post'
+    },
+    'updatePayChannelPian':{
+    	url:'/pinQuReportDetail/updatePayChannel',
+    	method:'post'
     }
     
 }

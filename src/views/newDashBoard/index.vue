@@ -101,6 +101,7 @@ import EtcHdBar from '@/components/HdBar';
           }
       },
       clickMenu (componentName) {
+          debugger
             this.openedTab = this.$store.state.openedTab
             // tabNum 为当前点击的列表项在openedTab中的index，若不存在则为-1
             let tabNum = this.openedTab.indexOf(componentName)

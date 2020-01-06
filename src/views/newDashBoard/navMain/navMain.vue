@@ -70,6 +70,7 @@ export default {
       return route === this.editableTabsValue;
     },
     handleClickTab (route) {
+      debugger
       this.$store.commit('changeTab', route)
       this.$router.push(route)
     },
@@ -196,6 +197,7 @@ export default {
       }
     },
     getOpenedTab (val) {
+      debugger
       if (val.length > this.openedTab.length) {
         // 添加了新的tab页
         // 导致$store.state中的openedTab长度

@@ -90,21 +90,21 @@ export default new Router({
         },
         {
           path: '/branchReport',
-          component: () => import('./views/newDashBoard/moneyList/rechargeList/index'),
+          component: () => import('./views/newDashBoard/businessReport/nodeReport/rechargeList/index'),
           name: '充值报表',
           menuShow: true, 
           meta:{requireAuth: true }
         },
         {
           path: '/branchReportCopy',
-          component: () => import('./views/newDashBoard/moneyList/rechargeListCopy/index'),
+          component: () => import('./views/newDashBoard/businessReport/pianquReport/rechargeListCopy/index'),
           name: '充值报表',
           menuShow: true, 
           meta:{requireAuth: true }
         },
         {
           path: '/branchReportCofe',
-          component: () => import('./views/newDashBoard/moneyList/rechargeListCofe/index'),
+          component: () => import('./views/newDashBoard/businessReport/financeReport/rechargeListCofe/index'),
           name: '充值报表',
           menuShow: true, 
           meta:{requireAuth: true }
@@ -146,21 +146,21 @@ export default new Router({
         },
         {
           path: '/sinopecRechargeReport',
-          component: () => import('./views/newDashBoard/moneyList/sinopecRechargeReport/index'),
+          component: () => import('./views/newDashBoard/businessReport/nodeReport/sinopecRechargeReport/index'),
           name: '中石化充值报表',
           menuShow: true, 
           meta:{requireAuth: true }
         },
         {
           path: '/sinopecRechargeReportCopy',
-          component: () => import('./views/newDashBoard/moneyList/sinopecRechargeReportCopy/index'),
+          component: () => import('./views/newDashBoard/businessReport/pianquReport/sinopecRechargeReportCopy/index'),
           name: '中石化充值报表',
           menuShow: true, 
           meta:{requireAuth: true }
         },
         {
           path: '/sinopecRechargeReportCofe',
-          component: () => import('./views/newDashBoard/moneyList/sinopecRechargeReportCofe/index'),
+          component: () => import('./views/newDashBoard/businessReport/financeReport/sinopecRechargeReportCofe/index'),
           name: '中石化充值报表',
           menuShow: true, 
           meta:{requireAuth: true }
@@ -208,8 +208,29 @@ export default new Router({
           meta:{requireAuth: true }
         },
         {
+          path: '/saleDetail',
+          component: () => import('./views/newDashBoard/businessReport/nodeReport/saleDetail/index'),
+          name: '销售详情',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
           path: '/bankDataList',
-          component: () => import('./views/newDashBoard/moneyList/bankDataList/index'),
+          component: () => import('./views/newDashBoard/businessReport/nodeReport/bankDataList/index'),
+          name: '联名记账卡消费区间表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/bankDataListCopy',
+          component: () => import('./views/newDashBoard/businessReport/pianquReport/bankDataListCopy/index'),
+          name: '联名记账卡消费区间表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/bankDataListCofe',
+          component: () => import('./views/newDashBoard/businessReport/financeReport/bankDataListCofe/index'),
           name: '联名记账卡消费区间表',
           menuShow: true, 
           meta:{requireAuth: true }
@@ -237,22 +258,64 @@ export default new Router({
         },
         {
           path: '/sutongDailyReport',
-          component: () => import('./views/newDashBoard/moneyList/sutongDailyReport/index'),
+          component: () => import('./views/newDashBoard/businessReport/nodeReport/sutongDailyReport/index'),
           name: '服务区苏通卡服务点资金日报表',
           menuShow: true, 
           meta:{requireAuth: true }
         },
         {
           path: '/sutongDailyReportCopy',
-          component: () => import('./views/newDashBoard/moneyList/sutongDailyReportCopy/index'),
+          component: () => import('./views/newDashBoard/businessReport/pianquReport/sutongDailyReportCopy/index'),
           name: '服务区苏通卡服务点资金日报表',
           menuShow: true, 
           meta:{requireAuth: true }
         },
         {
           path: '/sutongDailyReportCofe',
-          component: () => import('./views/newDashBoard/moneyList/sutongDailyReportCofe/index'),
+          component: () => import('./views/newDashBoard/businessReport/financeReport/sutongDailyReportCofe/index'),
           name: '服务区苏通卡服务点资金日报表',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/rechargeSaleDetail',
+          component: () => import('./views/newDashBoard/businessReport/nodeReport/saleDetail/index'),
+          name: '网点销售明细',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/rechargeSaleDetailCofe',
+          component: () => import('./views/newDashBoard/businessReport/financeReport/saleDetailCofe/index'),
+          name: '网点销售明细',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/rechargeDetail',
+          component: () => import('./views/newDashBoard/businessReport/nodeReport/rechargeDetail/index'),
+          name: '充值明细',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/rechargeDetailCopy',
+          component: () => import('./views/newDashBoard/businessReport/pianquReport/rechargeDetailCopy/index'),
+          name: '片区充值明细',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/rechargeDetailCofe',
+          component: () => import('./views/newDashBoard/businessReport/financeReport/rechargeDetailCofe/index'),
+          name: '所有充值明细',
+          menuShow: true, 
+          meta:{requireAuth: true }
+        },
+        {
+          path: '/rechargeDetailToday',
+          component: () => import('./views/newDashBoard/businessReport/nodeReport/rechargeListToday/index'),
+          name: '网上今日充值',
           menuShow: true, 
           meta:{requireAuth: true }
         },

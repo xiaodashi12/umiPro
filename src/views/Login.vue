@@ -2,7 +2,7 @@
     <div class="login-container">
         <div class="login-header"></div>
         <div class="card-box">
-            <h1>江苏省ETC发行管理系统</h1>
+            <h1>江苏省ETC后台管理系统</h1>
             <el-form
                     class="login-form"
                     autoComplete="on"
@@ -123,11 +123,14 @@ import { getToken, setToken, removeToken, getLocalStorage, setLocalStorage,clear
                             this.loginMsg = '';
                              console.log('res'+res)
                            if(getLocalStorage('operatorInfo').code==200){
+                               this.$store.state.openedTab=['index']
+                               this.$store.state.activeTab=''
                                 this.$router.push({name: 'NewDashBoard'});
-                                window.location.reload();
+                                
+                                // window.location.reload();
                           }else if(getLocalStorage('operatorInfo').code!=200){
                                 this.loginMsg = getLocalStorage('operatorInfo').msg;
-                                return;
+                                return;                                                                                                                                                                                         
                            }
                         }, error => {
                             console.log(error)

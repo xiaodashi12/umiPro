@@ -31,6 +31,7 @@
         <el-table
         v-loading="loading"
         :data="tableData"
+        :height="screenHeight"
         id="table"
         >
         <el-table-column prop="name" label="申请人姓名" align="center"></el-table-column>
@@ -65,7 +66,7 @@
         </el-table>
     </div>
     
-    <!-- <el-pagination
+    <el-pagination
       v-show="total>0"
       :total="total"
       @size-change="handleSizeChange"
@@ -74,7 +75,7 @@
         :page-sizes="[10, 20, 50,100,200]"
         :page-size="10"
         layout="total, sizes, prev, pager, next, jumper"
-    ></el-pagination> -->
+    ></el-pagination>
     <el-dialog
         title="审核信息"
         :visible.sync="dialogVisible"
@@ -149,7 +150,7 @@ export default {
                 label: '老师傅'
             }],
             dialogVisible:false,
-            screenHeight: 430,
+            screenHeight: 460,
             areaValue:'',
             currentPage:1,
             pageSized:10,
@@ -169,6 +170,9 @@ export default {
         // if(document.body.clientHeight>700){
         //     this.screenHeight=520;
         // }
+        this.screenHeight=document.body.clientHeight-180;
+        this.auditData.endDate=tsmDateToString(new Date());
+        this.auditData.beginDate=tsmDateToString(new Date().getTime()-7*24*60*60*1000);
         this.showDataList();
     },
     mounted(){
@@ -244,7 +248,9 @@ export default {
                 url: api['findList'].url,
                 method: 'post',
                 data: {
-                    processStatus: '0'
+                    processStatus: '0',
+                    pageIndex: this.pageIndexed,
+                    pageSize: this.pageSized
                 }
             }
             this.loading = true;

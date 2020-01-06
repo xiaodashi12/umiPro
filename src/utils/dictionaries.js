@@ -826,6 +826,15 @@ const platePadFloorMap = new Map([
 	[1, "PAD"],
 	[2, "管理后台"],
 ])
+const platePadStatusFloorMap = new Map([
+    [0, "未清分"],
+	[1, "成功"],
+	[2, "失败"],
+])
+const plateChoStatusFloorMap = new Map([
+    [1, "充值成功"],
+	[2, "充值失败"],
+])
 const plateMenuToListMap = new Map([
 	['index', "首页"],
 	['userlist', "员工列表"],
@@ -869,8 +878,16 @@ const plateMenuToListMap = new Map([
     ['dotSaleCopy', "网点设备销售来源核对日表"],
     ['dotSaleCofe', "网点设备销售来源核对日表"],
     ['electronicSales', "电子标签销售区间报表"],
+    ['rechargeDetail', "网点充值明细"],
+    ['rechargeDetailCopy', "片区充值明细"],
+    ['rechargeDetailCofe', "所有充值明细"],
+    ['rechargeDetailToday', "今日充值明细"],
+    ['rechargeSaleDetail', "网点销售明细"],
+    ['rechargeSaleDetailCofe', "总部销售明细"],
 ])
 export {
+    plateChoStatusFloorMap,
+    platePadStatusFloorMap,
     plateColorToColorMap,
     plateMenuToListMap,
     plateAccountToTypeMap,

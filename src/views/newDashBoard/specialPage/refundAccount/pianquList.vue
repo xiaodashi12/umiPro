@@ -5,6 +5,7 @@
     <el-table
       v-loading="loading"
       :data="tableData"
+      :height="screenHeight"
     >
       <el-table-column prop="name" label="申请人姓名" align="center"></el-table-column>
       <el-table-column prop="licenseCode" label="车牌号" align="center">
@@ -37,7 +38,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- <el-pagination
+    <el-pagination
       v-show="total>0"
       :total="total"
       @size-change="handleSizeChange"
@@ -46,7 +47,7 @@
         :page-sizes="[10, 20, 50,100,200]"
         :page-size="10"
         layout="total, sizes, prev, pager, next, jumper"
-    ></el-pagination> -->
+    ></el-pagination>
     <el-dialog
         title="审核信息"
         :visible.sync="dialogVisible"
@@ -63,7 +64,7 @@
   </div>
 </template>
 <script>
-import {getImgUrl} from '@/utils/utils'
+import {getImgUrl,tsmDateToString} from '@/utils/utils'
 import refundAccount from './index'
 import api from '@/api'
 import fetch from '@/utils/fetch'
@@ -75,6 +76,10 @@ export default {
     components:{refundAccount},
     data(){
         return{
+            auditData:{
+                beginDate : "",
+                endDate :""
+            },
             slideImg:[],
             passData:{},
             isBeDisabled:true,
@@ -116,7 +121,7 @@ export default {
                 label: '老师傅'
             }],
             dialogVisible:false,
-            screenHeight: 430,
+            screenHeight: 460,
             areaValue:'',
             currentPage:1,
             pageSized:10,
@@ -136,6 +141,9 @@ export default {
         // if(document.body.clientHeight>700){
         //     this.screenHeight=520;
         // }
+        this.screenHeight=document.body.clientHeight-180;
+        this.auditData.endDate=tsmDateToString(new Date());
+        this.auditData.beginDate=tsmDateToString(new Date().getTime()-7*24*60*60*1000);
         this.showDataList();
     },
     mounted(){
@@ -192,7 +200,9 @@ export default {
                 url: api['findList'].url,
                 method: 'post',
                 data: {
-                    processStatus: '2'
+                    processStatus: '2',
+                    pageIndex: this.pageIndexed,
+                    pageSize: this.pageSized
                 }
             }
             this.loading = true;
