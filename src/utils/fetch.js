@@ -64,7 +64,7 @@ service.interceptors.response.use(response => {
     let expireTime = getLocalStorage('expireTime');
     if(res.code == 503){
         dlgUtils.loginTimeout()
-        return Promise.reject({code: res.code, message: res.msg})
+        // return Promise.reject({code: res.code, message: res.msg})
     }else if (res.code != 200){
     	console.log("not ---200")
    		return Promise.reject({code: res.code, message: res.msg})

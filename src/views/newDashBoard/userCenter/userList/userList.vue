@@ -35,13 +35,18 @@
             <el-form-item>
                 <el-button type="primary" icon="el-icon-plus" size="mini" @click="addNewUser">新增</el-button>
             </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="el-icon-download" size="mini" @click.prevent="exportData">导出</el-button>
+            </el-form-item>
             </el-form>
 
             <el-table
             v-loading="loading"
             :data="tableData"
+            id="table"
+            :height="screenHeight"
             >
-            <el-table-column fixed prop="opId" label="员工编号" sortable></el-table-column>
+            <el-table-column  prop="opId" label="员工编号" sortable></el-table-column>
             <el-table-column prop="opName" label="员工名称" align="center">
             </el-table-column>
             <el-table-column prop="branchNo" label="网点编号" sortable></el-table-column>
@@ -210,6 +215,7 @@
   </div>
 </template>
 <script>
+import XLSX from 'xlsx'
 import api from '@/api'
 import fetch from '@/utils/fetch'
 import {getToken} from '@/utils/auth';
@@ -255,7 +261,7 @@ export default {
                 label: '老师傅'
             }],
             dialogVisible:false,
-            screenHeight: 430,
+            screenHeight: 460,
             areaValue:'',
             currentPage:1,
             pageSized:10,
@@ -268,19 +274,27 @@ export default {
                 opId:'',
             },
             operatorId:'',
-            chooseDataArr:[]
+            chooseDataArr:[],
+            isExcelData:false
         }
     },
     created(){
         // if(document.body.clientHeight>700){
         //     this.screenHeight=520;
         // }
+        this.screenHeight=document.body.clientHeight-200;
         this.showDataList();
     },
     mounted(){
         // console.log(this.data+"#111111")
     },
     methods: {
+        exportData(){
+            this.pageSized=100000;
+            this.pageIndexed=1;
+            this.isExcelData=true;
+            this.showDataList(); 
+        },
         tableFormatter(row, column, cellValue){
             if (column.property === 'type') {
                 if(cellValue===0){
@@ -484,6 +498,22 @@ export default {
                 this.loading = false;
                 this.tableData = res.data.data;
                 this.total=res.data.total;
+                if(this.isExcelData){
+                    this.$nextTick(function(){
+                        let table = document.getElementById('table');
+                        let worksheet = XLSX.utils.table_to_sheet(table);
+                        debugger
+                        let workbook = XLSX.utils.book_new();
+                        XLSX.utils.book_append_sheet(workbook, worksheet, 'sheet');
+                        // 以上四行也可以直接一行搞定，如果不需要对表格数据进行修改的话
+                        let workbooked = XLSX.utils.table_to_book(document.getElementById('table'))
+                        XLSX.writeFile(workbooked, '员工报表.xlsx');
+                        this.pageSized=10;
+                        this.pageIndexed=1;
+                        this.isExcelData=false;
+                        this.showDataList();
+                    })  
+                }
             }).catch(error => {
                 this.loading = false;
                 this.$msgbox({
@@ -515,5 +545,12 @@ export default {
     }
     .el-pagination{
         margin-top:20px;
+    }
+</style>
+<style lang="scss">
+    .el-form-item{
+        .el-input{
+            width:160px;
+        }
     }
 </style>

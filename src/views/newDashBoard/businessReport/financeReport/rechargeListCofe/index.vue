@@ -17,6 +17,15 @@
                     @change="changeEndDate"
                 placeholder="选择日期">
                 </el-date-picker>
+                <span style="margin-left:10px;">类型：</span>
+                 <el-select size="small" v-model="choVal" placeholder="请选择">
+                    <el-option
+                    v-for="item in choOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                    </el-option>
+                </el-select>
                 <el-col :span="5">
                     <div class="grid-content bg-purple-light ect-input" style="margin-left:10px;">
                         <el-button size="mini" type="primary" icon="el-icon-search" @click="serachData()">搜索</el-button>
@@ -110,6 +119,20 @@ export default {
                 gender:'',
                 job:''
             },
+            choVal:'1',
+            choOptions: [{
+                value: '1',
+                label: '片区'
+            },{
+                value: '2',
+                label: '银行'
+            },{
+                value: '3',
+                label: '服务区'
+            },{
+                value: '4',
+                label: '加油站'
+            }],
             platePayTypeMap,
             dialogVisible:false,
             screenHeight: 490,
@@ -256,6 +279,7 @@ export default {
                 data: {
                     startDate:this.auditData.beginDate,
                     endDate:this.auditData.endDate,
+                    reportType:this.choVal
                 }
             }
             this.loading=true;

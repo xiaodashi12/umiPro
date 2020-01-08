@@ -25,7 +25,7 @@ module.exports = {
             "/manager": {
                 // target: "http://172.18.61.4:10022", // 正式地址的base_url
                 // target: "http://172.18.205.4:10021",// 测试地址的base_url
-                target: "http://192.168.10.253:10025", // 本地地址的base_url
+                target: "http://192.168.10.203:10025", // 本地地址的base_url
                 ws: true, // 是否启用websockets
                 changOrigin: true //开启代理
             },

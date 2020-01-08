@@ -53,6 +53,8 @@
                     
                     <el-table-column prop="sellScheme" label="销售方案名称" align="center">
                     </el-table-column>
+                    <el-table-column prop="customerName" label="客户名称" align="center">
+                    </el-table-column>
                     <el-table-column prop="opName" label="用户名称" align="center">
                     </el-table-column>
                     <el-table-column prop="branchName" label="网点名称" align="center">
